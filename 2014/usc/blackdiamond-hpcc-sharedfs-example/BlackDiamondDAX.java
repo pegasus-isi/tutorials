@@ -51,6 +51,12 @@ public class BlackDiamondDAX {
         File fc1 = new File("f.c1");
         File fc2 = new File("f.c2");
         File fd = new File("f.d");
+
+	//only interested in registering fd file.
+	fb1.setRegister(false);
+	fb2.setRegister(false);
+	fc1.setRegister(false);
+	fc2.setRegister(false);
         fd.setRegister(true);
 
 		
