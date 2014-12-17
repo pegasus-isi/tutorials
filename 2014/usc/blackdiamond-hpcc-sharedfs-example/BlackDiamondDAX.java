@@ -52,12 +52,17 @@ public class BlackDiamondDAX {
         File fc2 = new File("f.c2");
         File fd = new File("f.d");
 
-	//only interested in registering fd file.
+	//only interested in transferring and registering fd file.
+	//set transfer and register flags to false for other output files
 	fb1.setRegister(false);
+	fb1.setTransfer(File.TRANSFER.FALSE);
 	fb2.setRegister(false);
+	fb2.setTransfer(File.TRANSFER.FALSE);
 	fc1.setRegister(false);
+	fc1.setTransfer(File.TRANSFER.FALSE);
 	fc2.setRegister(false);
-        fd.setRegister(true);
+	fc2.setTransfer(File.TRANSFER.FALSE);
+
 
 		
 	/**
