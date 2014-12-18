@@ -11,7 +11,7 @@ all: $(TARGETS)
 html: $(XML) pegasus-php-style.xsl
 	mkdir -p ./html/images
 	xsltproc --noout --stringparam base.dir ./html/ --xinclude pegasus-php-style.xsl tutorial-book.xml
-	cp images/*.png ./html/images/
+	cp images/*.png  images/*.jpg ./html/images/
 	touch html
 
 

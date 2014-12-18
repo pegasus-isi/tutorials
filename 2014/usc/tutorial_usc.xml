@@ -340,9 +340,9 @@ f.a    file:///home/rcf-40/userXX/tutorial/blackdiamond-hpcc-sharedfs-example/in
       <para>This replica catalog contains only one entry for the diamond
       workflow’s only input file. This entry has an LFN of “f.a” with a PFN of
       “file:///home/tutorial/input/f.a” and the file is stored on the local
-      site, which implies that it will need to be transferred to the PegasusVM
-      site when the workflow runs. The Replica Catalog uses the keyword "pool"
-      to refer to the site. Don't be confused by this: the value of the pool
+      site, which implies that it will need to be transferred to the hpcc site
+      when the workflow runs. The Replica Catalog uses the keyword "pool" to
+      refer to the site. Don't be confused by this: the value of the pool
       variable should be the name of the site where the file is located from
       the Site Catalog.</para>
     </section>
@@ -649,15 +649,15 @@ pegasus-analyzer: initializing...
 ====================preprocess_ID0000001==============================
 
  last state: POST_SCRIPT_FAILED
-       site: PegasusVM
+       site: hpcc
 submit file: preprocess_ID0000001.sub
 output file: preprocess_ID0000001.out.003
  error file: preprocess_ID0000001.err.003
 
 -----------------------Task #1 - Summary-----------------------------
 
-site        : PegasusVM
-hostname    : ip-10-252-31-58.us-west-2.compute.internal
+site        : hpcc
+hostname    : hpc-200.usc.edu
 executable  : /home/tutorial/bin/preprocess
 arguments   : -i f.a -o f.b1 -o f.b2
 exitcode    : -128
