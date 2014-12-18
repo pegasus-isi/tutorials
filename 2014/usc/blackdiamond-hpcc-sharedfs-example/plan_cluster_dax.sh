@@ -12,4 +12,5 @@ pegasus-plan \
     -v \
     --force \
     --nocleanup \
-    --cluster label
+    --cluster label \
+    --submit

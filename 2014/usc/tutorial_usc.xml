@@ -31,8 +31,9 @@ you get this</programlisting>
     truncated we will add an ellipsis '...' to indicate the omitted
     output.</para>
 
-    <para><emphasis role="bold">For the purpose of this tutorial replace any instance of userXX
-    with your hpc-pegasus.usc.edu username.</emphasis></para>
+    <para><emphasis role="bold">For the purpose of this tutorial replace any
+    instance of userXX with your hpc-pegasus.usc.edu
+    username.</emphasis></para>
 
     <para><emphasis role="bold">If you are having trouble with this tutorial,
     or anything else related to Pegasus, you can contact the Pegasus Users
@@ -49,8 +50,8 @@ you get this</programlisting>
     tutorial and submit their workflows to the HPCC cluster using Pegasus. To
     request access to the submit node, please send me to the HPCC staff
     <emphasis role="bold"><email>hpcc@usc.edu</email> </emphasis>. Usually,
-    getting an account on the submit machines take one business day or less.
-    </para>
+    getting an account on the submit machines take one business day or
+    less.</para>
 
     <para>To start the tutorial copy the tutorial examples to a directory
     called tutorial in your home directory and untar the examples.</para>
@@ -67,7 +68,7 @@ blackdiamond-hpcc-sharedfs-example  mpi-hello-world  usc-pegasus-tutorial.tgz
 
     <para>The remainder of this tutorial will assume that you have a terminal
     open to the directory where the tutorial files are installed i.e.
-    ~/tutorial. </para>
+    ~/tutorial.</para>
   </section>
 
   <section>
@@ -237,7 +238,7 @@ Writing diamond.dax</programlisting>
       <para>There are two sites defined in the site catalog: “local” and
       “hpcc”. The “local” site is used by Pegasus to learn about the submit
       host where the workflow management system runs. The “hpcc” site is the
-      USC HPCC cluster. </para>
+      USC HPCC cluster.</para>
 
       <para>The local site is configured with a “storage” file system that is
       mounted on the submit host (indicated by the file:// URL). This file
@@ -251,7 +252,7 @@ Writing diamond.dax</programlisting>
       we will tell Pegasus that the execution site is “hpcc”. Note that in
       this case, since the local site and the HPCC cluster share a filesystem
       ( your HOME directory ), we can copy the inputs using a simple file
-      copy. </para>
+      copy.</para>
 
       <para>Pegasus supports many different file transfer protocols. For
       example, you can set up transfers from your submit host to the cluster
@@ -793,12 +794,212 @@ system::chmod            3         3          0       0.001      0.002      0.00
   </section>
 
   <section>
+    <title>Running the whole workflow as an MPI job</title>
+
+    <para>Often, users have lots of short running single processor jobs in
+    their workflow, that if submitted individually to the underlying PBS
+    cluster take a long time to execute, as each job sits in the PBS queue.
+    For example in our previous example, each job in the blackdiamond workflow
+    actually runs for a minute each. However, since each job is submitted as a
+    separate job to PBS, each job sits in the cluster PBS queue before it is
+    executed. In order to alleviate this, it makes sense to cluster the short
+    running jobs together. Pegasus allows users to cluster tasks in their
+    workflow into larger chunks, and then execute them using a MPI based
+    master worker tool called <emphasis><emphasis
+    role="bold">pegasus-mpi-cluster</emphasis></emphasis> .</para>
+
+    <para>In this example, we take the same blackdiamond workflow that we ran
+    previously and now run it using PMC where the whole workflow is clustered
+    into a single MPI job. In order to tell Pegasus to cluster the jobs we
+    have to do the following</para>
+
+    <orderedlist>
+      <listitem>
+        <para>Tell Pegasus what jobs are clustered. In this example, we do it
+        by annotating the DAX with a special pegasus profile called label. In
+        the DAX generator BlackDiamondDAX.java you will see the
+        following</para>
+
+        <programlisting>        // Add a preprocess job
+        System.out.println( "Adding preprocess job..." );
+        Job j1 = new Job("j1", "pegasus", "preprocess", "4.0");
+        j1.addArgument("-a preprocess -T 60 -i ").addArgument(fa);
+        ...
+        <emphasis role="bold">//associate the label with the job. all jobs with same label
+        //are run with PMC when doing job clustering
+        j1.addProfile( "pegasus", "label", "p1");</emphasis>
+        
+        dax.addJob(j1);</programlisting>
+      </listitem>
+
+      <listitem>
+        <para>Tell pegasus that it has to do job clustering and what
+        executable to use for job clustering.</para>
+
+        <para>To do this, you do the following</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>In pegasus.conf file specify the property <emphasis
+            role="bold">pegasus.job.aggregator mpiexec</emphasis></para>
+          </listitem>
+
+          <listitem>
+            <para>In the transformation catalog, specify the path to the
+            clustering executable. In this case, it is a wrapper around PMC
+            that does mpiexec on pegasus-mpi-cluster. In conf/tc.dat you can
+            see the last entry as</para>
+
+            <programlisting>[userXX@hpc-pegasus mpi-hello-world]$ <emphasis
+                role="bold">tail conf/tc.dat</emphasis>
+
+
+# pegasus mpi clustering executable
+tr pegasus::mpiexec{
+    site hpcc {
+        pfn "/home/rcf-proj/gmj/pegasus/SOFTWARE/pegasus/pegasus-mpi-cluster-wrapper"
+        arch "x86_64"
+        os "linux"
+        type "INSTALLED"
+        profile pegasus "clusters.size" "2" 
+
+        #the various parameters to specify the size of the MPI job
+        #in which the workflow runs
+        profile globus "jobtype" "mpi"
+        profile globus "maxwalltime" "2880"
+        # specfiy the ppn parameter.
+        profile globus "xcount" "4:IB"
+        # specify the nodes parameter
+        profile globus "hostcount" "1"
+        #specify the pmem parameter
+        profile globus "maxmemory" "1gb"
+        #specify the mem parameter
+        profile globus "totalmemory" "16gb"
+
+    }
+}
+</programlisting>
+
+            <para>The profiles tell Pegasus that the PMC executable needs to
+            be run on 4 processors on a single node, process per process as
+            1GB and total memory on the node as 16GB.</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para>Lastly, while planning the workflow we add <emphasis
+        role="bold">--cluster </emphasis>option to pegasus-plan. That is what
+        we have in plan_cluster_dax.sh file.</para>
+
+        <programlisting>$ <emphasis role="bold">cat plan_cluster_dax.sh</emphasis>
+
+#!/bin/sh
+
+set -e
+
+# plan and submit the  workflow
+pegasus-plan \
+    --conf pegasus.conf \
+    --sites hpcc \
+    --output-site local \
+    --dir work/dags \
+    --dax diamond.dax \
+    -v \
+    --force \
+    --nocleanup \
+    --cluster label
+</programlisting>
+      </listitem>
+    </orderedlist>
+
+    <para><emphasis role="bold">Let us now plan and run the
+    workflow.</emphasis></para>
+
+    <programlisting>[userXX@hpc-pegasus mpi-hello-world]$ <emphasis
+        role="bold">./<emphasis role="bold">plan_cluster_dax.sh</emphasis></emphasis>
+
+[vahi@hpc-pegasus blackdiamond-hpcc-sharedfs-example]$ ./plan_cluster_dax.sh
+2014.12.18 15:29:25.877 PST: [WARNING]  --nocleanup option is deprecated. Use --cleanup none   
+2014.12.18 15:29:25.885 PST: [INFO]  Planner invoked with following arguments --conf pegasus.conf --sites hpcc --output-site local --dir work/dags --dax diamond.dax -v --force --nocleanup --cluster label --submit  
+2014.12.18 15:29:26.304 PST: [INFO] event.pegasus.parse.dax dax.id /auto/rcf-40/vahi/tutorial/blackdiamond-hpcc-sharedfs-example/diamond.dax  - STARTED 
+2014.12.18 15:29:26.306 PST: [INFO] event.pegasus.parse.dax dax.id /auto/rcf-40/vahi/tutorial/blackdiamond-hpcc-sharedfs-example/diamond.dax  (0.002 seconds) - FINISHED 
+2014.12.18 15:29:26.309 PST: [INFO] event.pegasus.parse.dax dax.id /auto/rcf-40/vahi/tutorial/blackdiamond-hpcc-sharedfs-example/diamond.dax  - STARTED 
+2014.12.18 15:29:26.349 PST: [INFO] event.pegasus.add.data-dependencies dax.id blackdiamond_0  - STARTED 
+2014.12.18 15:29:26.350 PST: [INFO] event.pegasus.add.data-dependencies dax.id blackdiamond_0  (0.001 seconds) - FINISHED 
+2014.12.18 15:29:26.350 PST: [INFO] event.pegasus.parse.dax dax.id /auto/rcf-40/vahi/tutorial/blackdiamond-hpcc-sharedfs-example/diamond.dax  (0.041 seconds) - FINISHED 
+2014.12.18 15:29:26.386 PST: [INFO] event.pegasus.stampede.events dax.id blackdiamond_0  - STARTED 
+2014.12.18 15:29:26.440 PST: [INFO] event.pegasus.stampede.events dax.id blackdiamond_0  (0.054 seconds) - FINISHED 
+2014.12.18 15:29:26.442 PST: [INFO] event.pegasus.refinement dax.id blackdiamond_0  - STARTED 
+2014.12.18 15:29:26.479 PST: [INFO] event.pegasus.siteselection dax.id blackdiamond_0  - STARTED 
+2014.12.18 15:29:26.492 PST: [INFO] event.pegasus.siteselection dax.id blackdiamond_0  (0.013 seconds) - FINISHED 
+2014.12.18 15:29:26.509 PST: [INFO] event.pegasus.cluster dax.id blackdiamond_0  - STARTED 
+2014.12.18 15:29:26.542 PST: [INFO]  Starting Graph Traversal 
+2014.12.18 15:29:26.544 PST: [INFO]  Starting Graph Traversal - DONE 
+2014.12.18 15:29:26.549 PST: [INFO]  Determining relations between partitions 
+2014.12.18 15:29:26.549 PST: [INFO]  Determining relations between partitions - DONE 
+2014.12.18 15:29:26.549 PST: [INFO] event.pegasus.cluster dax.id blackdiamond_0  (0.04 seconds) - FINISHED 
+2014.12.18 15:29:26.554 PST: [INFO]  Grafting transfer nodes in the workflow 
+2014.12.18 15:29:26.554 PST: [INFO] event.pegasus.generate.transfer-nodes dax.id blackdiamond_0  - STARTED 
+2014.12.18 15:29:26.651 PST: [INFO] event.pegasus.generate.transfer-nodes dax.id blackdiamond_0  (0.097 seconds) - FINISHED 
+2014.12.18 15:29:26.651 PST: [INFO] event.pegasus.generate.workdir-nodes dax.id blackdiamond_0  - STARTED 
+2014.12.18 15:29:26.660 PST: [INFO] event.pegasus.generate.workdir-nodes dax.id blackdiamond_0  (0.009 seconds) - FINISHED 
+2014.12.18 15:29:26.660 PST: [INFO] event.pegasus.refinement dax.id blackdiamond_0  (0.218 seconds) - FINISHED 
+2014.12.18 15:29:26.706 PST: [INFO]  Generating codes for the executable workflow 
+2014.12.18 15:29:26.707 PST: [INFO] event.pegasus.code.generation dax.id blackdiamond_0  - STARTED 
+2014.12.18 15:29:26.920 PST: [INFO] event.pegasus.code.generation dax.id blackdiamond_0  (0.213 seconds) - FINISHED 
+2014.12.18 15:29:27.403 PST:   Submitting job(s). 
+2014.12.18 15:29:27.409 PST:   1 job(s) submitted to cluster 2290. 
+2014.12.18 15:29:27.414 PST:    
+2014.12.18 15:29:27.420 PST:   ----------------------------------------------------------------------- 
+2014.12.18 15:29:27.425 PST:   File for submitting this DAG to Condor           : blackdiamond-0.dag.condor.sub 
+2014.12.18 15:29:27.430 PST:   Log of DAGMan debugging messages                 : blackdiamond-0.dag.dagman.out 
+2014.12.18 15:29:27.436 PST:   Log of Condor library output                     : blackdiamond-0.dag.lib.out 
+2014.12.18 15:29:27.441 PST:   Log of Condor library error messages             : blackdiamond-0.dag.lib.err 
+2014.12.18 15:29:27.446 PST:   Log of the life of condor_dagman itself          : blackdiamond-0.dag.dagman.log 
+2014.12.18 15:29:27.452 PST:    
+2014.12.18 15:29:27.457 PST:   ----------------------------------------------------------------------- 
+2014.12.18 15:29:27.462 PST:    
+2014.12.18 15:29:27.468 PST:   Your workflow has been started and is running in the base directory: 
+2014.12.18 15:29:27.473 PST:    
+2014.12.18 15:29:27.478 PST:     /auto/rcf-40/vahi/tutorial/blackdiamond-hpcc-sharedfs-example/work/dags/vahi/pegasus/blackdiamond/run0002 
+2014.12.18 15:29:27.483 PST:    
+2014.12.18 15:29:27.489 PST:   *** To monitor the workflow you can run *** 
+2014.12.18 15:29:27.494 PST:    
+2014.12.18 15:29:27.499 PST:     pegasus-status -l /auto/rcf-40/vahi/tutorial/blackdiamond-hpcc-sharedfs-example/work/dags/vahi/pegasus/blackdiamond/run0002 
+2014.12.18 15:29:27.505 PST:    
+2014.12.18 15:29:27.510 PST:   *** To remove your workflow run *** 
+2014.12.18 15:29:27.515 PST:    
+2014.12.18 15:29:27.521 PST:     pegasus-remove /auto/rcf-40/vahi/tutorial/blackdiamond-hpcc-sharedfs-example/work/dags/vahi/pegasus/blackdiamond/run0002 
+2014.12.18 15:29:27.526 PST:    
+2014.12.18 15:29:28.334 PST:   Time taken to execute is 1.708 seconds 
+2014.12.18 15:29:28.334 PST: [INFO] event.pegasus.planner planner.version 4.4.1cvs  (2.463 seconds) - FINISHED </programlisting>
+
+    <para>This is what the diamond workflow looks like after Pegasus has
+    finished planning the DAX:</para>
+
+    <figure>
+      <title>Clustered Diamond DAG</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata contentwidth="70%"
+                     fileref="images/concepts-clustered-diamond-dag.jpg"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>You can see that instead of 4 jobs making up the diamond have been
+    replaced by a single merge_p1 job, that is executed as a MPI job.</para>
+  </section>
+
+  <section>
     <title>MPI Workflows</title>
 
-    <para>You can support workflows that have MPI jobs to the HPCC cluster
+    <para>You can also submit workflows that have MPI jobs to the HPCC cluster
     using Pegasus. The MPI hello world example in the tutorial directory. This
     is a more canned example, where there is a submit script that creates the
-    workflow, the catalogs and plans and submits the workflow. </para>
+    workflow, the catalogs and plans and submits the workflow.</para>
 
     <para>Before running this example, we have to compile the sample MPI hello
     world program.</para>
@@ -812,7 +1013,8 @@ mpicc  pegasus-mpi-hw.o -o pegasus-mpi-hw </programlisting>
     <para><emphasis role="bold">Generate the DAX and plan and submit the
     workflow</emphasis></para>
 
-    <programlisting>[userXX@hpc-pegasus mpi-hello-world]$ <emphasis role="bold">./submit</emphasis>
+    <programlisting>[userXX@hpc-pegasus mpi-hello-world]$ <emphasis
+        role="bold">./submit</emphasis>
 
 Work directory: /home/rcf-40/userXX/tutorial/mpi-hello-world/work/2014-12-08_152027
 
@@ -881,7 +1083,7 @@ Planning and submitting the workflow
     <para>This example, uses the Python DAX API to generate the workflow DAX.
     In addition, the locations of the input file and the executables i.e the
     replica catalog and the transformation catalog are contained within the
-    generated DAX itself. </para>
+    generated DAX itself.</para>
 
     <para>Lets look at the python DAX generator</para>
 
