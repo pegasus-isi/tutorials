@@ -10,7 +10,6 @@ BIN_DIR=`pegasus-config --bin`
 JOB_CLUSTERS_SIZE=2
 LOCAL_PBS_PEGASUS_HOME=`dirname $BIN_DIR`
 
-
 mkdir -p conf
 
 # create the site catalog
@@ -77,6 +76,19 @@ tr pegasus::$TRANSFORMATION:4.0 {
 }
 EOF
 done
+
+cat >>conf/tc.dat<<EOF
+# pegasus mpi clustering executable
+tr pegasus::mpiexec{
+    site hpcc {
+        pfn "/home/rcf-proj/gmj/pegasus/SOFTWARE/pegasus/pegasus-mpi-cluster-wrapper"
+        arch "x86_64"
+        os "linux"
+        type "INSTALLED"
+        profile pegasus "clusters.size" "$JOB_CLUSTERS_SIZE" 
+    }
+}
+EOF
 
 
 # create the replica catalog

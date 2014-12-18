@@ -99,6 +99,9 @@ public class BlackDiamondDAX {
         j1.uses(fa, File.LINK.INPUT);
         j1.uses(fb1, File.LINK.OUTPUT);
         j1.uses(fb2, File.LINK.OUTPUT);
+	//associate the label with the job. all jobs with same label
+	//are run with PMC when doing job clustering
+	j1.addProfile( "pegasus", "label", "p1");
         dax.addJob(j1);
 
 
@@ -109,6 +112,9 @@ public class BlackDiamondDAX {
         j2.addArgument("-o ").addArgument(fc1);
         j2.uses(fb1, File.LINK.INPUT);
         j2.uses(fc1, File.LINK.OUTPUT);
+	//associate the label with the job. all jobs with same label
+	//are run with PMC when doing job clustering
+	j2.addProfile( "pegasus", "label", "p1");
         dax.addJob(j2);
 
         // Add right Findrange job
@@ -118,6 +124,9 @@ public class BlackDiamondDAX {
         j3.addArgument("-o ").addArgument(fc2);
         j3.uses(fb2, File.LINK.INPUT);
         j3.uses(fc2, File.LINK.OUTPUT);
+	//associate the label with the job. all jobs with same label
+	//are run with PMC when doing job clustering
+	j3.addProfile( "pegasus", "label", "p1");
         dax.addJob(j3);
 
         // Add analyze job
@@ -129,6 +138,9 @@ public class BlackDiamondDAX {
         j4.uses(fc1, File.LINK.INPUT);
         j4.uses(fc2, File.LINK.INPUT);
         j4.uses(fd, File.LINK.OUTPUT);
+	//associate the label with the job. all jobs with same label
+	//are run with PMC when doing job clustering
+	j4.addProfile( "pegasus", "label", "p1");
         dax.addJob(j4);
 
 	System.out.println( "Adding control flow dependencies..." );
