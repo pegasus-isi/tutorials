@@ -86,6 +86,20 @@ tr pegasus::mpiexec{
         os "linux"
         type "INSTALLED"
         profile pegasus "clusters.size" "$JOB_CLUSTERS_SIZE" 
+
+        #the various parameters to specify the size of the MPI job
+        #in which the workflow runs
+        profile globus "jobtype" "mpi"
+        profile globus "maxwalltime" "2880"
+        # specfiy the ppn parameter.
+        profile globus "xcount" "4:IB"
+        # specify the nodes parameter
+        profile globus "hostcount" "1"
+        #specify the pmem parameter
+        profile globus "maxmemory" "1gb"
+        #specify the mem parameter
+        profile globus "totalmemory" "16gb"
+
     }
 }
 EOF
