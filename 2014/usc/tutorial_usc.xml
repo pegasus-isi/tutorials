@@ -41,7 +41,7 @@
 
         <mediaobject>
           <imageobject>
-            <imagedata align="center"
+            <imagedata align="center" contentdepth="50%"
                        fileref="images/concepts-single-job-wf.jpg"/>
           </imageobject>
         </mediaobject>
@@ -56,7 +56,7 @@
 
         <mediaobject>
           <imageobject>
-            <imagedata align="center"
+            <imagedata align="center" contentwidth="70%"
                        fileref="images/concepts-bag-tasks-wf.jpg"/>
           </imageobject>
         </mediaobject>
@@ -67,7 +67,7 @@
 
           <mediaobject>
             <imageobject>
-              <imagedata align="center"
+              <imagedata align="center" contentdepth="70%"
                          fileref="images/concepts-pipeline-tasks-wf.jpg"/>
             </imageobject>
           </mediaobject>
@@ -78,7 +78,8 @@
 
           <mediaobject>
             <imageobject>
-              <imagedata align="center" fileref="images/concepts-split-wf.jpg"/>
+              <imagedata align="center" contentwidth="70%"
+                         fileref="images/concepts-split-wf.jpg"/>
             </imageobject>
           </mediaobject>
         </figure></para>
@@ -88,7 +89,8 @@
 
           <mediaobject>
             <imageobject>
-              <imagedata align="center" fileref="images/concepts-merge-wf.jpg"/>
+              <imagedata align="center" contentwidth="70%"
+                         fileref="images/concepts-merge-wf.jpg"/>
             </imageobject>
           </mediaobject>
         </figure></para>
