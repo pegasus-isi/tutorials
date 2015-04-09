@@ -46,7 +46,7 @@ cat >conf/sites.xml <<EOF
         <profile namespace="pegasus" key="change.dir">true</profile>
 
         <!-- maxwalltime in minutes for the jobs run on this cluster -->
-        <profile namespace="globus" key="maxwalltime">600</profile>
+        <profile namespace="globus" key="maxwalltime">60</profile>
     </site>
 
 </sitecatalog>
