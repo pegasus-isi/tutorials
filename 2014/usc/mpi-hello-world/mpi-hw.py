@@ -36,11 +36,10 @@ mpi_hw_job.addProfile( Profile( "globus", "jobtype", "mpi"))
 # the globus key hostCount is NODES
 mpi_hw_job.addProfile( Profile("globus", "hostcount", "1" ))
 # the globus key xcount is PROCS or PPN
-mpi_hw_job.addProfile( Profile("globus", "xcount", "16" ))    
+mpi_hw_job.addProfile( Profile("globus", "xcount", "8" ))    
 #  the globus key maxwalltime is WALLTIME in minutes
-mpi_hw_job.addProfile( Profile("globus", "maxwalltime", "120"))
+mpi_hw_job.addProfile( Profile("globus", "maxwalltime", "60"))
 mpi_hw_wf.addJob(mpi_hw_job)
 
 # Write the DAX to stdout
 mpi_hw_wf.writeXML(sys.stdout)
-

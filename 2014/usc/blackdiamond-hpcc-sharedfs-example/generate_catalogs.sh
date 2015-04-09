@@ -90,9 +90,14 @@ tr pegasus::mpiexec{
         #the various parameters to specify the size of the MPI job
         #in which the workflow runs
         profile globus "jobtype" "mpi"
-        profile globus "maxwalltime" "2880"
+
+        #runtime of the job in minutes
+        profile globus "maxwalltime" "60"
+
         # specfiy the ppn parameter.
-        profile globus "xcount" "4:IB"
+        #profile globus "xcount" "8:IB"
+        profile globus "xcount" "8"
+        
         # specify the nodes parameter
         profile globus "hostcount" "1"
         #specify the pmem parameter
