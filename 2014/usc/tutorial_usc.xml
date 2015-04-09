@@ -12,8 +12,10 @@
     intended for new users who want to get a quick overview of Pegasus
     concepts and usage. The tutorial covers the creating, planning,
     submitting, monitoring, debugging, and generating statistics for a simple
-    diamond-shaped workflow. More information about the topics covered in this
-    tutorial can be found in the Pegasus user guide.</para>
+    diamond-shaped workflow. The tutorial also covers on how to create
+    workflows with MPI jobs in it, and running them on the USC HPC cluster.
+    More information about the topics covered in this tutorial can be found in
+    the Pegasus user guide.</para>
 
     <section>
       <title>What are Scientific Workflows</title>
@@ -62,7 +64,12 @@
         </mediaobject>
       </figure>
 
-      <para><emphasis role="bold">Pipeline of Tasks</emphasis><figure>
+      <para><emphasis role="bold">Pipeline of Tasks</emphasis></para>
+
+      <para>The pipeline workflow consists of two jobs linked together in a
+      pipeline. The first job runs the `curl` command to fetch the Pegasus
+      home page and store it as an HTML file. The result is passed to the `wc`
+      command, which counts the number of lines in the HTML file. <figure>
           <title>Pipeline of Tasks</title>
 
           <mediaobject>
@@ -73,7 +80,12 @@
           </mediaobject>
         </figure></para>
 
-      <para><emphasis role="bold">Split Workflow</emphasis><figure>
+      <para><emphasis role="bold">Split Workflow</emphasis></para>
+
+      <para>The split workflow downloads the Pegasus home page using the
+      `curl` command, then uses the `split` command to divide it into 4
+      pieces. The result is passed to the `wc` command to count the number of
+      lines in each piece.<figure>
           <title>Split Workflow</title>
 
           <mediaobject>
@@ -84,7 +96,11 @@
           </mediaobject>
         </figure></para>
 
-      <para><emphasis role="bold">Merge Workflow</emphasis><figure>
+      <para><emphasis role="bold">Merge Workflow</emphasis></para>
+
+      <para>The merge workflow runs the `ls` command on several */bin
+      directories and passes the results to the `cat` command, which merges
+      the files into a single listing.<figure>
           <title>Merge Workflow</title>
 
           <mediaobject>
@@ -105,7 +121,7 @@
     things that you should type in bold, monospace font, and to put the output
     you should get in a normal weight, monospace font, like this:</para>
 
-    <programlisting>[user@host dir]$ <emphasis role="bold">you type this</emphasis>
+    <programlisting>[user@hpc-pegasus]$ <emphasis role="bold">you type this</emphasis>
 you get this</programlisting>
 
     <para>Where <literal>[user@host dir]$</literal> is the terminal prompt,
@@ -133,6 +149,14 @@ you get this</programlisting>
     <emphasis role="bold"><email>hpcc@usc.edu</email> </emphasis>. Usually,
     getting an account on the submit machines take one business day or
     less.</para>
+
+    <para>The tutorial should be done in the bash shell. Lets make sure that
+    you are in the right shell.</para>
+
+    <programlisting>[user@hpc-pegasus]$  bash
+[user@hpc-pegasus ~]$ echo $SHELL
+/bin/bash
+</programlisting>
 
     <para>To start the tutorial copy the tutorial examples to a directory
     called tutorial in your home directory and untar the examples.</para>
@@ -525,7 +549,7 @@ pegasus.data.configuration = sharedfs
     <filename>plan_dax.sh</filename> script with the path to the DAX
     file:</para>
 
-    <programlisting>$ <emphasis role="bold">./plan_dax.sh diamond.dax</emphasis>
+    <programlisting>$ <emphasis role="bold">./plan_dax.sh </emphasis>
 2012.07.24 21:11:03.256 EDT:   
 
 I have concretized your abstract workflow. The workflow has been entered 
@@ -764,7 +788,7 @@ FATAL: The main job specification is invalid or missing.
     <literal>-s all</literal> argument tells the program to generate all
     statistics it knows how to calculate:</para>
 
-    <programlisting>$ <emphasis role="bold">pegasus-statistics –s all </emphasis><emphasis
+    <programlisting>$ <emphasis role="bold">pegasus-statistics -s all </emphasis><emphasis
         role="bold">work/dags/userXX/pegasus/blackdiamond/run0001</emphasis>
 
 #
@@ -1239,10 +1263,10 @@ Planning and submitting the workflow
       &lt;!-- tell pegasus it is an MPI job --&gt;
       &lt;profile namespace="globus" key="jobtype"&gt;mpi&lt;/profile&gt;
      
-      &lt;!-- the globus key hostCount is NODES --&gt;
+      &lt;!-- the globus key xcount is PROCS or PPN --&gt;
       &lt;profile namespace="globus" key="xcount"&gt;16&lt;/profile&gt;
      
-      &lt;!-- the globus key xcount is PROCS or PPN --&gt;
+      &lt;!-- the globus key hostCount is NODES --&gt;
       &lt;profile namespace="globus" key="hostcount"&gt;1&lt;/profile&gt;
       
       &lt;!-- the globus key maxwalltime is WALLTIME in minutes --&gt;
@@ -1253,5 +1277,118 @@ Planning and submitting the workflow
   &lt;/job&gt;
 &lt;/adag&gt;
 </programlisting>
+
+    <para>When running a MPI job on the cluster, usually you need to specify
+    extra parameters such as how many nodes a job runs on, how many cores it
+    requires, the walltime for the job, the memory required per process . The
+    table below captures the globus profiles that you need to set for the job
+    at the Pegasus level, and their mapping to the corresponding PBS
+    parameters</para>
+
+    <table>
+      <title>Table mapping translation of globus profiles to corresponding PBS
+      parameters</title>
+
+      <tgroup cols="3">
+        <thead>
+          <row>
+            <entry align="center">Globus Profile Key</entry>
+
+            <entry>Corresponding PBS Parameter in qsub file</entry>
+
+            <entry>Description</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry>jobtype</entry>
+
+            <entry/>
+
+            <entry>Set it to mpi to tell Pegasus, that it is a MPI
+            job.</entry>
+          </row>
+
+          <row>
+            <entry>queue</entry>
+
+            <entry>-q e.g. #PBS -q queuename</entry>
+
+            <entry>This specifies the queue on which to run the job.</entry>
+          </row>
+
+          <row>
+            <entry>hostcount</entry>
+
+            <entry>nodes</entry>
+
+            <entry>This specifies the number of nodes that the job should use.
+            </entry>
+          </row>
+
+          <row>
+            <entry>xcount</entry>
+
+            <entry>ppn</entry>
+
+            <entry>This specifies the number of processors per node (ppn=M)
+            that the job should use. PBS treats a processor core as a
+            processor, so a system with eight cores per compute node can have
+            ppn=8 as its maximum ppn request. If you want to explicitly use
+            the Myrinet network, this value should be 8:myri . For infiniband,
+            it will be 8:IB .</entry>
+          </row>
+
+          <row>
+            <entry>maxwalltime</entry>
+
+            <entry>walltime</entry>
+
+            <entry>the maximum runtime for the job in minutes. should be an
+            integer value. Pegasus converts it to hh:mm:ss format</entry>
+          </row>
+
+          <row>
+            <entry>totalmemory</entry>
+
+            <entry>mem</entry>
+
+            <entry>The total memory that your job requires. usually, better to
+            just specify the maxmemory profile.</entry>
+          </row>
+
+          <row>
+            <entry>maxmemory</entry>
+
+            <entry>pmem</entry>
+
+            <entry>This specifies the maximum amount of physical memory used
+            by any process in the job. For example, if the job would run four
+            processes and each would use up to 2 GB (gigabytes) of memory,
+            then this value should be set to 2gb. The corresponding PBS
+            directive would be #PBS -l pmem=2gb. </entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </section>
+
+  <section>
+    <title>Conclusion</title>
+
+    <para>This brings you to the end of the Pegasus tutorial on USC HPC
+    cluster. The tutorial should have given you an overview of how to compose
+    a simple workflow using Pegasus and running it on the USC HPC cluster. The
+    tutorial examples, should provide a good starting point for you to port
+    your application to a Pegasus workflow. If you need help in porting your
+    application to Pegasus contact us on the following support channels</para>
+
+    <para>public mailman list : pegasus-users@isi.edu</para>
+
+    <para>private support list: pegasus-support@isi.edu </para>
+
+    <para>Detailed Pegasus Documentation can be found <ulink
+    url="http://pegasus.isi.edu/wms/docs/latest/">here</ulink>.</para>
   </section>
 </chapter>
