@@ -101,9 +101,9 @@ tr pegasus::mpiexec{
         # specify the nodes parameter
         profile globus "hostcount" "1"
         #specify the pmem parameter
-        profile globus "maxmemory" "1gb"
+        profile globus "maxmemory" "512mb"
         #specify the mem parameter
-        profile globus "totalmemory" "16gb"
+        profile globus "totalmemory" "4gb"
 
     }
 }
