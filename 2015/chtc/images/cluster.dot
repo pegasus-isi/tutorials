@@ -1,0 +1,17 @@
+digraph dag {
+    ratio=fill
+    node [style=filled,color="#444444",fillcolor="#ffed6f"]
+    edge [arrowhead=normal,arrowsize=1.0]
+
+    "create_dir_blackdiamond_0_local" [shape=ellipse,fillcolor="#1b9e77",label="create_dir_blackdiamond_0_local"]
+    "stage_out_remote_local_0_0" [shape=ellipse,fillcolor="#d95f02",label="stage_out_remote_local_0_0"]
+    "stage_in_remote_local_0_0" [shape=ellipse,fillcolor="#7570b3",label="stage_in_remote_local_0_0"]
+    "merge_p1" [shape=ellipse,fillcolor="#e7298a",label="merge_p1"]
+    "stage_worker_local_blackdiamond_0_local" [shape=ellipse,fillcolor="#66a61e",label="stage_worker_local_blackdiamond_0_local"]
+    "register_local_0_0" [shape=ellipse,fillcolor="#e6ab02",label="register_local_0_0"]
+    "create_dir_blackdiamond_0_local" -> "stage_in_remote_local_0_0"
+    "stage_out_remote_local_0_0" -> "register_local_0_0"
+    "stage_in_remote_local_0_0" -> "merge_p1"
+    "merge_p1" -> "stage_out_remote_local_0_0"
+    "stage_worker_local_blackdiamond_0_local" -> "stage_in_remote_local_0_0"
+}
