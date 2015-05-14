@@ -164,7 +164,7 @@ you get this</programlisting>
     <programlisting>[user@submit-5]$ cd ~
 [user@submit-5]$ <emphasis role="bold">mkdir tutorial</emphasis>
 [user@submit-5 ~]$ <emphasis role="bold">cd tutorial/</emphasis>
-[user@submit-5]$ <emphasis role="bold">cp /home/nu_vahi/tutorial/setup/chtc-pegasus-tutorial.tgz .</emphasis>
+[user@submit-5]$ <emphasis role="bold">cp /home/userXX/tutorial/setup/chtc-pegasus-tutorial.tgz .</emphasis>
 [user@submit-5]$ <emphasis role="bold">tar zxf chtc-pegasus-tutorial.tgz</emphasis>
 [user@submit-5]$ <emphasis role="bold">ls</emphasis> 
 blackdiamond-chtc-condorio  chtc-pegasus-tutorial.tgz
@@ -308,11 +308,11 @@ Writing diamond.dax</programlisting>
 ﻿    &lt;!-- The local site contains information about the submit host --&gt;
     &lt;!-- The arch and os keywords are used to match binaries in the transformation catalog --&gt;
     &lt;site  handle="local" arch="x86_64" os="LINUX" &gt;
-       &lt;directory  path="/home/nu_vahi/tutorial/blackdiamond-chtc-condorio/data/outputs" type="shared-storage" free-size="" total-size=""&gt;
-         &lt;file-server  operation="all" url="file:///home/nu_vahi/tutorial/blackdiamond-chtc-condorio/data/outputs"/&gt;
+       &lt;directory  path="/home/userXX/tutorial/blackdiamond-chtc-condorio/data/outputs" type="shared-storage" free-size="" total-size=""&gt;
+         &lt;file-server  operation="all" url="file:///home/userXX/tutorial/blackdiamond-chtc-condorio/data/outputs"/&gt;
        &lt;/directory&gt;
-       &lt;directory  path="/home/nu_vahi/tutorial/blackdiamond-chtc-condorio/data/scratch" type="shared-scratch" free-size="" total-size=""&gt;
-         &lt;file-server  operation="all" url="file:///home/nu_vahi/tutorial/blackdiamond-chtc-condorio/data/scratch"/&gt;
+       &lt;directory  path="/home/userXX/tutorial/blackdiamond-chtc-condorio/data/scratch" type="shared-scratch" free-size="" total-size=""&gt;
+         &lt;file-server  operation="all" url="file:///home/userXX/tutorial/blackdiamond-chtc-condorio/data/scratch"/&gt;
        &lt;/directory&gt;
     &lt;/site&gt;
 
@@ -552,7 +552,7 @@ into the workflow database with a state of "planned". The next step is
 to start or execute your workflow. The invocation required is
 
 
-pegasus-run  /home/nu_vahi/tutorial/blackdiamond-chtc-condorio/work/dags/nu_vahi/pegasus/blackdiamond/run0001
+pegasus-run  /home/userXX/tutorial/blackdiamond-chtc-condorio/work/dags/userXX/pegasus/blackdiamond/run0001
 
  
 2015.05.14 17:15:13.937 CDT:   Time taken to execute is 2.055 seconds 
@@ -597,7 +597,7 @@ pegasus-run  /home/nu_vahi/tutorial/blackdiamond-chtc-condorio/work/dags/nu_vahi
     submit directory as an argument. Run the command that was printed by the
     <filename>plan_dax.sh</filename> script:</para>
 
-    <programlisting>$<emphasis role="bold"> pegasus-run  /home/nu_vahi/tutorial/blackdiamond-chtc-condorio/work/dags/nu_vahi/pegasus/blackdiamond/run0001</emphasis>
+    <programlisting>$<emphasis role="bold"> pegasus-run  /home/userXX/tutorial/blackdiamond-chtc-condorio/work/dags/userXX/pegasus/blackdiamond/run0001</emphasis>
 
 Submitting to condor blackdiamond-0.dag.condor.sub
 Submitting job(s).
@@ -605,15 +605,15 @@ Submitting job(s).
 
 Your workflow has been started and is running in the base directory:
 
-  /home/nu_vahi/tutorial/blackdiamond-chtc-condorio/work/dags/nu_vahi/pegasus/blackdiamond/run0001
+  /home/userXX/tutorial/blackdiamond-chtc-condorio/work/dags/userXX/pegasus/blackdiamond/run0001
 
 *** To monitor the workflow you can run ***
 
-  pegasus-status -l /home/nu_vahi/tutorial/blackdiamond-chtc-condorio/work/dags/nu_vahi/pegasus/blackdiamond/run0001
+  pegasus-status -l /home/userXX/tutorial/blackdiamond-chtc-condorio/work/dags/userXX/pegasus/blackdiamond/run0001
 
 *** To remove your workflow run ***
 
-  pegasus-remove /home/nu_vahi/tutorial/blackdiamond-chtc-condorio/work/dags/nu_vahi/pegasus/blackdiamond/run0001
+  pegasus-remove /home/userXX/tutorial/blackdiamond-chtc-condorio/work/dags/userXX/pegasus/blackdiamond/run0001
 
 
 </programlisting>
@@ -625,9 +625,9 @@ Your workflow has been started and is running in the base directory:
     <para>After the workflow has been submitted you can monitor it using the
     <literal>pegasus-status</literal> command:</para>
 
-    <programlisting>$ <emphasis role="bold">pegasus-status  work/dags/nu_vahi/pegasus/blackdiamond/run0001/</emphasis>
+    <programlisting>$ <emphasis role="bold">pegasus-status  work/dags/userXX/pegasus/blackdiamond/run0001/</emphasis>
 STAT  IN_STATE  JOB                                                                                                                
-Run      01:02  blackdiamond-0 ( /home/nu_vahi/tutorial/blackdiamond-chtc-condorio/work/dags/nu_vahi/pegasus/blackdiamond/run0001 )
+Run      01:02  blackdiamond-0 ( /home/userXX/tutorial/blackdiamond-chtc-condorio/work/dags/userXX/pegasus/blackdiamond/run0001 )
 Idle     00:14   ┗━preprocess_j1                                                                                                   
 Summary: 2 Condor jobs total (I:1 R:1)
 
@@ -666,7 +666,7 @@ UNREADY   READY     PRE  QUEUED    POST SUCCESS FAILURE %DONE
     This file was created by the various transformations in the workflow and
     shows all of the executables that were invoked by the workflow:</para>
 
-    <programlisting>$ [nu_vahi@submit-5 blackdiamond-chtc-condorio]$ more data/outputs/f.d 
+    <programlisting>$ [userXX@submit-5 blackdiamond-chtc-condorio]$ more data/outputs/f.d 
   --- start f.c1 ----
   --- start f.b1 ----
   --- start f.a ----
@@ -707,11 +707,11 @@ IP addr and hostname: 128.104.58.65 (e055.chtc.wisc.edu)
     succeeded, <literal>pegasus-analyzer</literal> will only show some basic
     statistics about the number of successful jobs:</para>
 
-    <programlisting>$ <emphasis role="bold">pegasus-analyzer work/dags/nu_vahi/pegasus/blackdiamond/run0001/</emphasis>
+    <programlisting>$ <emphasis role="bold">pegasus-analyzer work/dags/userXX/pegasus/blackdiamond/run0001/</emphasis>
 
 ************************************Summary*************************************
 
- Submit Directory   : work/dags/nu_vahi/pegasus/blackdiamond/run0001/
+ Submit Directory   : work/dags/userXX/pegasus/blackdiamond/run0001/
  Total jobs         :     11 (100.00%)
  # jobs succeeded   :     11 (100.00%)
  # jobs failed      :      0 (0.00%)
@@ -721,11 +721,11 @@ IP addr and hostname: 128.104.58.65 (e055.chtc.wisc.edu)
 
     <para>If the workflow had failed you would see something like this:</para>
 
-    <programlisting>$ <emphasis role="bold">pegasus-analyzer work/dags/nu_vahi/pegasus/blackdiamond/run0002</emphasis>
+    <programlisting>$ <emphasis role="bold">pegasus-analyzer work/dags/userXX/pegasus/blackdiamond/run0002</emphasis>
 
 ************************************Summary*************************************
 
- Submit Directory   : work/dags/nu_vahi/pegasus/blackdiamond/run0002
+ Submit Directory   : work/dags/userXX/pegasus/blackdiamond/run0002
  Total jobs         :     11 (100.00%)
  # jobs succeeded   :      2 (18.18%)
  # jobs failed      :      3 (27.27%)
@@ -748,7 +748,7 @@ hostname    : submit-5.chtc.wisc.edu
 executable  : /usr/bin/pegasus-transfer
 arguments   :   --threads   2  
 exitcode    : 1
-working dir : /home/nu_vahi/tutorial/blackdiamond-chtc-condorio/work/dags/nu_vahi/pegasus/blackdiamond/run0002
+working dir : /home/userXX/tutorial/blackdiamond-chtc-condorio/work/dags/nu_vahi/pegasus/blackdiamond/run0002
 
 ------------------Task #1 - pegasus::transfer - None - stdout-------------------
 
