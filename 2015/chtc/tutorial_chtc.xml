@@ -4,7 +4,7 @@
 <chapter id="tutorial">
   <title>Tutorial</title>
 
-  <section>
+  <section id="tut_introduction">
     <title>Introduction</title>
 
     <para>This tutorial will take you through the steps of creating and
@@ -113,7 +113,7 @@
     </section>
   </section>
 
-  <section>
+  <section id="tut_started">
     <title>Getting Started</title>
 
     <para>All of the steps in this tutorial are performed on the command-line.
@@ -176,7 +176,7 @@ blackdiamond-chtc-condorio  chtc-pegasus-tutorial.tgz
     ~/tutorial.</para>
   </section>
 
-  <section>
+  <section id="tut_wf_generation">
     <title>Generating the Workflow</title>
 
     <para>We will be creating and running a simple diamond-shaped workflow
@@ -276,7 +276,7 @@ Writing diamond.dax</programlisting>
 ...</programlisting>
   </section>
 
-  <section>
+  <section id="tut_catalogs">
     <title>Information Catalogs</title>
 
     <para>There are three information catalogs that Pegasus uses when planning
@@ -438,7 +438,7 @@ f.a    file:///home/userXX/tutorial/blackdiamond-chtc-condorio/input/f.a    pool
     </section>
   </section>
 
-  <section>
+  <section id="tut_configuration">
     <title>Configuring Pegasus</title>
 
     <para>In addition to the information catalogs, Pegasus takes a
@@ -478,7 +478,7 @@ pegasus.metrics.app chtc-tutorial
 </programlisting>
   </section>
 
-  <section>
+  <section id="tut_planning">
     <title>Planning the Workflow</title>
 
     <para>The planning stage is where Pegasus maps the abstract DAX to one or
@@ -588,7 +588,7 @@ pegasus-run  /home/userXX/tutorial/blackdiamond-chtc-condorio/work/dags/userXX/p
     <literal>pegasus-plan</literal>.</para>
   </section>
 
-  <section>
+  <section id="tut_submitting">
     <title>Submitting the Workflow</title>
 
     <para>Once the workflow has been planned, the next step is to submit it to
@@ -619,7 +619,7 @@ Your workflow has been started and is running in the base directory:
 </programlisting>
   </section>
 
-  <section>
+  <section id="tut_monitoring">
     <title>Monitoring the Workflow</title>
 
     <para>After the workflow has been submitted you can monitor it using the
@@ -694,7 +694,7 @@ IP addr and hostname: 128.104.58.65 (e055.chtc.wisc.edu)
     input files to their output files.</para>
   </section>
 
-  <section>
+  <section id="tut_debugging">
     <title>Debugging the Workflow</title>
 
     <para>In the case that one or more jobs fails, then the output of the
@@ -748,7 +748,7 @@ hostname    : submit-5.chtc.wisc.edu
 executable  : /usr/bin/pegasus-transfer
 arguments   :   --threads   2  
 exitcode    : 1
-working dir : /home/userXX/tutorial/blackdiamond-chtc-condorio/work/dags/nu_vahi/pegasus/blackdiamond/run0002
+working dir : /home/nu_vahi/tutorial/blackdiamond-chtc-condorio/work/dags/nu_vahi/pegasus/blackdiamond/run0002
 
 ------------------Task #1 - pegasus::transfer - None - stdout-------------------
 
@@ -789,7 +789,7 @@ working dir : /home/userXX/tutorial/blackdiamond-chtc-condorio/work/dags/nu_vahi
     indicates that the executable could not be found.</para>
   </section>
 
-  <section>
+  <section id="tut_statistics">
     <title>Collecting Statistics</title>
 
     <para>The <literal>pegasus-statistics</literal> command can be used to
@@ -922,8 +922,8 @@ pegasus::transfer        5         5          0       0.0       4.06      2.068 
     findrange, and preprocess transformations are all close to 30.</para>
   </section>
 
-  <section>
-    <title>Running the whole workflow as an MPI job</title>
+  <section id="tut_job_clustering">
+    <title> Job Clustering</title>
 
     <para>Often, users have lots of short running single processor jobs in
     their workflow, that if submitted individually to the underlying cluster
@@ -1088,7 +1088,7 @@ pegasus-plan \
     compute node where HTCondor launches the job.</para>
   </section>
 
-  <section>
+  <section id="tut_conclusion">
     <title>Conclusion</title>
 
     <para>This brings you to the end of the Pegasus tutorial on USC HPC
