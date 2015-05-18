@@ -164,7 +164,7 @@ you get this</programlisting>
     <programlisting>[user@submit-5]$ cd ~
 [user@submit-5]$ <emphasis role="bold">mkdir tutorial</emphasis>
 [user@submit-5 ~]$ <emphasis role="bold">cd tutorial/</emphasis>
-[user@submit-5]$ <emphasis role="bold">cp /home/userXX/tutorial/setup/chtc-pegasus-tutorial.tgz .</emphasis>
+[user@submit-5]$ <emphasis role="bold">cp /home/nu_vahi/tutorial/setup/chtc-pegasus-tutorial.tgz .</emphasis>
 [user@submit-5]$ <emphasis role="bold">tar zxf chtc-pegasus-tutorial.tgz</emphasis>
 [user@submit-5]$ <emphasis role="bold">ls</emphasis> 
 blackdiamond-chtc-condorio  chtc-pegasus-tutorial.tgz
