@@ -102,7 +102,7 @@ cat >conf/rc.dat<<EOF
 # input files used by the workflow.
 
 # The format is:
-# LFN     PFN    pool="SITE"
+# LFN     PFN    site="SITE"
 
-f.a    file://$TOPDIR/input/f.a    pool="local"
+f.a    file://$TOPDIR/input/f.a    site="local"
 EOF
