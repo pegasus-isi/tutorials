@@ -164,8 +164,19 @@ you get this</programlisting>
     <programlisting>[user@submit-5]$ cd ~
 [user@submit-5]$ <emphasis role="bold">mkdir tutorial</emphasis>
 [user@submit-5 ~]$ <emphasis role="bold">cd tutorial/</emphasis>
-[user@submit-5]$ <emphasis role="bold">cp /home/nu_vahi/tutorial/setup/chtc-pegasus-tutorial.tgz .</emphasis>
-[user@submit-5]$ <emphasis role="bold">tar zxf chtc-pegasus-tutorial.tgz</emphasis>
+[user@submit-5]$ <emphasis role="bold">wget https://pegasus.isi.edu/tutorial/chtc15/chtc-pegasus-tutorial.tgz </emphasis>
+--2015-05-19 13:19:43--  https://pegasus.isi.edu/tutorial/chtc15/chtc-pegasus-tutorial.tgz
+Resolving pegasus.isi.edu... 128.9.144.140
+Connecting to pegasus.isi.edu|128.9.144.140|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 3586 (3.5K) [application/x-gzip]
+Saving to: “chtc-pegasus-tutorial.tgz”
+
+100%[======================================&gt;] 3,586       --.-K/s   in 0s      
+
+2015-05-19 13:19:44 (86.8 MB/s) - “chtc-pegasus-tutorial.tgz” saved [3586/3586]
+<emphasis role="bold">
+</emphasis>[user@submit-5]$ <emphasis role="bold">tar zxf chtc-pegasus-tutorial.tgz</emphasis>
 [user@submit-5]$ <emphasis role="bold">ls</emphasis> 
 blackdiamond-chtc-condorio  chtc-pegasus-tutorial.tgz
 
@@ -923,7 +934,7 @@ pegasus::transfer        5         5          0       0.0       4.06      2.068 
   </section>
 
   <section id="tut_job_clustering">
-    <title> Job Clustering</title>
+    <title>Job Clustering</title>
 
     <para>Often, users have lots of short running single processor jobs in
     their workflow, that if submitted individually to the underlying cluster
