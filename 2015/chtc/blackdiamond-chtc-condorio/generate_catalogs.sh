@@ -31,7 +31,8 @@ cat >conf/sites.xml <<EOF
 
     <!-- the chtc condor pool -->
     <site handle="chtc" arch="x86_64" os="LINUX" osrelease="" osversion="" glibc="">
-         <profile namespace="condor" key="+ProjectName" >"con-train"</profile>
+         <!-- <profile namespace="condor" key="+ProjectName" >"con-train"</profile> -->
+         <profile namespace="condor" key="+AccountingGroup">"HTCondorWeek"</profile>
          <profile namespace="condor" key="universe" >vanilla</profile>
          <profile namespace="pegasus" key="style" >condor</profile>
     </site>
