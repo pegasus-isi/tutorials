@@ -45,7 +45,7 @@ to make such a scenario possible.
 To get started, make a copy of the tutorial files to your home directory on workflow.iu.xsede.org, and then move into the two-xsede-sites example. Run:
 
 ```shell
-$ cp -r /opt/pegasus/tutorial ~/pegasus-tutorial  
+$ cp -r /opt/pegasus/tutorial ~/pegasus-tutorial
 $ cd ~/pegasus-tutorial/two-xsede-sites
 ```
 
@@ -112,7 +112,7 @@ The code has 3 sections:
 To generate the DAX and see what it looks like, run:
 
 ```shell
-$ ./dax-generator.py >workflow.dax  
+$ ./dax-generator.py >workflow.dax
 $ cat workflow.dax
 ```
 
@@ -150,7 +150,7 @@ Then generate a site catalog:
 $ ./generate-site-catalog.sh
 ```
 
-The resulting file, sites.xml, should look something like:  
+The resulting file, sites.xml, should look something like:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -298,7 +298,6 @@ replica catalog close to where the files are used in the DAX.
 
 ## Planning a workflow
 
-
 The planning stage is where Pegasus maps the abstract DAX to one or more execution sites. The planning step includes:
 
 1. Adding a job to create the remote working directory
@@ -327,8 +326,8 @@ directory for the workflow should be *work*. The output of the command
 should similar to:
 
 ```
-I have concretized your abstract workflow. The workflow has been entered 
-into the workflow database with a state of "planned". The next step is 
+I have concretized your abstract workflow. The workflow has been entered
+into the workflow database with a state of "planned". The next step is
 to start or execute your workflow. The invocation required is
 
 
@@ -360,7 +359,7 @@ command. This command takes the path to the submit directory as an
 argument. Run the command that was printed by the *plan_dax.sh* script:
 
 ```shell
- pegasus-run  /YOUR/WF/PATH
+$ pegasus-run  /YOUR/WF/PATH
 Submitting to condor two-xsede-sites-0.dag.condor.sub
 Submitting job(s).
 1 job(s) submitted to cluster 271.
@@ -380,13 +379,18 @@ Your workflow has been started and is running in the base directory:
 
 ## Monitoring, statistics and debugging
 
+All the command line interfaces described so far, and the ones
+following, all have man pages which describe the command and arguments.
+If you prefer a web version, they can be found at
+ [http://pegasus.isi.edu/wms/docs/latest/cli.php](http://pegasus.isi.edu/wms/docs/latest/cli.php)
+
 After the workflow has been submitted you can monitor it using the *pegasus-status* command:
 
 ```shell
 $ pegasus-status /YOUR/WF/PATH
-STAT  IN_STATE  JOB                                                                                                              
+STAT  IN_STATE  JOB
 Run      02:04  two-xsede-sites-0 ( /YOUR/WF/PATH )
-Idle     01:11   ┗━step1_ID0000001                                                                                               
+Idle     01:11   ┗━step1_ID0000001
 Summary: 2 Condor jobs total (I:1 R:1), 1 Condor-G job (P:1)
 
 UNREADY   READY     PRE  QUEUED    POST SUCCESS FAILURE %DONE
@@ -403,23 +407,26 @@ In the case that one or more jobs fails, then the output of the
 *pegasus-status* command above will have a non-zero value in the
 *FAILURE* column.
 
-You can debug the failure using the `pegasus-analyzer` command. This command will identify the jobs that failed and show their output. Because the workflow succeeded, `pegasus-analyzer` will only show some basic statistics about the number of successful jobs:
+You can debug the failure using the *pegasus-analyzer* command. This
+command will identify the jobs that failed and show their output.
+Because the workflow succeeded, *pegasus-analyzer* will only show some
+basic statistics about the number of successful jobs:
 
-<pre style="font-family:Courier New,DejaVu Sans Mono,monospace;margin-top:1.364em;margin-bottom:1.364em;font-size:12px;overflow:auto;border:1px solid gray;padding:10px;color:rgb(51,51,51);line-height:18px;background-color:rgb(238,238,238)">$ <span>**pegasus-analyzer** </span><span>**work/dags/userXX/pegasus/blackdiamond/run0001**</span>
-pegasus-analyzer: initializing...
+```shell
+$ pegasus-analyzer /YOUR/WF/PATH
 
-****************************Summary***************************
+************************************Summary*************************************
 
- Total jobs         :      7 (100.00%)
- # jobs succeeded   :      7 (100.00%)
+ Submit Directory   : /YOUR/WF/PATH
+ Total jobs         :     14 (100.00%)
+ # jobs succeeded   :     14 (100.00%)
  # jobs failed      :      0 (0.00%)
  # jobs unsubmitted :      0 (0.00%)
-</pre>
-
+```
 If the workflow had failed you would see something like this:
 
-<pre style="font-family:Courier New,DejaVu Sans Mono,monospace;margin-top:1.364em;margin-bottom:1.364em;font-size:12px;overflow:auto;border:1px solid gray;padding:10px;color:rgb(51,51,51);line-height:18px;background-color:rgb(238,238,238)">$ <span>**pegasus-analyzer submit/tutorial/pegasus/diamond/run0002**</span>
-pegasus-analyzer: initializing...
+```shell
+$ pegasus-analyzer /YOUR/WF/PATH
 
 **************************Summary*************************************
 
@@ -430,33 +437,39 @@ pegasus-analyzer: initializing...
 
 **********************Failed jobs' details****************************
 
-====================preprocess_ID0000001==============================
+====================step1_ID0000001==============================
 
  last state: POST_SCRIPT_FAILED
-       site: hpcc
-submit file: preprocess_ID0000001.sub
-output file: preprocess_ID0000001.out.003
- error file: preprocess_ID0000001.err.003
+       site: sdsc-gordon
+submit file: step1_ID0000001.sub
+output file: step1_ID0000001.out.003
+ error file: step1_ID0000001.err.003
 
 -----------------------Task #1 - Summary-----------------------------
 
-site        : hpcc
-hostname    : hpc-200.usc.edu
-executable  : /home/tutorial/bin/preprocess
+site        : sdsc-gordon
+hostname    : local-01
+executable  : /home/tutorial/bin/step1
 arguments   : -i f.a -o f.b1 -o f.b2
 exitcode    : -128
 working dir : -
 
--------------Task #1 - preprocess - ID0000001 - stderr---------------
+-------------Task #1 - step1 - ID0000001 - stderr---------------
 
-FATAL: The main job specification is invalid or missing.
-</pre>
+FATAL: Executable not found.
+```
 
-In this example I removed the `bin/preprocess` executable and re-planned/re-submitted the workflow (that is why the command has run0002). The output of`pegasus-analyzer` indicates that the preprocess task failed with an error message that indicates that the executable could not be found.
+In this example I removed the *step1* executable and
+re-planned/re-submitted the workflow. The output of *pegasus-analyzer*
+indicates that the preprocess task failed with an error message that
+indicates that the executable could not be found.
 
-The `pegasus-statistics` command can be used to gather statistics about the runtime of the workflow and its jobs. The `-s all` argument tells the program to generate all statistics it knows how to calculate:
+The *pegasus-statistics* command can be used to gather statistics about
+the runtime of the workflow and its jobs. The *-s all* argument tells
+the program to generate all statistics it knows how to calculate:
 
-<pre style="font-family:Courier New,DejaVu Sans Mono,monospace;margin-top:1.364em;margin-bottom:1.364em;font-size:12px;overflow:auto;border:1px solid gray;padding:10px;color:rgb(51,51,51);line-height:18px;background-color:rgb(238,238,238)">$ <span>**pegasus-statistics -s all** </span><span>**work/dags/userXX/pegasus/blackdiamond/run0001**</span>
+```
+$ pegasus-statistics -s all /YOUR/WF/DIR
 
 #
 # Pegasus Workflow Management System - http://pegasus.isi.edu
@@ -497,60 +510,80 @@ The `pegasus-statistics` command can be used to gather statistics about the runt
 #   from the sub workflows as well.
 ------------------------------------------------------------------------------
 Type           Succeeded Failed  Incomplete  Total     Retries   Total+Retries
-Tasks          4         0       0           4         0         4            
-Jobs           22        0       0           22        0         22           
-Sub-Workflows  0         0       0           0         0         0            
+Tasks          2         0       0           2         0         2
+Jobs           14        0       0           14        0         14
+Sub-Workflows  0         0       0           0         0         0
 ------------------------------------------------------------------------------
 
-Workflow wall time                               : 15 mins, 49 secs
+Workflow wall time                               : 18 mins, 40 secs
 Workflow cumulative job wall time                : 4 mins, 23 secs
-Cumulative job walltime as seen from submit side : 5 mins, 12 secs
+Cumulative job walltime as seen from submit side : 6 mins, 6 secs
 
-Summary                       : work/dags/userXX/pegasus/blackdiamond/run0001/statistics/summary.txt
-Workflow execution statistics : work/dags/userXX/pegasus/blackdiamond/run0001/statistics/workflow.txt
-Job instance statistics       : work/dags/userXX/pegasus/blackdiamond/run0001/statistics/jobs.txt
-Transformation statistics     : work/dags/userXX/pegasus/blackdiamond/run0001/statistics/breakdown.txt
-Time statistics               : work/dags/userXX/pegasus/blackdiamond/run0001/statistics/time.txt
+Summary                       : ./statistics/summary.txt
+Workflow execution statistics : ./statistics/workflow.txt
+Job instance statistics       : ./statistics/jobs.txt
+Transformation statistics     : ./statistics/breakdown.txt
+Time statistics               : ./statistics/time.txt
+```
 
-************************************************************************
-</pre>
+The output of *pegasus-statistics* contains many definitions to help
+users understand what all of the values reported mean. Among these are
+the total wall time of the workflow, which is the time from when the
+workflow was submitted until it finished, and the total cumulative job
+wall time, which is the sum of the runtimes of all the jobs.
 
-The output of `pegasus-statistics` contains many definitions to help users understand what all of the values reported mean. Among these are the total wall time of the workflow, which is the time from when the workflow was submitted until it finished, and the total cumulative job wall time, which is the sum of the runtimes of all the jobs.
+The *pegasus-statistics* command also writes out several reports in the
+*statistics* subdirectory of the workflow submit directory:
 
-The `pegasus-statistics` command also writes out several reports in the `statistics` subdirectory of the workflow submit directory:
+```shell
+$ ls statistics/
+breakdown.txt
+jobs.txt
+summary.txt
+time.txt
+workflow.txt
+```
 
-<pre style="font-family:Courier New,DejaVu Sans Mono,monospace;margin-top:1.364em;margin-bottom:1.364em;font-size:12px;overflow:auto;border:1px solid gray;padding:10px;color:rgb(51,51,51);line-height:18px;background-color:rgb(238,238,238)">$ <span>**ls** </span><span>**work/dags/userXX/pegasus/blackdiamond/run0001**</span>
-breakdown.csv  jobs.txt          summary.txt         time.txt
-breakdown.txt  summary-time.csv  time-per-host.csv   workflow.csv
-jobs.csv       summary.csv       time.csv            workflow.txt</pre>
+The file *breakdown.txt*, for example, has min, max, and mean runtimes for each transformation:
 
-The file `breakdown.txt`, for example, has min, max, and mean runtimes for each transformation:
+```
+$ cat statistics/breakdown.txt 
 
-<pre style="font-family:Courier New,DejaVu Sans Mono,monospace;margin-top:1.364em;margin-bottom:1.364em;font-size:12px;overflow:auto;border:1px solid gray;padding:10px;color:rgb(51,51,51);line-height:18px;background-color:rgb(238,238,238)">$ <span>**more** </span><span>**work/dags/userXX/pegasus/blackdiamond/run0001/breakdown.txt**</span>
-# 022658c8-c588-4784-abfa-d31b55259ebe (blackdiamond)
+# Transformation - name of the transformation.
+# Count          - the number of times the invocations corresponding to
+#                  the transformation was executed.
+# Succeeded      - the count of the succeeded invocations corresponding
+#                  to the transformation.
+# Failed         - the count of the failed invocations corresponding to
+#                  the transformation.
+# Min(sec)       - the minimum invocation runtime value corresponding
+#                  to the transformation.
+# Max(sec)       - the maximum invocation runtime value corresponding
+#                  to the transformation.
+# Mean(sec)      - the mean of the invocation runtime corresponding
+#                  to the transformation.
+# Total(sec)     - the cumulative of invocation runtime corresponding
+#                  to the transformation.
+
+# e720e913-6635-4d6c-a5ae-41b33c899529 (two-xsede-sites)
 Transformation           Count     Succeeded Failed  Min       Max       Mean      Total     
-dagman::post             22        22        0       5.0       6.0       5.136     113.0     
-pegasus::analyze:4.0     1         1         0       60.019    60.019    60.019    60.019    
-pegasus::dirmanager      1         1         0       0.085     0.085     0.085     0.085     
-pegasus::findrange:4.0   2         2         0       60.014    60.016    60.015    120.029   
-pegasus::preprocess:4.0  1         1         0       60.022    60.022    60.022    60.022    
-pegasus::rc-client       5         5         0       0.596     0.708     0.649     3.246     
-pegasus::transfer        9         9         0       2.063     2.465     2.244     20.196    
-system::chmod            3         3         0       0.001     0.002     0.002     0.006     
+dagman::post             14        14        0       5.0       6.0       5.071     71.0      
+pegasus::cleanup         6         6         0       5.088     21.541    8.312     49.872    
+pegasus::dirmanager      2         2         0       5.438     5.471     5.454     10.909    
+pegasus::transfer        4         4         0       3.446     37.37     20.594    82.378    
+step1                    1         1         0       60.02     60.02     60.02     60.02     
+step2                    1         1         0       60.047    60.047    60.047    60.047    
+
 
 # All (All)
 Transformation           Count     Succeeded  Failed  Min        Max        Mean      Total     
-dagman::post             22        22         0       5.0        6.0        5.136     113.0     
-pegasus::analyze:4.0     1         1          0       60.019     60.019     60.019    60.019    
-pegasus::dirmanager      1         1          0       0.085      0.085      0.085     0.085     
-pegasus::findrange:4.0   2         2          0       60.014     60.016     60.015    120.029   
-pegasus::preprocess:4.0  1         1          0       60.022     60.022     60.022    60.022    
-pegasus::rc-client       5         5          0       0.596      0.708      0.649     3.246     
-pegasus::transfer        9         9          0       2.063      2.465      2.244     20.196    
-system::chmod            3         3          0       0.001      0.002      0.002     0.006  </pre>
-
-In this case, because the example transformation sleeps for 30 seconds, the min, mean, and max runtimes for each of the analyze, findrange, and preprocess transformations are all close to 30.
-
+dagman::post             14        14         0       5.0        6.0        5.071     71.0      
+pegasus::cleanup         6         6          0       5.088      21.541     8.312     49.872    
+pegasus::dirmanager      2         2          0       5.438      5.471      5.454     10.909    
+pegasus::transfer        4         4          0       3.446      37.37      20.594    82.378    
+step1                    1         1          0       60.02      60.02      60.02     60.02     
+step2                    1         1          0       60.047     60.047     60.047    60.047    
+```
 
 ## <a name="TOC-Example-2:-Running-MPI-jobs"></a>Example 2: Running MPI jobs
 
@@ -596,7 +629,7 @@ In this example, we take the same blackdiamond workflow that we ran previously a
                 arch "x86_64"
                 os "linux"
                 type "INSTALLED"
-                profile pegasus "clusters.size" "2" 
+                profile pegasus "clusters.size" "2"
 
                 #the various parameters to specify the size of the MPI job
                 #in which the workflow runs
@@ -647,59 +680,59 @@ In this example, we take the same blackdiamond workflow that we ran previously a
 <pre style="font-family:Courier New,DejaVu Sans Mono,monospace;margin-top:1.364em;margin-bottom:1.364em;font-size:12px;overflow:auto;border:1px solid gray;padding:10px;color:rgb(51,51,51);line-height:18px;background-color:rgb(238,238,238)">[userXX@hpc-pegasus mpi-hello-world]$ <span>**./<span>**plan_cluster_dax.sh**</span>**</span>
 
 [vahi@hpc-pegasus blackdiamond-hpcc-sharedfs-example]$ ./plan_cluster_dax.sh
-2014.12.18 15:29:25.877 PST: [WARNING]  --nocleanup option is deprecated. Use --cleanup none   
-2014.12.18 15:29:25.885 PST: [INFO]  Planner invoked with following arguments --conf pegasus.conf --sites hpcc --output-site local --dir work/dags --dax diamond.dax -v --force --nocleanup --cluster label --submit  
-2014.12.18 15:29:26.304 PST: [INFO] event.pegasus.parse.dax dax.id /auto/rcf-40/vahi/tutorial/blackdiamond-hpcc-sharedfs-example/diamond.dax  - STARTED 
-2014.12.18 15:29:26.306 PST: [INFO] event.pegasus.parse.dax dax.id /auto/rcf-40/vahi/tutorial/blackdiamond-hpcc-sharedfs-example/diamond.dax  (0.002 seconds) - FINISHED 
-2014.12.18 15:29:26.309 PST: [INFO] event.pegasus.parse.dax dax.id /auto/rcf-40/vahi/tutorial/blackdiamond-hpcc-sharedfs-example/diamond.dax  - STARTED 
-2014.12.18 15:29:26.349 PST: [INFO] event.pegasus.add.data-dependencies dax.id blackdiamond_0  - STARTED 
-2014.12.18 15:29:26.350 PST: [INFO] event.pegasus.add.data-dependencies dax.id blackdiamond_0  (0.001 seconds) - FINISHED 
-2014.12.18 15:29:26.350 PST: [INFO] event.pegasus.parse.dax dax.id /auto/rcf-40/vahi/tutorial/blackdiamond-hpcc-sharedfs-example/diamond.dax  (0.041 seconds) - FINISHED 
-2014.12.18 15:29:26.386 PST: [INFO] event.pegasus.stampede.events dax.id blackdiamond_0  - STARTED 
-2014.12.18 15:29:26.440 PST: [INFO] event.pegasus.stampede.events dax.id blackdiamond_0  (0.054 seconds) - FINISHED 
-2014.12.18 15:29:26.442 PST: [INFO] event.pegasus.refinement dax.id blackdiamond_0  - STARTED 
-2014.12.18 15:29:26.479 PST: [INFO] event.pegasus.siteselection dax.id blackdiamond_0  - STARTED 
-2014.12.18 15:29:26.492 PST: [INFO] event.pegasus.siteselection dax.id blackdiamond_0  (0.013 seconds) - FINISHED 
-2014.12.18 15:29:26.509 PST: [INFO] event.pegasus.cluster dax.id blackdiamond_0  - STARTED 
-2014.12.18 15:29:26.542 PST: [INFO]  Starting Graph Traversal 
-2014.12.18 15:29:26.544 PST: [INFO]  Starting Graph Traversal - DONE 
-2014.12.18 15:29:26.549 PST: [INFO]  Determining relations between partitions 
-2014.12.18 15:29:26.549 PST: [INFO]  Determining relations between partitions - DONE 
-2014.12.18 15:29:26.549 PST: [INFO] event.pegasus.cluster dax.id blackdiamond_0  (0.04 seconds) - FINISHED 
-2014.12.18 15:29:26.554 PST: [INFO]  Grafting transfer nodes in the workflow 
-2014.12.18 15:29:26.554 PST: [INFO] event.pegasus.generate.transfer-nodes dax.id blackdiamond_0  - STARTED 
-2014.12.18 15:29:26.651 PST: [INFO] event.pegasus.generate.transfer-nodes dax.id blackdiamond_0  (0.097 seconds) - FINISHED 
-2014.12.18 15:29:26.651 PST: [INFO] event.pegasus.generate.workdir-nodes dax.id blackdiamond_0  - STARTED 
-2014.12.18 15:29:26.660 PST: [INFO] event.pegasus.generate.workdir-nodes dax.id blackdiamond_0  (0.009 seconds) - FINISHED 
-2014.12.18 15:29:26.660 PST: [INFO] event.pegasus.refinement dax.id blackdiamond_0  (0.218 seconds) - FINISHED 
-2014.12.18 15:29:26.706 PST: [INFO]  Generating codes for the executable workflow 
-2014.12.18 15:29:26.707 PST: [INFO] event.pegasus.code.generation dax.id blackdiamond_0  - STARTED 
-2014.12.18 15:29:26.920 PST: [INFO] event.pegasus.code.generation dax.id blackdiamond_0  (0.213 seconds) - FINISHED 
-2014.12.18 15:29:27.403 PST:   Submitting job(s). 
-2014.12.18 15:29:27.409 PST:   1 job(s) submitted to cluster 2290\. 
-2014.12.18 15:29:27.414 PST:    
-2014.12.18 15:29:27.420 PST:   ----------------------------------------------------------------------- 
-2014.12.18 15:29:27.425 PST:   File for submitting this DAG to Condor           : blackdiamond-0.dag.condor.sub 
-2014.12.18 15:29:27.430 PST:   Log of DAGMan debugging messages                 : blackdiamond-0.dag.dagman.out 
-2014.12.18 15:29:27.436 PST:   Log of Condor library output                     : blackdiamond-0.dag.lib.out 
-2014.12.18 15:29:27.441 PST:   Log of Condor library error messages             : blackdiamond-0.dag.lib.err 
-2014.12.18 15:29:27.446 PST:   Log of the life of condor_dagman itself          : blackdiamond-0.dag.dagman.log 
-2014.12.18 15:29:27.452 PST:    
-2014.12.18 15:29:27.457 PST:   ----------------------------------------------------------------------- 
-2014.12.18 15:29:27.462 PST:    
-2014.12.18 15:29:27.468 PST:   Your workflow has been started and is running in the base directory: 
-2014.12.18 15:29:27.473 PST:    
-2014.12.18 15:29:27.478 PST:     /auto/rcf-40/vahi/tutorial/blackdiamond-hpcc-sharedfs-example/work/dags/vahi/pegasus/blackdiamond/run0002 
-2014.12.18 15:29:27.483 PST:    
-2014.12.18 15:29:27.489 PST:   *** To monitor the workflow you can run *** 
-2014.12.18 15:29:27.494 PST:    
-2014.12.18 15:29:27.499 PST:     pegasus-status -l /auto/rcf-40/vahi/tutorial/blackdiamond-hpcc-sharedfs-example/work/dags/vahi/pegasus/blackdiamond/run0002 
-2014.12.18 15:29:27.505 PST:    
-2014.12.18 15:29:27.510 PST:   *** To remove your workflow run *** 
-2014.12.18 15:29:27.515 PST:    
-2014.12.18 15:29:27.521 PST:     pegasus-remove /auto/rcf-40/vahi/tutorial/blackdiamond-hpcc-sharedfs-example/work/dags/vahi/pegasus/blackdiamond/run0002 
-2014.12.18 15:29:27.526 PST:    
-2014.12.18 15:29:28.334 PST:   Time taken to execute is 1.708 seconds 
+2014.12.18 15:29:25.877 PST: [WARNING]  --nocleanup option is deprecated. Use --cleanup none
+2014.12.18 15:29:25.885 PST: [INFO]  Planner invoked with following arguments --conf pegasus.conf --sites hpcc --output-site local --dir work/dags --dax diamond.dax -v --force --nocleanup --cluster label --submit
+2014.12.18 15:29:26.304 PST: [INFO] event.pegasus.parse.dax dax.id /auto/rcf-40/vahi/tutorial/blackdiamond-hpcc-sharedfs-example/diamond.dax  - STARTED
+2014.12.18 15:29:26.306 PST: [INFO] event.pegasus.parse.dax dax.id /auto/rcf-40/vahi/tutorial/blackdiamond-hpcc-sharedfs-example/diamond.dax  (0.002 seconds) - FINISHED
+2014.12.18 15:29:26.309 PST: [INFO] event.pegasus.parse.dax dax.id /auto/rcf-40/vahi/tutorial/blackdiamond-hpcc-sharedfs-example/diamond.dax  - STARTED
+2014.12.18 15:29:26.349 PST: [INFO] event.pegasus.add.data-dependencies dax.id blackdiamond_0  - STARTED
+2014.12.18 15:29:26.350 PST: [INFO] event.pegasus.add.data-dependencies dax.id blackdiamond_0  (0.001 seconds) - FINISHED
+2014.12.18 15:29:26.350 PST: [INFO] event.pegasus.parse.dax dax.id /auto/rcf-40/vahi/tutorial/blackdiamond-hpcc-sharedfs-example/diamond.dax  (0.041 seconds) - FINISHED
+2014.12.18 15:29:26.386 PST: [INFO] event.pegasus.stampede.events dax.id blackdiamond_0  - STARTED
+2014.12.18 15:29:26.440 PST: [INFO] event.pegasus.stampede.events dax.id blackdiamond_0  (0.054 seconds) - FINISHED
+2014.12.18 15:29:26.442 PST: [INFO] event.pegasus.refinement dax.id blackdiamond_0  - STARTED
+2014.12.18 15:29:26.479 PST: [INFO] event.pegasus.siteselection dax.id blackdiamond_0  - STARTED
+2014.12.18 15:29:26.492 PST: [INFO] event.pegasus.siteselection dax.id blackdiamond_0  (0.013 seconds) - FINISHED
+2014.12.18 15:29:26.509 PST: [INFO] event.pegasus.cluster dax.id blackdiamond_0  - STARTED
+2014.12.18 15:29:26.542 PST: [INFO]  Starting Graph Traversal
+2014.12.18 15:29:26.544 PST: [INFO]  Starting Graph Traversal - DONE
+2014.12.18 15:29:26.549 PST: [INFO]  Determining relations between partitions
+2014.12.18 15:29:26.549 PST: [INFO]  Determining relations between partitions - DONE
+2014.12.18 15:29:26.549 PST: [INFO] event.pegasus.cluster dax.id blackdiamond_0  (0.04 seconds) - FINISHED
+2014.12.18 15:29:26.554 PST: [INFO]  Grafting transfer nodes in the workflow
+2014.12.18 15:29:26.554 PST: [INFO] event.pegasus.generate.transfer-nodes dax.id blackdiamond_0  - STARTED
+2014.12.18 15:29:26.651 PST: [INFO] event.pegasus.generate.transfer-nodes dax.id blackdiamond_0  (0.097 seconds) - FINISHED
+2014.12.18 15:29:26.651 PST: [INFO] event.pegasus.generate.workdir-nodes dax.id blackdiamond_0  - STARTED
+2014.12.18 15:29:26.660 PST: [INFO] event.pegasus.generate.workdir-nodes dax.id blackdiamond_0  (0.009 seconds) - FINISHED
+2014.12.18 15:29:26.660 PST: [INFO] event.pegasus.refinement dax.id blackdiamond_0  (0.218 seconds) - FINISHED
+2014.12.18 15:29:26.706 PST: [INFO]  Generating codes for the executable workflow
+2014.12.18 15:29:26.707 PST: [INFO] event.pegasus.code.generation dax.id blackdiamond_0  - STARTED
+2014.12.18 15:29:26.920 PST: [INFO] event.pegasus.code.generation dax.id blackdiamond_0  (0.213 seconds) - FINISHED
+2014.12.18 15:29:27.403 PST:   Submitting job(s).
+2014.12.18 15:29:27.409 PST:   1 job(s) submitted to cluster 2290\.
+2014.12.18 15:29:27.414 PST:
+2014.12.18 15:29:27.420 PST:   -----------------------------------------------------------------------
+2014.12.18 15:29:27.425 PST:   File for submitting this DAG to Condor           : blackdiamond-0.dag.condor.sub
+2014.12.18 15:29:27.430 PST:   Log of DAGMan debugging messages                 : blackdiamond-0.dag.dagman.out
+2014.12.18 15:29:27.436 PST:   Log of Condor library output                     : blackdiamond-0.dag.lib.out
+2014.12.18 15:29:27.441 PST:   Log of Condor library error messages             : blackdiamond-0.dag.lib.err
+2014.12.18 15:29:27.446 PST:   Log of the life of condor_dagman itself          : blackdiamond-0.dag.dagman.log
+2014.12.18 15:29:27.452 PST:
+2014.12.18 15:29:27.457 PST:   -----------------------------------------------------------------------
+2014.12.18 15:29:27.462 PST:
+2014.12.18 15:29:27.468 PST:   Your workflow has been started and is running in the base directory:
+2014.12.18 15:29:27.473 PST:
+2014.12.18 15:29:27.478 PST:     /auto/rcf-40/vahi/tutorial/blackdiamond-hpcc-sharedfs-example/work/dags/vahi/pegasus/blackdiamond/run0002
+2014.12.18 15:29:27.483 PST:
+2014.12.18 15:29:27.489 PST:   *** To monitor the workflow you can run ***
+2014.12.18 15:29:27.494 PST:
+2014.12.18 15:29:27.499 PST:     pegasus-status -l /auto/rcf-40/vahi/tutorial/blackdiamond-hpcc-sharedfs-example/work/dags/vahi/pegasus/blackdiamond/run0002
+2014.12.18 15:29:27.505 PST:
+2014.12.18 15:29:27.510 PST:   *** To remove your workflow run ***
+2014.12.18 15:29:27.515 PST:
+2014.12.18 15:29:27.521 PST:     pegasus-remove /auto/rcf-40/vahi/tutorial/blackdiamond-hpcc-sharedfs-example/work/dags/vahi/pegasus/blackdiamond/run0002
+2014.12.18 15:29:27.526 PST:
+2014.12.18 15:29:28.334 PST:   Time taken to execute is 1.708 seconds
 2014.12.18 15:29:28.334 PST: [INFO] event.pegasus.planner planner.version 4.4.1cvs  (2.463 seconds) - FINISHED </pre>
 
 This is what the diamond workflow looks like after Pegasus has finished planning the DAX:
