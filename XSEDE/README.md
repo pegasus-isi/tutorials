@@ -51,7 +51,6 @@ $ cd ~/pegasus-tutorial/two-xsede-sites
 
 ## Defining a workflow
 
-
 Pegasus reads workflow descriptions from DAX files. The term “DAX”
 is short for “Directed Acyclic Graph in XML”. DAX is an XML file
 format that has syntax for expressing jobs, arguments, files, and
@@ -130,8 +129,6 @@ the workflow. These are the *Site* catalog, *Transformation* catalog, and
 *Replica* catalog.
 
 ### Site Catalog
-
-<div style="margin:0px;padding:0px">
 
 The site catalog describes the sites where the workflow jobs are to
 be executed. Typically the sites in the site catalog describe remote
@@ -311,8 +308,6 @@ The planning stage is where Pegasus maps the abstract DAX to one or more executi
 5. Adding registration jobs to register the data in a replica catalog
 6. Task clustering to combine several short-running jobs into a single, longer-running job. This is done to make short-running jobs more efficient.
 7. Adding wrappers to the jobs to collect provenance information so that statistics and plots can be created when the workflow is finished
-
-</div>
 
 The *pegasus-plan* command is used to plan a workflow. In the *two-xsede-sites* directory, run:
 
@@ -556,7 +551,6 @@ system::chmod            3         3          0       0.001      0.002      0.00
 
 In this case, because the example transformation sleeps for 30 seconds, the min, mean, and max runtimes for each of the analyze, findrange, and preprocess transformations are all close to 30.
 
-</div>
 
 ## <a name="TOC-Example-2:-Running-MPI-jobs"></a>Example 2: Running MPI jobs
 
