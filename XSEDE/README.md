@@ -24,7 +24,7 @@ number of small, serial tasks used for pre- and post-processing.
 As a first example we will run a very simple workflow: two tasks, named
 *step1* and *step2*, and *step2* having a dependency on *step1*:
 
-![DAX](/figures/dax.dot.png)
+![DAX](https://raw.githubusercontent.com/pegasus-isi/tutorials/master/XSEDE/figures/dag.dot.png)
 
 
 ```python
