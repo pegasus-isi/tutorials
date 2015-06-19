@@ -11,7 +11,7 @@ tr step1 {
 
 tr step2 {
     site tacc-stampede {
-        pfn "/home1/00384/rynge/software/pegasus/4.4.1/bin/pegasus-keg"
+        pfn "/home1/00384/rynge/software/pegasus/4.5.0/bin/pegasus-keg"
         arch "x86_64"
         os "linux"
         type "INSTALLED"
