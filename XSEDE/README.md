@@ -386,7 +386,7 @@ If you prefer a web version, they can be found at
 
 After the workflow has been submitted you can monitor it using the *pegasus-status* command:
 
-```shell
+```
 $ pegasus-status /YOUR/WF/PATH
 STAT  IN_STATE  JOB
 Run      02:04  two-xsede-sites-0 ( /YOUR/WF/PATH )
@@ -412,7 +412,7 @@ command will identify the jobs that failed and show their output.
 Because the workflow succeeded, *pegasus-analyzer* will only show some
 basic statistics about the number of successful jobs:
 
-```shell
+```
 $ pegasus-analyzer /YOUR/WF/PATH
 
 ************************************Summary*************************************
@@ -535,7 +535,7 @@ wall time, which is the sum of the runtimes of all the jobs.
 The *pegasus-statistics* command also writes out several reports in the
 *statistics* subdirectory of the workflow submit directory:
 
-```shell
+```
 $ ls statistics/
 breakdown.txt
 jobs.txt
