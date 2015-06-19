@@ -1,0 +1,15 @@
+
+tr mpi-hello-world {
+    site sdsc-gordon {
+        pfn "/home/ux454281/software/mpi-hello-world/mpi-hello-world"
+        arch "x86_64"
+        os "linux"
+        type "INSTALLED"
+        profile globus "jobtype" "mpi"
+        profile globus "maxwalltime" "10"
+        profile globus "hostcount" "1"
+        profile globus "count" "16"
+    }
+}
+
+
