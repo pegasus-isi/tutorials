@@ -711,8 +711,8 @@ $ pegasus-plan --conf pegasus.conf \
 		--submit 
 ```
 
-This takes the mpi-hw.dax and plans it against the sdsc-gordon and
-sdsc-gordon sites. --output-site means that we want the final outputs
+This takes the mpi-hw.dax and plans it against the sdsc-gordon site.
+ --output-site means that we want the final outputs
 of the workflow to come back to the submit host and the work directory
 for the workflow should be work. The output of the command should
 similar to: 
