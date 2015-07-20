@@ -13,6 +13,14 @@ ALLOCATION="TG-STA110014S"
 #SDSC_USERNAME="ux454281"
 SDSC_USERNAME=`gsissh gordon.sdsc.xsede.org whoami`
 
+# The base directory where workflow jobs will execute on Stampede. 
+# Unfortunately, we can not determine this via the grid interfaces, so the
+# easiest way is to run:
+#      gsissh -p 2222 stampede.tacc.xsede.org '(cds;pwd)'
+#TACC_SCRATCH_DIR="/scratch/00384/rynge"
+TACC_SCRATCH_DIR=`gsissh -p 2222 stampede.tacc.xsede.org '(cds;pwd)'`
+
+
 #############################################################################
 
 TOP_DIR=`pwd`
@@ -43,6 +51,18 @@ cat >sites.xml <<EOF
 
         <profile namespace="globus" key="project">$ALLOCATION</profile>
         <profile namespace="env" key="PEGASUS_HOME">/home/ux454281/software/pegasus/pegasus-4.5.0</profile>
+    </site>
+
+     <site  handle="tacc-stampede" arch="x86_64" os="LINUX">
+        <grid  type="gt5" contact="login5.stampede.tacc.utexas.edu:2119/jobmanager-fork" scheduler="Fork" jobtype="auxillary"/>
+        <grid  type="gt5" contact="login5.stampede.tacc.utexas.edu:2119/jobmanager-slurm" scheduler="unknown" jobtype="compute"/>
+
+        <directory type="shared-scratch" path="$TACC_SCRATCH_DIR/workflow-runs">
+            <file-server operation="all" url="gsiftp://gridftp.stampede.tacc.xsede.org:2811$TACC_SCRATCH_DIR/workflow-runs"/>
+        </directory>
+
+        <profile namespace="globus" key="project">$ALLOCATION</profile>
+        <profile namespace="env" key="PEGASUS_HOME">/home1/00384/rynge/software/pegasus/4.4.1</profile>
     </site>
 
 </sitecatalog>

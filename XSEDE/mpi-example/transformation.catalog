@@ -13,6 +13,18 @@ tr mpi-hello-world {
         profile globus "hostcount" "1"
         profile globus "count" "16"
     }
+
+    site tacc-stampede {
+        pfn "//home1/00384/rynge/software/mpi-hello-world/mpi-hello-world"
+        arch "x86_64"
+        os "linux"
+        type "INSTALLED"
+        profile globus "jobtype" "mpi"
+        profile globus "maxwalltime" "10"
+        profile globus "hostcount" "1"
+        profile globus "count" "16"
+    }
+    
 }
 
 
