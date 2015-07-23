@@ -6,7 +6,8 @@ set -e
 #
 
 # XSEDE alloaction to charge the jobs to
-ALLOCATION="TG-STA110014S"
+#ALLOCATION="TG-STA110014S"
+ALLOCATION="TG-TRA100001S"
 
 # Your username at SDSC. If you do not know what it is, run:
 #      gsissh gordon.sdsc.xsede.org whoami
