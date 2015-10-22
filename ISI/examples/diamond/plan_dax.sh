@@ -17,4 +17,4 @@ DAXFILE=$1
 # --nocleanup tells Pegasus not to generate cleanup jobs.
 pegasus-plan --conf pegasus.conf -d $DAXFILE --dir submit \
              --input-dir ./input --output-dir ./outputs \
-             --force --sites PegasusVM -o local --cleanup none --submit
+             --force --sites condorpool -o local --cleanup none --submit
