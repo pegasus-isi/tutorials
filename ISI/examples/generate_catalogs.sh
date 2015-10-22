@@ -44,12 +44,13 @@ DIAMOND_DIR=${TOPDIR}/examples/diamond
 echo
 echo "Creating the transformation catalog..."
 
-cat >${DIAMOND_DIR}/tc.txt <<EOF
+cat >tc.txt <<EOF
 # This is the transformation catalog. It lists information about each of the
 # executables that are used by the workflow.
 
 EOF
 
+#for diamond example
 transformations=( preprocess findrange analyze)
 for TRANSFORMATION in "${transformations[@]}"; do 
     cat >>tc.txt <<EOF
@@ -65,6 +66,54 @@ tr $TRANSFORMATION {
 EOF
 done
 
+#all other
+cat >>tc.txt <<EOF
+tr ls { 
+  site local {
+    pfn "/bin/ls"
+    arch "x86_64"
+    os "linux"
+    type "INSTALLED"
+  }
+}
+
+tr cat { 
+  site local {
+    pfn "/bin/cat"
+    arch "x86_64"
+    os "linux"
+    type "INSTALLED"
+  }
+}
+
+tr curl { 
+  site local {
+    pfn "/usr/bin/curl"
+    arch "x86_64"
+    os "linux"
+    type "INSTALLED"
+  }
+}
+
+tr wc { 
+  site local {
+    pfn "/usr/bin/wc"
+    arch "x86_64"
+    os "linux"
+    type "INSTALLED"
+  }
+}
+
+tr split { 
+  site local {
+    pfn "/usr/bin/split"
+    arch "x86_64"
+    os "linux"
+    type "INSTALLED"
+  }
+}
+
+EOF
 
 
 # create the replica catalog
@@ -84,3 +133,34 @@ cat >rc.dat<<EOF
 
 f.a    file://${DIAMOND_DIR}/input/f.a    site="local"
 EOF
+
+
+# generate the pegasusrc file
+
+cat >${HOME}/.pegasusrc<<EOF
+# This tells Pegasus where to find the Site Catalog
+pegasus.catalog.site.file=sites.xml
+
+# This tells Pegasus where to find the Replica Catalog
+pegasus.catalog.replica=File
+pegasus.catalog.replica.file=rc.dat
+
+# This tells Pegasus where to find the Transformation Catalog
+pegasus.catalog.transformation=Text
+pegasus.catalog.transformation.file=tc.txt
+
+# This is the name of the application for analytics
+pegasus.metrics.app=pegasus-tutorial
+
+# data configuration for pegasus
+pegasus.data.configuration=condorio
+
+EOF
+
+examples=( diamond   merge  pipeline  process  split)
+for EXAMPLE in "${examples[@]}"; do
+    cp ${HOME}/.pegasusrc ${EXAMPLE}/
+    cp sites.xml ${EXAMPLE}/
+    cp tc.txt ${EXAMPLE}/
+done
+
