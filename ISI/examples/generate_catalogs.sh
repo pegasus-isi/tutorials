@@ -66,10 +66,11 @@ tr $TRANSFORMATION {
 EOF
 done
 
-#all other
+#all other executables
+SITE=condorpool
 cat >>tc.txt <<EOF
 tr ls { 
-  site local {
+  site ${SITE} {
     pfn "/bin/ls"
     arch "x86_64"
     os "linux"
@@ -78,7 +79,7 @@ tr ls {
 }
 
 tr cat { 
-  site local {
+  site ${SITE} {
     pfn "/bin/cat"
     arch "x86_64"
     os "linux"
@@ -87,7 +88,7 @@ tr cat {
 }
 
 tr curl { 
-  site local {
+  site ${SITE} {  
     pfn "/usr/bin/curl"
     arch "x86_64"
     os "linux"
@@ -96,7 +97,7 @@ tr curl {
 }
 
 tr wc { 
-  site local {
+  site ${SITE} { 
     pfn "/usr/bin/wc"
     arch "x86_64"
     os "linux"
@@ -105,7 +106,7 @@ tr wc {
 }
 
 tr split { 
-  site local {
+   site ${SITE} { 
     pfn "/usr/bin/split"
     arch "x86_64"
     os "linux"
