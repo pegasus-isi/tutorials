@@ -16,19 +16,23 @@ for count in `seq -w  1 30`; do
     su - $user <<EOF
 
 	cd ~${user}/
+        pwd
 
 	set +e
 	condor_rm $user
 	set -e
 
-	rm -rf ./examples
+        # remove the output and scratch dir
+        rm -rf ./run ./outputs ./examples
+
 	cp -r /local-scratch/vahi/software/git/tutorials/ISI/examples .
 
-	cd examples
+	cd ./examples
 	./generate_catalogs.sh
         rm ./*~ ./tutorial_setup.sh
-        rm -rf ./run ./outputs
 	cd ..
+
+        
 	
 	#setup workflow db for dashboard
 	rm -f ~${user}/.pegasus/workflow.db
