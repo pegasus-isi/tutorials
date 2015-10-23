@@ -348,7 +348,7 @@ $ ls
       <mediaobject>
         <imageobject>
           <imagedata align="center" contentwidth="100%"
-                     fileref="images/tutorial-split-dag.png"/>
+                     fileref="images/tutorial-split-dag.jpg"/>
         </imageobject>
       </mediaobject>
     </figure>
@@ -381,7 +381,7 @@ $ ls
 
     <para>When the webpage loads up, it will ask you for a username and a
     password. Log in with the same user name and password you used to log onto
-    workflow.isi.edu </para>
+    workflow.isi.edu</para>
 
     <para>The Dashboard's home page lists all workflows, which have been run
     by the current-user. The home page shows the status of each of the
