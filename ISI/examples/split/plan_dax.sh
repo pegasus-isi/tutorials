@@ -12,5 +12,5 @@ DAXFILE=$1
 # starting with your username. The execution site is "condorpool" 
 # --input-dir tells Pegasus to pick up inputs for the workflow from that directory
 # --output-dir tells Pegasus to place the outputs in that directory
-pegasus-plan  --dax $DAXFILE  --output-dir ./outputs \
+pegasus-plan  --dax $DAXFILE --input-dir ./input  --output-dir ./outputs \
              --sites condorpool --submit
