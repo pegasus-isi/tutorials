@@ -1406,14 +1406,27 @@ pegasus.catalog.transformation.file=tc.txt</programlisting>
   <section>
     <title id="tutorial_conclusion">Conclusion</title>
 
-    <para>Congratulations! You have completed the tutorial.</para>
+    <para>This brings you to the end of the Pegasus tutorial at ISI submit
+    host, with your jobs running on the Open Science Grid. The tutorial should
+    have given you an overview of how to compose a simple workflow using
+    Pegasus and running it in a native condor pool environment. The tutorial
+    examples, should provide a good starting point for you to port your
+    application to a Pegasus workflow.</para>
 
-    <para>If you used Amazon EC2 for this tutorial make sure to terminate your
-    VM. Refer to the <link linkend="tutorial_vm">appendix</link> for more
-    information about how to do this.</para>
+    <para>If you need help in porting your application to Pegasus contact us
+    on the following support channels </para>
 
-    <para>Refer to the other chapters in this guide for more information about
-    creating, planning, and executing workflows with Pegasus.</para>
+    <para><emphasis role="bold">public mailman list</emphasis> :
+    pegasus-users@isi.edu </para>
+
+    <para><emphasis role="bold">private support list</emphasis>:
+    pegasus-support@isi.edu </para>
+
+    <para><emphasis role="bold">Support chatroom</emphasis> on<ulink
+    url="https://pegasus.isi.edu/support">HipChat</ulink>.</para>
+
+    <para>Detailed Pegasus Documentation can be found <ulink
+    url="http://pegasus.isi.edu/wms/docs/latest/">here</ulink>..</para>
 
     <para>Please contact the Pegasus Users Mailing list at
     <email>pegasus-users@isi.edu</email> if you need help.</para>
