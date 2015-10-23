@@ -347,7 +347,7 @@ $ ls
 
       <mediaobject>
         <imageobject>
-          <imagedata contentwidth="70%"
+          <imagedata align="center" contentwidth="100%"
                      fileref="images/tutorial-split-dag.png"/>
         </imageobject>
       </mediaobject>
