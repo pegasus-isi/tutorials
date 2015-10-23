@@ -8,9 +8,8 @@ fi
 DAXFILE=$1
 
 # This command tells Pegasus to plan the workflow contained in 
-# "diamond.dax" using the config file "pegasus.conf". The planned
-# workflow will be stored in a relative directory named "submit".
-# The execution site is "condorpool" 
+# dax file passed . The planned  workflow will be stored in a relative directory
+# starting with your username. The execution site is "condorpool" 
 # --input-dir tells Pegasus to pick up inputs for the workflow from that directory
 # --output-dir tells Pegasus to place the outputs in that directory
 pegasus-plan  --dax $DAXFILE --input-dir ./input --output-dir ./outputs \
