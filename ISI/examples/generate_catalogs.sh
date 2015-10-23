@@ -165,3 +165,4 @@ for EXAMPLE in "${examples[@]}"; do
     cp tc.txt ${EXAMPLE}/
 done
 
+rm sites.xml tc.txt
