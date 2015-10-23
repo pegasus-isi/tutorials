@@ -242,7 +242,7 @@ Enter pegtrainXX<emphasis role="bold">@</emphasis>workflow.isi.edu password</pro
     rest of the tutorial we will be using the split example. Other examples
     are also structured similarly.</para>
 
-    <programlisting>$ <emphasis role="bold">cd /nfs/ccg3/ccg/home/pegtrainXX/examples</emphasis>
+    <programlisting>$ <emphasis role="bold">cd ~/examples</emphasis>
 $ ls 
 ﻿diamond  merge  pipeline  process  split
 </programlisting>
@@ -375,15 +375,19 @@ $ ls
     <para>By default, the dashboard server can only monitor workflows run by
     the current user i.e. the user who is running the pegasus-service.</para>
 
-    <para>To access the workflow dashboard, in the VirtualBox VM you can
-    launch Firefox by clicking the Firefox icon in the top menu of the
-    desktop. The home page for the dashboard is accessible at
-    https://localhost:5000 . If you are using EC2 you will need to replace
-    'localhost' with the IP address of your EC2 instance.</para>
+    <para>To access the dashboard open in the webbrowser, the following
+    link</para>
+
+    <para><emphasis role="bold"> https://workflow.isi.edu:5000/u/pegtrainXX/
+    </emphasis></para>
+
+    <note>
+      <para>Replace pegtrainXX with your username</para>
+    </note>
 
     <para>When the webpage loads up, it will ask you for a username and a
-    password. Log in as user "<emphasis role="bold">tutorial</emphasis>" with
-    password "<emphasis role="bold">pegasus</emphasis>".</para>
+    password. Log in with the same user name and password you used to log onto
+    workflow.isi.edu </para>
 
     <para>The Dashboard's home page lists all workflows, which have been run
     by the current-user. The home page shows the status of each of the
@@ -1056,7 +1060,8 @@ Summary: 1 DAG total (Success:1)
 
       <mediaobject>
         <imageobject>
-          <imagedata fileref="images/tutorial-split-wf.jpg"/>
+          <imagedata align="center" contentwidth="70%"
+                     fileref="images/tutorial-split-wf.jpg"/>
         </imageobject>
       </mediaobject>
     </figure>
