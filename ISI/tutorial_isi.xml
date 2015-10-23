@@ -107,51 +107,22 @@ you get this</programlisting>
   <section id="tutorial_started">
     <title>Getting Started</title>
 
-    <para>Easiest way to start the tutorial is to connect to a hosted service
-    using SSH as shown below.</para>
+    <para>Easiest way to start the tutorial is to login to workflow.isi.edu
+    with the training account and password assigned to you.</para>
 
-    <programlisting>$ <emphasis role="bold">ssh tutorial@pegasus-tutorial.isi.edu</emphasis>
-tutorial@pegasus-tutorial.isi.edu's password: <emphasis role="bold">pegasus123</emphasis></programlisting>
+    <programlisting>$ <emphasis role="bold">ssh pegtrainXX@workflow.isi.edu</emphasis>
+Enter <emphasis role="bold">pegtrainXX</emphasis>@<emphasis role="bold">workflow.isi.edu password</emphasis></programlisting>
 
-    <para><note>
-        <para>The workflow dashboard is not run the hosted tutorial service.
-        To try out the workflow dashboard use the virtual machines provided
-        below.</para>
-      </note></para>
-
-    <para><emphasis role="bold">OR</emphasis></para>
-
-    <para>We have provided several virtual machines that contain all of the
-    software required for this tutorial. Virtual machine images are provided
-    for <link linkend="vm_virtualbox">VirtualBox</link> and <link
-    linkend="vm_amazon">Amazon EC2</link>. Information about deploying the
-    tutorial VM on these platforms is in <link linkend="tutorial_vm">the
-    appendix</link>. If you want to use the tutorial VM, please go to the
-    appendix for the platform you are using and follow the instructions for
-    starting the VM found there before continuing with this tutorial.</para>
-
-    <para><emphasis role="bold">Advanced Users:</emphasis> If you have
-    installed Pegasus and Condor on your own machine, then you don't need to
-    use the VM for the tutorial. If you installed Pegasus from one of the
-    native packages (RPM, DEB, DMG), then you can find the tutorial files in
-    <filename> /usr/share/doc/pegasus/tutorial</filename>. If you installed a
-    binary tarball, or compiled Pegasus from source, then you can find the
-    tutorial files in
-    <filename>PEGASUS_HOME/share/doc/pegasus/tutorial</filename>. These files
-    will need to be modified in several places to fix the paths to the users
-    home directory (which is assumed to be <filename>/home/tutorial
-    </filename>). It is assumed that Pegasus was installed from a native
-    package, so the path to the Pegasus install is assumed to be
-    <filename>/usr</filename>. Condor should be installed in the "Personal
-    Condor" configuration. You will also need a passwordless ssh key to enable
-    SCP file transfers to/from localhost. Getting everything set up correctly
-    can be tricky, so we recommend getting started with one of the VMs if you
-    are not familiar with Condor and UNIX.</para>
+    <note>
+      <para>For the purpose of this tutorial replace any instance of
+      pegtrainXX with the user name assigned to you.</para>
+    </note>
 
     <para>The remainder of this tutorial will assume that you have a terminal
-    open to the directory where the tutorial files are installed. If you are
-    using one of the tutorial VMs these files are located in the tutorial
-    user's home directory <filename>/home/tutorial/examples</filename>.</para>
+    open to the directory where the tutorial files are installed on
+    workflow.isi.edu. These files are located in the training accounts home
+    directory <filename>/ccg/home/pegtrainXX/examples
+    /home/tutorial/examples</filename>.</para>
   </section>
 
   <section id="tutorial_scientific_workflows">
@@ -268,7 +239,7 @@ tutorial@pegasus-tutorial.isi.edu's password: <emphasis role="bold">pegasus123</
     rest of the tutorial we will be using the split example. Other examples
     are also structured similarly.</para>
 
-    <programlisting>$ <emphasis role="bold">cd /home/tutorial/examples</emphasis>
+    <programlisting>$ <emphasis role="bold">cd /ccg/home/pegtrainXX/examples</emphasis>
 $ ls 
 ﻿diamond  merge  pipeline  process  split
 </programlisting>
@@ -344,15 +315,15 @@ $ ls
 2015.10.22 19:12:16.035 PDT:    
 2015.10.22 19:12:16.055 PDT:   Your workflow has been started and is running in the base directory: 
 2015.10.22 19:12:16.061 PDT:    
-2015.10.22 19:12:16.071 PDT:     /home/tutorial/examples/split/tutorial/pegasus/split/run0001 
+2015.10.22 19:12:16.071 PDT:     /ccg/home/pegtrainXX/examples/split/tutorial/pegasus/split/run0001 
 2015.10.22 19:12:16.078 PDT:    
 2015.10.22 19:12:16.084 PDT:   *** To monitor the workflow you can run *** 
 2015.10.22 19:12:16.090 PDT:    
-2015.10.22 19:12:16.098 PDT:     pegasus-status -l /home/tutorial/examples/split/tutorial/pegasus/split/run0001 
+2015.10.22 19:12:16.098 PDT:     pegasus-status -l /ccg/home/pegtrainXX/examples/split/tutorial/pegasus/split/run0001 
 2015.10.22 19:12:16.114 PDT:    
 2015.10.22 19:12:16.119 PDT:   *** To remove your workflow run *** 
 2015.10.22 19:12:16.125 PDT:    
-2015.10.22 19:12:16.131 PDT:     pegasus-remove /home/tutorial/examples/split/tutorial/pegasus/split/run0001 
+2015.10.22 19:12:16.131 PDT:     pegasus-remove /ccg/home/pegtrainXX/examples/split/tutorial/pegasus/split/run0001 
 2015.10.22 19:12:16.137 PDT:    
 2015.10.22 19:12:17.630 PDT:   Time taken to execute is 10.109 seconds</programlisting>
 
@@ -572,7 +543,7 @@ $ ls
 
       <programlisting>$ <emphasis role="bold">pegasus-status ﻿tutorial/pegasus/split/run0001</emphasis>
 ﻿STAT  IN_STATE  JOB                                                                     
-﻿Run      00:39  split-0 ( /home/tutorial/examples/split/tutorial/pegasus/split/run0001 )
+﻿Run      00:39  split-0 ( /ccg/home/pegtrainXX/examples/split/tutorial/pegasus/split/run0001 )
 Idle     00:03   ┗━split_ID0000001                                                      
 Summary: 2 Condor jobs total (I:1 R:1)
 
@@ -614,10 +585,10 @@ UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME
 
       <programlisting><emphasis role="bold">$ more rc.dat 
 </emphasis># file-based replica catalog: 2015-10-22T20:04:26.171-07:00
-count.txt.b file:///home/tutorial/examples/split/./outputs/count.txt.b site="local"
-count.txt.d file:///home/tutorial/examples/split/./outputs/count.txt.d site="local"
-count.txt.a file:///home/tutorial/examples/split/./outputs/count.txt.a site="local"
-count.txt.c file:///home/tutorial/examples/split/./outputs/count.txt.c site="local"
+count.txt.b file:///ccg/home/pegtrainXX/examples/split/./outputs/count.txt.b site="local"
+count.txt.d file:///ccg/home/pegtrainXX/examples/split/./outputs/count.txt.d site="local"
+count.txt.a file:///ccg/home/pegtrainXX/examples/split/./outputs/count.txt.a site="local"
+count.txt.c file:///ccg/home/pegtrainXX/examples/split/./outputs/count.txt.c site="local"
 </programlisting>
 
       <para/>
@@ -677,7 +648,7 @@ hostname    : unknown
 executable  : /usr/bin/pegasus-transfer
 arguments   :   --threads   2  
 exitcode    : 1
-working dir : /home/tutorial/examples/split/tutorial/pegasus/split/run0002
+working dir : /ccg/home/pegtrainXX/examples/split/tutorial/pegasus/split/run0002
 
 ------------------Task #1 - pegasus::transfer - None - stdout-------------------
 
@@ -689,15 +660,15 @@ working dir : /home/tutorial/examples/split/tutorial/pegasus/split/run0002
 2015-10-22 21:13:50,972    INFO:  --------------------------------------------------------------------------------
 2015-10-22 21:13:50,972    INFO:  Starting transfers - attempt 1
 2015-10-22 21:13:50,972    INFO:  Using 1 threads for this round of transfers
-2015-10-22 21:13:53,845   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /home/tutorial/.ssh/id_rsa -P 22 '/home/tutorial/examples/split/input/pegasus.html' 'tutorial@127.0.0.1:/home/tutorial/work/tutorial/pegasus/split/run0002/pegasus.html'
+2015-10-22 21:13:53,845   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /home/tutorial/.ssh/id_rsa -P 22 '/ccg/home/pegtrainXX/examples/split/input/pegasus.html' 'tutorial@127.0.0.1:/home/tutorial/work/tutorial/pegasus/split/run0002/pegasus.html'
 2015-10-22 21:15:55,911    INFO:  --------------------------------------------------------------------------------
 2015-10-22 21:15:55,912    INFO:  Starting transfers - attempt 2
 2015-10-22 21:15:55,912    INFO:  Using 1 threads for this round of transfers
-2015-10-22 21:15:58,446   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /home/tutorial/.ssh/id_rsa -P 22 '/home/tutorial/examples/split/input/pegasus.html' 'tutorial@127.0.0.1:/home/tutorial/work/tutorial/pegasus/split/run0002/pegasus.html'
+2015-10-22 21:15:58,446   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /home/tutorial/.ssh/id_rsa -P 22 '/ccg/home/pegtrainXX/examples/split/input/pegasus.html' 'tutorial@127.0.0.1:/home/tutorial/work/tutorial/pegasus/split/run0002/pegasus.html'
 2015-10-22 21:16:40,468    INFO:  --------------------------------------------------------------------------------
 2015-10-22 21:16:40,469    INFO:  Starting transfers - attempt 3
 2015-10-22 21:16:40,469    INFO:  Using 1 threads for this round of transfers
-2015-10-22 21:16:43,168   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /home/tutorial/.ssh/id_rsa -P 22 '/home/tutorial/examples/split/input/pegasus.html' 'tutorial@127.0.0.1:/home/tutorial/work/tutorial/pegasus/split/run0002/pegasus.html'
+2015-10-22 21:16:43,168   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /home/tutorial/.ssh/id_rsa -P 22 '/ccg/home/pegtrainXX/examples/split/input/pegasus.html' 'tutorial@127.0.0.1:/home/tutorial/work/tutorial/pegasus/split/run0002/pegasus.html'
 2015-10-22 21:16:43,173    INFO:  --------------------------------------------------------------------------------
 2015-10-22 21:16:43,173    INFO:  Stats: no local files in the transfer set
 2015-10-22 21:16:43,173 CRITICAL:  Some transfers failed! See above, and possibly stderr.
@@ -707,9 +678,9 @@ working dir : /home/tutorial/examples/split/tutorial/pegasus/split/run0002
 
 Warning: Permanently added '127.0.0.1' (RSA) to the list of known hosts.<emphasis
           role="bold">
-/home/tutorial/examples/split/input/pegasus.html: No such file or directory</emphasis>
+/ccg/home/pegtrainXX/examples/split/input/pegasus.html: No such file or directory</emphasis>
 ..
-<emphasis role="bold">/home/tutorial/examples/split/input/pegasus.html: No such file or directory
+<emphasis role="bold">/ccg/home/pegtrainXX/examples/split/input/pegasus.html: No such file or directory
 </emphasis></programlisting>
 
       <para>In this example, we removed one of the input files. We will cover
@@ -912,7 +883,7 @@ wc                       4         4          0       0.005     0.029     0.012 
       <programlisting><emphasis role="bold">$ more rc.dat
 </emphasis>#bad location of pegasus.html
 
-pegasus.html file:///home/tutorial/examples/split/input/pegasus.html.bad site="local"
+pegasus.html file:///ccg/home/pegtrainXX/examples/split/input/pegasus.html.bad site="local"
 </programlisting>
 
       <para>We will now submit the workflow again.</para>
@@ -934,15 +905,15 @@ pegasus.html file:///home/tutorial/examples/split/input/pegasus.html.bad site="l
 2015.10.22 20:20:14.288 PDT:    
 2015.10.22 20:20:14.297 PDT:   Your workflow has been started and is running in the base directory: 
 2015.10.22 20:20:14.303 PDT:    
-2015.10.22 20:20:14.309 PDT:     /home/tutorial/examples/split/tutorial/pegasus/split/run0002 
+2015.10.22 20:20:14.309 PDT:     /ccg/home/pegtrainXX/examples/split/tutorial/pegasus/split/run0002 
 2015.10.22 20:20:14.315 PDT:    
 2015.10.22 20:20:14.321 PDT:   *** To monitor the workflow you can run *** 
 2015.10.22 20:20:14.326 PDT:    
-2015.10.22 20:20:14.332 PDT:     pegasus-status -l /home/tutorial/examples/split/tutorial/pegasus/split/run0002 
+2015.10.22 20:20:14.332 PDT:     pegasus-status -l /ccg/home/pegtrainXX/examples/split/tutorial/pegasus/split/run0002 
 2015.10.22 20:20:14.351 PDT:    
 2015.10.22 20:20:14.369 PDT:   *** To remove your workflow run *** 
 2015.10.22 20:20:14.376 PDT:    
-2015.10.22 20:20:14.388 PDT:     pegasus-remove /home/tutorial/examples/split/tutorial/pegasus/split/run0002 
+2015.10.22 20:20:14.388 PDT:     pegasus-remove /ccg/home/pegtrainXX/examples/split/tutorial/pegasus/split/run0002 
 2015.10.22 20:20:14.397 PDT:    
 2015.10.22 20:20:16.146 PDT:   Time taken to execute is 10.292 seconds 
 </programlisting>
@@ -989,7 +960,7 @@ hostname    : unknown
 executable  : /usr/bin/pegasus-transfer
 arguments   :   --threads   2  
 exitcode    : 1
-working dir : /home/tutorial/examples/split/tutorial/pegasus/split/run0002
+working dir : /ccg/home/pegtrainXX/examples/split/tutorial/pegasus/split/run0002
 
 ------------------Task #1 - pegasus::transfer - None - stdout-------------------
 
@@ -1001,15 +972,15 @@ working dir : /home/tutorial/examples/split/tutorial/pegasus/split/run0002
 2015-10-22 21:13:50,972    INFO:  --------------------------------------------------------------------------------
 2015-10-22 21:13:50,972    INFO:  Starting transfers - attempt 1
 2015-10-22 21:13:50,972    INFO:  Using 1 threads for this round of transfers
-2015-10-22 21:13:53,845   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /home/tutorial/.ssh/id_rsa -P 22 '/home/tutorial/examples/split/input/pegasus.html' 'tutorial@127.0.0.1:/home/tutorial/work/tutorial/pegasus/split/run0002/pegasus.html'
+2015-10-22 21:13:53,845   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /home/tutorial/.ssh/id_rsa -P 22 '/ccg/home/pegtrainXX/examples/split/input/pegasus.html' 'tutorial@127.0.0.1:/home/tutorial/work/tutorial/pegasus/split/run0002/pegasus.html'
 2015-10-22 21:15:55,911    INFO:  --------------------------------------------------------------------------------
 2015-10-22 21:15:55,912    INFO:  Starting transfers - attempt 2
 2015-10-22 21:15:55,912    INFO:  Using 1 threads for this round of transfers
-2015-10-22 21:15:58,446   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /home/tutorial/.ssh/id_rsa -P 22 '/home/tutorial/examples/split/input/pegasus.html' 'tutorial@127.0.0.1:/home/tutorial/work/tutorial/pegasus/split/run0002/pegasus.html'
+2015-10-22 21:15:58,446   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /home/tutorial/.ssh/id_rsa -P 22 '/ccg/home/pegtrainXX/examples/split/input/pegasus.html' 'tutorial@127.0.0.1:/home/tutorial/work/tutorial/pegasus/split/run0002/pegasus.html'
 2015-10-22 21:16:40,468    INFO:  --------------------------------------------------------------------------------
 2015-10-22 21:16:40,469    INFO:  Starting transfers - attempt 3
 2015-10-22 21:16:40,469    INFO:  Using 1 threads for this round of transfers
-2015-10-22 21:16:43,168   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /home/tutorial/.ssh/id_rsa -P 22 '/home/tutorial/examples/split/input/pegasus.html' 'tutorial@127.0.0.1:/home/tutorial/work/tutorial/pegasus/split/run0002/pegasus.html'
+2015-10-22 21:16:43,168   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /home/tutorial/.ssh/id_rsa -P 22 '/ccg/home/pegtrainXX/examples/split/input/pegasus.html' 'tutorial@127.0.0.1:/home/tutorial/work/tutorial/pegasus/split/run0002/pegasus.html'
 2015-10-22 21:16:43,173    INFO:  --------------------------------------------------------------------------------
 2015-10-22 21:16:43,173    INFO:  Stats: no local files in the transfer set
 2015-10-22 21:16:43,173 CRITICAL:  Some transfers failed! See above, and possibly stderr.
@@ -1019,9 +990,9 @@ working dir : /home/tutorial/examples/split/tutorial/pegasus/split/run0002
 
 Warning: Permanently added '127.0.0.1' (RSA) to the list of known hosts.<emphasis
           role="bold">
-/home/tutorial/examples/split/input/pegasus.html: No such file or directory</emphasis>
+/ccg/home/pegtrainXX/examples/split/input/pegasus.html: No such file or directory</emphasis>
 ..
-<emphasis role="bold">/home/tutorial/examples/split/input/pegasus.html: No such file or directory
+<emphasis role="bold">/ccg/home/pegtrainXX/examples/split/input/pegasus.html: No such file or directory
 </emphasis>
 </programlisting>
 
@@ -1035,7 +1006,7 @@ Warning: Permanently added '127.0.0.1' (RSA) to the list of known hosts.<emphasi
       directory from our previous failed workflow run.</para>
 
       <programlisting><emphasis role="bold">$</emphasis> <emphasis role="bold">﻿ pegasus-run tutorial/pegasus/split/run0002/</emphasis>
-Rescued /home/tutorial/examples/split/tutorial/pegasus/split/run0002/split-0.log as /home/tutorial/examples/split/tutorial/pegasus/split/run0002/split-0.log.000
+Rescued /ccg/home/pegtrainXX/examples/split/tutorial/pegasus/split/run0002/split-0.log as /ccg/home/pegtrainXX/examples/split/tutorial/pegasus/split/run0002/split-0.log.000
 Submitting to condor split-0.dag.condor.sub
 Submitting job(s).
 1 job(s) submitted to cluster 181.
@@ -1268,7 +1239,7 @@ Generated dax split.dax</programlisting>
       <section>
         <title>HPC Clusters</title>
 
-        <para> Typically the sites in the site catalog describe remote
+        <para>Typically the sites in the site catalog describe remote
         clusters, such as PBS clusters or Condor pools.</para>
 
         <para>Usually, a typical deployment of an HPC cluster is illustrated
@@ -1390,7 +1361,7 @@ tr ls {
 # The format is:
 # LFN     PFN    site="SITE"
 
-f.a    file:///home/tutorial/examples/diamond/input/f.a    site="local"</programlisting>
+f.a    file:///ccg/home/pegtrainXX/examples/diamond/input/f.a    site="local"</programlisting>
 
       <note>
         <para>In our tutorial, input files are on the submit host and we used
