@@ -623,11 +623,11 @@ pegasus-analyzer: initializing...
       <para>If the workflow had failed you would see something like
       this:</para>
 
-      <programlisting>$ <emphasis role="bold">pegasus-analyzer tutorial/pegasus/split/run0002</emphasis>
+      <programlisting>$ <emphasis role="bold">pegasus-analyzerpegtrainXX/split/run0002</emphasis>
 
 ﻿************************************Summary*************************************
 
- Submit Directory   : tutorial/pegasus/split/run0002
+ Submit Directory   :pegtrainXX/split/run0002
  Total jobs         :     17 (100.00%)
  # jobs succeeded   :      1 (5.88%)
  # jobs failed      :      1 (5.88%)
@@ -772,11 +772,11 @@ Cumulative job wall time as seen from submit side        : 42 secs
 Workflow cumulative job badput wall time                 : 
 Cumulative job badput wall time as seen from submit side : 
 
-Summary                       : tutorial/pegasus/split/run0001/statistics/summary.txt
-Workflow execution statistics : tutorial/pegasus/split/run0001/statistics/workflow.txt
-Job instance statistics       : tutorial/pegasus/split/run0001/statistics/jobs.txt
-Transformation statistics     : tutorial/pegasus/split/run0001/statistics/breakdown.txt
-Time statistics               : tutorial/pegasus/split/run0001/statistics/time.txt
+Summary                       :pegtrainXX/split/run0001/statistics/summary.txt
+Workflow execution statistics :pegtrainXX/split/run0001/statistics/workflow.txt
+Job instance statistics       :pegtrainXX/split/run0001/statistics/jobs.txt
+Transformation statistics     :pegtrainXX/split/run0001/statistics/breakdown.txt
+Time statistics               :pegtrainXX/split/run0001/statistics/time.txt
 
 
 </programlisting>
@@ -925,7 +925,7 @@ pegasus.html file:///nfs/ccg3/ccg/home/pegtrainXX/examples/split/input/pegasus.h
       automatically till the workflow finishes</para>
 
       <programlisting><emphasis role="bold">$ ﻿</emphasis><emphasis
-          role="bold">pegasus-status -w tutorial/pegasus/split/run0002</emphasis>
+          role="bold">pegasus-status -wpegtrainXX/split/run0002</emphasis>
 ﻿(no matching jobs found in Condor Q)
 UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME                                 
    15     0     0     0     0     1     1   5.9 Failure *split-0.dag                            
@@ -935,11 +935,11 @@ UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME
       went wrong</para>
 
       <programlisting><emphasis role="bold">$ </emphasis>﻿<emphasis
-          role="bold">pegasus-analyzer tutorial/pegasus/split/run0002</emphasis>
+          role="bold">pegasus-analyzerpegtrainXX/split/run0002</emphasis>
 
 ﻿************************************Summary*************************************
 
- Submit Directory   : tutorial/pegasus/split/run0002
+ Submit Directory   :pegtrainXX/split/run0002
  Total jobs         :     17 (100.00%)
  # jobs succeeded   :      1 (5.88%)
  # jobs failed      :      1 (5.88%)
@@ -1007,7 +1007,7 @@ Warning: Permanently added '127.0.0.1' (RSA) to the list of known hosts.<emphasi
       of executing pegasus-plan we will use the command pegasus-run on the
       directory from our previous failed workflow run.</para>
 
-      <programlisting><emphasis role="bold">$</emphasis> <emphasis role="bold">﻿ pegasus-run tutorial/pegasus/split/run0002/</emphasis>
+      <programlisting><emphasis role="bold">$</emphasis> <emphasis role="bold">﻿ pegasus-runpegtrainXX/split/run0002/</emphasis>
 Rescued /nfs/ccg3/ccg/home/pegtrainXX/examples/split/tutorial/pegasus/split/run0002/split-0.log as /nfs/ccg3/ccg/home/pegtrainXX/examples/split/tutorial/pegasus/split/run0002/split-0.log.000
 Submitting to condor split-0.dag.condor.sub
 Submitting job(s).
@@ -1015,21 +1015,21 @@ Submitting job(s).
 
 Your workflow has been started and is running in the base directory:
 
-  tutorial/pegasus/split/run0002/
+ pegtrainXX/split/run0002/
 
 *** To monitor the workflow you can run ***
 
-  pegasus-status -l tutorial/pegasus/split/run0002/
+  pegasus-status -lpegtrainXX/split/run0002/
 
 *** To remove your workflow run ***
 
-  pegasus-remove tutorial/pegasus/split/run0002/
+  pegasus-removepegtrainXX/split/run0002/
 </programlisting>
 
       <para>The workflow will now run to completion and succeed.</para>
 
-      <programlisting><emphasis role="bold">$ pegasus-status -l <emphasis
-            role="bold">tutorial/pegasus/split/run0002/</emphasis></emphasis>
+      <programlisting><emphasis role="bold">$ pegasus-status -lpegtrainXX<emphasis
+            role="bold">/split/run0002/</emphasis></emphasis>
 ﻿no matching jobs found in Condor Q)
 UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME                                 
     0     0     0     0     0    17     0 100.0 Success *split-0.dag                            
