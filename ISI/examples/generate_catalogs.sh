@@ -40,6 +40,7 @@ cat >sites.xml <<EOF
 EOF
 
 DIAMOND_DIR=${TOPDIR}/examples/diamond
+SPLIT_DIR=${TOPDIR}/examples/split
 # create the transformation catalog (tc)
 echo
 echo "Creating the transformation catalog..."
@@ -133,6 +134,7 @@ cat >rc.dat<<EOF
 # LFN     PFN    site="SITE"
 
 f.a    file://${DIAMOND_DIR}/input/f.a    site="local"
+pegasus.html    file://${SPLIT_DIR}/input/pegasus.html    site="local"
 EOF
 
 
@@ -152,6 +154,10 @@ pegasus.catalog.transformation.file=tc.txt
 
 # This is the name of the application for analytics
 pegasus.metrics.app=pegasus-tutorial
+
+# create one cleanup job per level of the workflow
+pegasus.file.cleanup.clusters.num = 1
+
 
 # data configuration for pegasus
 pegasus.data.configuration=condorio
