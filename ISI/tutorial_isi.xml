@@ -1163,10 +1163,10 @@ Generated dax split.dax</programlisting>
       <title>The Site Catalog</title>
 
       <para>The site catalog describes the sites where the workflow jobs are
-      to be executed. In this tutorial we assume that you have a Personal
-      Condor pool running on localhost. If you are using one of the tutorial
-      VMs this has already been setup for you. The site catalog for the
-      tutorial examples is in <filename>sites.xml</filename>:</para>
+      to be executed. In this tutorial, there is a Condor Pool setup on
+      workflow.isi.edu . Jobs from this condor pool are setup to be flocked to
+      the Open Science Grid (OSG). The site catalog for the tutorial examples
+      is in <filename>sites.xml</filename>:</para>
 
       <programlisting>$ <emphasis role="bold">more sites.xml</emphasis>
 ...
@@ -1185,8 +1185,6 @@ Generated dax split.dax</programlisting>
             &lt;file-server operation="all" url="file:///home/tutorial/outputs"/&gt;
         &lt;/directory&gt;
 
-        <emphasis role="bold">&lt;!-- This profile tells Pegasus where to find the user's private key for SCP transfers --&gt;</emphasis>
-        &lt;profile namespace="env" key="SSH_PRIVATE_KEY"&gt;/home/tutorial/.ssh/id_rsa&lt;/profile&gt;
     &lt;/site&gt;
 
 
@@ -1211,11 +1209,12 @@ Generated dax split.dax</programlisting>
         </listitem>
 
         <listitem>
-          <para>The <emphasis role="bold">condorpool</emphasis> site is
-          configured with a “scratch” file system accessible via SCP
-          (indicated by the scp:// URL). This file system is where the working
-          directory will be created. When we plan the workflow we will tell
-          Pegasus that the execution site is “condorpool”.</para>
+          <para>The <emphasis role="bold">condorpool</emphasis> site is not
+          configured with any directories, as all jobs are run in a non shared
+          filesystem setup on OSG, and Condor File Transfers are used to
+          transferring in data via workflow.isi.edu . When we plan the
+          workflow we will tell Pegasus that the execution site is
+          “condorpool”.</para>
         </listitem>
       </orderedlist>
 
