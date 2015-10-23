@@ -27,6 +27,7 @@ for count in `seq -w  1 30`; do
 	cd examples
 	./generate_catalogs.sh
         rm ./*~ ./tutorial_setup.sh
+        rm -rf ./run ./outputs
 	cd ..
 	
 	#setup workflow db for dashboard
