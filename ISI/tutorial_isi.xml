@@ -111,7 +111,7 @@ you get this</programlisting>
     with the training account and password assigned to you.</para>
 
     <programlisting>$ <emphasis role="bold">ssh pegtrainXX@workflow.isi.edu</emphasis>
-Enter <emphasis role="bold">pegtrainXX</emphasis>@<emphasis role="bold">workflow.isi.edu password</emphasis></programlisting>
+Enter pegtrainXX<emphasis role="bold">@</emphasis>workflow.isi.edu password</programlisting>
 
     <note>
       <para>For the purpose of this tutorial replace any instance of
@@ -221,7 +221,7 @@ Enter <emphasis role="bold">pegtrainXX</emphasis>@<emphasis role="bold">workflow
 
       <mediaobject>
         <imageobject>
-          <imagedata contentwidth="70%"
+          <imagedata align="center" contentwidth="70%"
                      fileref="images/tutorial-diamond-wf.jpg"/>
         </imageobject>
       </mediaobject>
@@ -255,7 +255,8 @@ $ ls
 
       <mediaobject>
         <imageobject>
-          <imagedata fileref="images/tutorial-split-wf.jpg"/>
+          <imagedata align="center" contentwidth="70%"
+                     fileref="images/tutorial-split-wf.jpg"/>
         </imageobject>
       </mediaobject>
     </figure>
@@ -346,7 +347,7 @@ $ ls
 
       <mediaobject>
         <imageobject>
-          <imagedata contentwidth="30%"
+          <imagedata contentwidth="70%"
                      fileref="images/tutorial-split-dag.png"/>
         </imageobject>
       </mediaobject>
