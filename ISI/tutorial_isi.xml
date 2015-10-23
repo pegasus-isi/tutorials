@@ -123,7 +123,8 @@ Enter <emphasis role="bold">pegtrainXX</emphasis>@<emphasis role="bold">workflow
     <para>The remainder of this tutorial will assume that you have a terminal
     open to the directory where the tutorial files are installed on
     workflow.isi.edu. These files are located in the training accounts home
-    directory <filename>/nfs/ccg3/ccg/home/pegtrainXX/examples
+    directory <emphasis
+    role="bold"><filename>/nfs/ccg3/ccg/home/pegtrainXX/examples</filename></emphasis><filename>
     </filename>.</para>
   </section>
 
@@ -1254,20 +1255,6 @@ tr ls {
         </listitem>
       </orderedlist>
 
-      <para>The local site also has an environment variable called <emphasis
-      role="bold">SSH_PRIVATE_KEY</emphasis> that tells Pegasus where to find
-      the private key to use for SCP transfers. If you are running this
-      tutorial on your own machine you will need to set up a passwordless ssh
-      key and add it to authorized_keys. If you are using the tutorial VM this
-      has already been set up for you.</para>
-
-      <para>Pegasus supports many different file transfer protocols. In this
-      case the site catalog is set up so that input and output files are
-      transferred to/from the "condorpool" site using SCP. Since both the
-      local site and the "condorpool" site are actually the same machine, this
-      configuration will just SCP files to/from localhost, which is just a
-      complicated way to copy the files.</para>
-
       <para>Finally, the "condorpool" site is configured with two profiles
       that tell Pegasus that it is a plain Condor pool. Pegasus supports many
       ways of submitting tasks to a remote cluster. In this configuration it
@@ -1415,13 +1402,13 @@ pegasus.catalog.transformation.file=tc.txt</programlisting>
     application to a Pegasus workflow.</para>
 
     <para>If you need help in porting your application to Pegasus contact us
-    on the following support channels </para>
+    on the following support channels</para>
 
     <para><emphasis role="bold">public mailman list</emphasis> :
-    pegasus-users@isi.edu </para>
+    pegasus-users@isi.edu</para>
 
     <para><emphasis role="bold">private support list</emphasis>:
-    pegasus-support@isi.edu </para>
+    pegasus-support@isi.edu</para>
 
     <para><emphasis role="bold">Support chatroom</emphasis> on<ulink
     url="https://pegasus.isi.edu/support">HipChat</ulink>.</para>
