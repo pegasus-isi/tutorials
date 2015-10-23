@@ -171,4 +171,7 @@ for EXAMPLE in "${examples[@]}"; do
     cp tc.txt ${EXAMPLE}/
 done
 
-rm sites.xml tc.txt
+cp rc.dat ./diamond/
+cp rc.dat ./split
+
+rm sites.xml tc.txt rc.dat
