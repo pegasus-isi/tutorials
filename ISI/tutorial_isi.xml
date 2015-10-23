@@ -560,7 +560,7 @@ UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME
       <para>Use the <literal>watch</literal> command to continuously monitor
       the workflow:</para>
 
-      <programlisting>$ <emphasis role="bold">pegasus-status -w﻿tutorial/pegtrainXX/split/run0001</emphasis>
+      <programlisting>$ <emphasis role="bold">pegasus-status -w﻿ tutorial/pegtrainXX/split/run0001</emphasis>
 ...</programlisting>
 
       <para>You should see all of the jobs in the workflow run one after the
@@ -877,20 +877,12 @@ wc                       4         4          0       0.005     0.029     0.012 
       <para>First we will move the pegasus.html file to
       pegasus.html.bad</para>
 
-      <programlisting>$ ﻿mv input/pegasus.html input/pegasus.html.bak
-</programlisting>
-
-      <para>It now has an incorrect entry to pegasus.html</para>
-
-      <programlisting><emphasis role="bold">$ more rc.dat
-</emphasis>#bad location of pegasus.html
-
-pegasus.html file:///nfs/ccg3/ccg/home/pegtrainXX/examples/split/input/pegasus.html.bad site="local"
-</programlisting>
+      <programlisting><emphasis role="bold">$ ﻿mv input/pegasus.html input/pegasus.html.bak
+</emphasis></programlisting>
 
       <para>We will now submit the workflow again.</para>
 
-      <programlisting><emphasis role="bold">$ pegasus-plan  --dax split.dax  --output-dir ./outputs --sites condorpool --submit</emphasis>
+      <programlisting><emphasis role="bold">$ pegasus-plan  --dax split.dax  --output-dir ./outputs --sites condorpool --force --submit</emphasis>
 2015.10.22 20:20:08.299 PDT:    
 2015.10.22 20:20:08.307 PDT:   ----------------------------------------------------------------------- 
 2015.10.22 20:20:08.312 PDT:   File for submitting this DAG to Condor           : split-0.dag.condor.sub 
@@ -925,7 +917,7 @@ pegasus.html file:///nfs/ccg3/ccg/home/pegtrainXX/examples/split/input/pegasus.h
       automatically till the workflow finishes</para>
 
       <programlisting><emphasis role="bold">$ ﻿</emphasis><emphasis
-          role="bold">pegasus-status -wpegtrainXX/split/run0002</emphasis>
+          role="bold">pegasus-status -w pegtrainXX/split/run0002</emphasis>
 ﻿(no matching jobs found in Condor Q)
 UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME                                 
    15     0     0     0     0     1     1   5.9 Failure *split-0.dag                            
@@ -935,7 +927,7 @@ UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME
       went wrong</para>
 
       <programlisting><emphasis role="bold">$ </emphasis>﻿<emphasis
-          role="bold">pegasus-analyzerpegtrainXX/split/run0002</emphasis>
+          role="bold">pegasus-analyzer pegtrainXX/split/run0002</emphasis>
 
 ﻿************************************Summary*************************************
 
@@ -1007,7 +999,7 @@ Warning: Permanently added '127.0.0.1' (RSA) to the list of known hosts.<emphasi
       of executing pegasus-plan we will use the command pegasus-run on the
       directory from our previous failed workflow run.</para>
 
-      <programlisting><emphasis role="bold">$</emphasis> <emphasis role="bold">﻿ pegasus-runpegtrainXX/split/run0002/</emphasis>
+      <programlisting><emphasis role="bold">$</emphasis> <emphasis role="bold">﻿ pegasus-run   pegtrainXX/split/run0002/</emphasis>
 Rescued /nfs/ccg3/ccg/home/pegtrainXX/examples/split/tutorial/pegtrainXX/split/run0002/split-0.log as /nfs/ccg3/ccg/home/pegtrainXX/examples/split/tutorial/pegtrainXX/split/run0002/split-0.log.000
 Submitting to condor split-0.dag.condor.sub
 Submitting job(s).
@@ -1028,7 +1020,7 @@ Your workflow has been started and is running in the base directory:
 
       <para>The workflow will now run to completion and succeed.</para>
 
-      <programlisting><emphasis role="bold">$ pegasus-status -lpegtrainXX<emphasis
+      <programlisting><emphasis role="bold">$ pegasus-status -l pegtrainXX<emphasis
             role="bold">/split/run0002/</emphasis></emphasis>
 ﻿no matching jobs found in Condor Q)
 UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME                                 
@@ -1425,7 +1417,7 @@ pegasus.catalog.transformation.file=tc.txt</programlisting>
     pegasus-support@isi.edu</para>
 
     <para><emphasis role="bold">Support chatroom</emphasis> on<ulink
-    url="https://pegasus.isi.edu/support">HipChat</ulink>.</para>
+    url="https://pegasus.isi.edu/support"> HipChat</ulink>.</para>
 
     <para>Detailed Pegasus Documentation can be found <ulink
     url="http://pegasus.isi.edu/wms/docs/latest/">here</ulink>..</para>
