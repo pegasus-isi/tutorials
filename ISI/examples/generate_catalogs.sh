@@ -30,6 +30,8 @@ cat >sites.xml <<EOF
     <site handle="condorpool" arch="x86_64" os="LINUX" osrelease="" osversion="" glibc="">
          <!-- the project name for the training accounts on OSG -->
          <profile namespace="condor" key="+ProjectName" >"PegasusTraining"</profile>
+
+         <!-- Requirements to make sure jobs only land RHEL 6 x86_64 nodes -->
          <profile namespace="condor" key="requirements">OSGVO_OS_STRING == "RHEL 6" &amp;&amp; Arch == "X86_64"</profile>
 
          <profile namespace="condor" key="universe" >vanilla</profile>
