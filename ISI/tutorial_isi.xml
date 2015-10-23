@@ -362,12 +362,6 @@ $ ls
   <section id="tutorial_wf_dashboard">
     <title>Workflow Dashboard for Monitoring and Debugging</title>
 
-    <para><note>
-        <para>If you are running this tutorial through the hosted service then
-        skip this step. To try out the workflow dashboard use the virtual
-        machines provided above.</para>
-      </note></para>
-
     <para>The Pegasus Dashboard is a web interface for monitoring and
     debugging workflows and is shipped with each Pegasus release. We will now
     use the web dashboard to monitor the status of the workflow.</para>
