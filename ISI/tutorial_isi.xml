@@ -1159,6 +1159,42 @@ Generated dax split.dax</programlisting>
       </mediaobject>
     </figure>
 
+    <section>
+      <title id="tut_xform_catalog">The Transformation Catalog</title>
+
+      <para>The transformation catalog describes all of the executables
+      (called “transformations”) used by the workflow. This description
+      includes the site(s) where they are located, the architecture and
+      operating system they are compiled for, and any other information
+      required to properly transfer them to the execution site and run
+      them.</para>
+
+      <para>For this tutorial, the transformation catalog is in the file
+      <filename>tc.txt</filename>:</para>
+
+      <programlisting>$ <emphasis role="bold">more tc.txt</emphasis>
+...
+<emphasis role="bold"># This is the transformation catalog. It lists information about each of the
+# executables that are used by the workflow.
+</emphasis>
+tr ls { 
+  site condorpool {
+    pfn "/bin/ls"
+    arch "x86_64"
+    os "linux"
+    type "INSTALLED"
+  }
+}
+
+...</programlisting>
+
+      <para>The <filename>tc.txt</filename> file contains information about
+      three transformations: wc, curl, and ls. These three transformations are
+      referenced in the split DAX. The transformation catalog indicates that
+      all three transformations are installed on the "condorpool" site, and
+      are compiled for x86_64 Linux.</para>
+    </section>
+
     <section id="tut_site_catalog">
       <title>The Site Catalog</title>
 
@@ -1292,42 +1328,6 @@ Generated dax split.dax</programlisting>
         &lt;profile namespace="env" key="PEGASUS_HOME"&gt;/home/ux454281/software/pegasus/pegasus-4.5.0&lt;/profile&gt;
     &lt;/site&gt;</programlisting>
       </section>
-    </section>
-
-    <section>
-      <title id="tut_xform_catalog">The Transformation Catalog</title>
-
-      <para>The transformation catalog describes all of the executables
-      (called “transformations”) used by the workflow. This description
-      includes the site(s) where they are located, the architecture and
-      operating system they are compiled for, and any other information
-      required to properly transfer them to the execution site and run
-      them.</para>
-
-      <para>For this tutorial, the transformation catalog is in the file
-      <filename>tc.txt</filename>:</para>
-
-      <programlisting>$ <emphasis role="bold">more tc.txt</emphasis>
-...
-<emphasis role="bold"># This is the transformation catalog. It lists information about each of the
-# executables that are used by the workflow.
-</emphasis>
-tr ls { 
-  site condorpool {
-    pfn "/bin/ls"
-    arch "x86_64"
-    os "linux"
-    type "INSTALLED"
-  }
-}
-
-...</programlisting>
-
-      <para>The <filename>tc.txt</filename> file contains information about
-      three transformations: wc, curl, and ls. These three transformations are
-      referenced in the split DAX. The transformation catalog indicates that
-      all three transformations are installed on the "condorpool" site, and
-      are compiled for x86_64 Linux.</para>
     </section>
 
     <section>
