@@ -1207,21 +1207,35 @@ tr ls {
 
       <programlisting>$ <emphasis role="bold">more sites.xml</emphasis>
 ...
-﻿   &lt;!-- The local site contains information about the submit host --&gt;
+﻿   <emphasis role="bold">&lt;!-- The local site contains information about the submit host --&gt;
     &lt;!-- The arch and os keywords are used to match binaries in the transformation catalog --&gt;
-    &lt;site handle="local" arch="x86_64" os="LINUX"&gt;
+    </emphasis>&lt;site handle="local" arch="x86_64" os="LINUX"&gt;
 
-        <emphasis role="bold">&lt;!-- These are the paths on the submit host were Pegasus stores data --&gt;
-        &lt;!-- Scratch is where temporary files go --&gt;</emphasis>
+        &lt;!-- These are the paths on the submit host were Pegasus stores data --&gt;
+        &lt;!-- Scratch is where temporary files go --&gt;
         &lt;directory type="shared-scratch" path="/home/tutorial/run"&gt;
             &lt;file-server operation="all" url="file:///home/tutorial/run"/&gt;
         &lt;/directory&gt;
 
-       <emphasis role="bold"> &lt;!-- Storage is where pegasus stores output files --&gt;</emphasis>
-        &lt;directory type="local-storage" path="/home/tutorial/outputs"&gt;
+       <emphasis role="bold"> </emphasis>&lt;!-- Storage is where pegasus stores output files --&gt;<emphasis
+          role="bold">
+        </emphasis>&lt;directory type="local-storage" path="/home/tutorial/outputs"&gt;
             &lt;file-server operation="all" url="file:///home/tutorial/outputs"/&gt;
         &lt;/directory&gt;
 
+    &lt;/site&gt;
+
+    <emphasis role="bold">&lt;!-- the  condor pool on which compute jobs are run --&gt;</emphasis>
+    &lt;site handle="condorpool" arch="x86_64" os="LINUX" osrelease="" osversion="" glibc=""&gt;
+
+         &lt;!-- the project name for the training accounts on OSG --&gt;
+         &lt;profile namespace="condor" key="+ProjectName" &gt;"PegasusTraining"&lt;/profile&gt;
+
+         &lt;!-- Requirements to make sure jobs only land RHEL 6 x86_64 nodes --&gt;
+         &lt;profile namespace="condor" key="requirements"&gt;OSGVO_OS_STRING == "RHEL 6" &amp;amp;&amp;amp; Arch == "X86_64"&lt;/profile&gt;
+
+         &lt;profile namespace="condor" key="universe" &gt;vanilla&lt;/profile&gt;
+         &lt;profile namespace="pegasus" key="style" &gt;condor&lt;/profile&gt;
     &lt;/site&gt;
 
 
@@ -1300,7 +1314,7 @@ tr ls {
         </figure>
 
         <para>Below is a sample site catalog entry for HPC cluster at SDSC
-        that is part of XSEDE</para>
+        that is part of XSEDE and supports remote job submission</para>
 
         <programlisting>&lt;site  handle="sdsc-gordon" arch="x86_64" os="LINUX"&gt;
         &lt;grid  type="gt5" contact="gordon-ln4.sdsc.xsede.org:2119/jobmanager-fork" scheduler="Fork" jobtype="auxillary"/&gt;
