@@ -298,7 +298,7 @@ $ ls
     <para>To plan the split workflow invoke the pegasus-plan command as
     follows</para>
 
-    <programlisting><emphasis role="bold">$ pegasus-plan  --dax split.dax --input-dir ./input  --output-dir ./outputs --sites PegasusVM --submit
+    <programlisting><emphasis role="bold">$ pegasus-plan  --dax split.dax --input-dir ./input  --output-dir ./outputs --sites condorpool --submit
 </emphasis>
 ﻿
 2015.10.22 19:12:10.402 PDT:    
@@ -635,13 +635,13 @@ pegasus-analyzer: initializing...
 
 ******************************Failed jobs' details******************************
 
-==========================stage_in_local_PegasusVM_0_0==========================
+==========================stage_in_local_condorpool_0_0==========================
 
  last state: POST_SCRIPT_FAILED
        site: local
-submit file: stage_in_local_PegasusVM_0_0.sub
-output file: stage_in_local_PegasusVM_0_0.out.001
- error file: stage_in_local_PegasusVM_0_0.err.001
+submit file: stage_in_local_condorpool_0_0.sub
+output file: stage_in_local_condorpool_0_0.out.001
+ error file: stage_in_local_condorpool_0_0.err.001
 
 -------------------------------Task #1 - Summary--------------------------------
 
@@ -890,7 +890,7 @@ pegasus.html file:///nfs/ccg3/ccg/home/pegtrainXX/examples/split/input/pegasus.h
 
       <para>We will now submit the workflow again.</para>
 
-      <programlisting><emphasis role="bold">$ pegasus-plan  --dax split.dax  --output-dir ./outputs --sites PegasusVM --submit</emphasis>
+      <programlisting><emphasis role="bold">$ pegasus-plan  --dax split.dax  --output-dir ./outputs --sites condorpool --submit</emphasis>
 2015.10.22 20:20:08.299 PDT:    
 2015.10.22 20:20:08.307 PDT:   ----------------------------------------------------------------------- 
 2015.10.22 20:20:08.312 PDT:   File for submitting this DAG to Condor           : split-0.dag.condor.sub 
@@ -947,13 +947,13 @@ UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME
 
 ******************************Failed jobs' details******************************
 
-==========================stage_in_local_PegasusVM_0_0==========================
+==========================stage_in_local_condorpool_0_0==========================
 
  last state: POST_SCRIPT_FAILED
        site: local
-submit file: stage_in_local_PegasusVM_0_0.sub
-output file: stage_in_local_PegasusVM_0_0.out.001
- error file: stage_in_local_PegasusVM_0_0.err.001
+submit file: stage_in_local_condorpool_0_0.sub
+output file: stage_in_local_condorpool_0_0.out.001
+ error file: stage_in_local_condorpool_0_0.err.001
 
 -------------------------------Task #1 - Summary--------------------------------
 
@@ -1194,12 +1194,12 @@ Generated dax split.dax</programlisting>
 
       <para>There are two sites defined in the site catalog: “<emphasis
       role="bold">local</emphasis>” and “<emphasis
-      role="bold">PegasusVM</emphasis>”. The “local” site is used by Pegasus
+      role="bold">condorpool</emphasis>”. The “local” site is used by Pegasus
       to learn about the submit host where the workflow management system
-      runs. The “PegasusVM” site is the personal Condor pool running on your
-      (virtual) machine. In this case, the local site and the PegasusVM site
-      refer to the same machine, but they are logically separate as far as
-      Pegasus is concerned.</para>
+      runs. The “condorpool” site is the personal Condor pool running on your
+      (virtual) machine. In this case, the local site and the "condorpool"
+      site refer to the same machine, but they are logically separate as far
+      as Pegasus is concerned.</para>
 
       <orderedlist>
         <listitem>
@@ -1211,11 +1211,11 @@ Generated dax split.dax</programlisting>
         </listitem>
 
         <listitem>
-          <para>The <emphasis role="bold">PegasusVM</emphasis> site is
+          <para>The <emphasis role="bold">condorpool</emphasis> site is
           configured with a “scratch” file system accessible via SCP
           (indicated by the scp:// URL). This file system is where the working
           directory will be created. When we plan the workflow we will tell
-          Pegasus that the execution site is “PegasusVM”.</para>
+          Pegasus that the execution site is “condorpool”.</para>
         </listitem>
       </orderedlist>
 
@@ -1228,15 +1228,15 @@ Generated dax split.dax</programlisting>
 
       <para>Pegasus supports many different file transfer protocols. In this
       case the site catalog is set up so that input and output files are
-      transferred to/from the PegasusVM site using SCP. Since both the local
-      site and the PegasusVM site are actually the same machine, this
+      transferred to/from the "condorpool" site using SCP. Since both the
+      local site and the "condorpool" site are actually the same machine, this
       configuration will just SCP files to/from localhost, which is just a
       complicated way to copy the files.</para>
 
-      <para>Finally, the PegasusVM site is configured with two profiles that
-      tell Pegasus that it is a plain Condor pool. Pegasus supports many ways
-      of submitting tasks to a remote cluster. In this configuration it will
-      submit vanilla Condor jobs.</para>
+      <para>Finally, the "condorpool" site is configured with two profiles
+      that tell Pegasus that it is a plain Condor pool. Pegasus supports many
+      ways of submitting tasks to a remote cluster. In this configuration it
+      will submit vanilla Condor jobs.</para>
 
       <section>
         <title>HPC Clusters</title>
@@ -1314,7 +1314,7 @@ Generated dax split.dax</programlisting>
 # executables that are used by the workflow.
 </emphasis>
 tr ls { 
-  site PegasusVM {
+  site condorpool {
     pfn "/bin/ls"
     arch "x86_64"
     os "linux"
@@ -1327,8 +1327,8 @@ tr ls {
       <para>The <filename>tc.txt</filename> file contains information about
       three transformations: wc, curl, and ls. These three transformations are
       referenced in the split DAX. The transformation catalog indicates that
-      all three transformations are installed on the PegasusVM site, and are
-      compiled for x86_64 Linux.</para>
+      all three transformations are installed on the "condorpool" site, and
+      are compiled for x86_64 Linux.</para>
     </section>
 
     <section>
@@ -1374,8 +1374,8 @@ f.a    file:///nfs/ccg3/ccg/home/pegtrainXX/examples/diamond/input/f.a    site="
       <para>This replica catalog contains only one entry for the diamond
       workflow’s only input file. This entry has an LFN of “f.a” with a PFN of
       “file:///home/tutorial/input/f.a” and the file is stored on the local
-      site, which implies that it will need to be transferred to the PegasusVM
-      site when the workflow runs.</para>
+      site, which implies that it will need to be transferred to the
+      "condorpool" site when the workflow runs.</para>
     </section>
   </section>
 
