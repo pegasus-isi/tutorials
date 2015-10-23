@@ -153,7 +153,7 @@ pegasus.catalog.transformation=Text
 pegasus.catalog.transformation.file=tc.txt
 
 # This is the name of the application for analytics
-pegasus.metrics.app=pegasus-tutorial
+pegasus.metrics.app=pegasus-tutorial-isi
 
 # create one cleanup job per level of the workflow
 pegasus.file.cleanup.clusters.num = 1
