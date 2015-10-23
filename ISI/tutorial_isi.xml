@@ -115,7 +115,9 @@ Enter <emphasis role="bold">pegtrainXX</emphasis>@<emphasis role="bold">workflow
 
     <note>
       <para>For the purpose of this tutorial replace any instance of
-      pegtrainXX with the user name assigned to you.</para>
+      pegtrainXX with the user name assigned to you. To request access to a
+      training account send email to
+      <email>pegasus-support@isi.edu</email></para>
     </note>
 
     <para>The remainder of this tutorial will assume that you have a terminal
