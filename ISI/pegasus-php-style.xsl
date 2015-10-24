@@ -56,7 +56,7 @@
         <xsl:call-template name="user.preroot"/>
         <xsl:processing-instruction name="php"> 
             include_once( $_SERVER['DOCUMENT_ROOT']."/static/includes/common.inc.php" );
-            do_html_header("Documentation");
+            do_html_header("Pegasus Tutorial");
         ?</xsl:processing-instruction>
         <div id="content">
         <!-- breadcrumbs are turned off
