@@ -9,8 +9,9 @@ for count in `seq -w  1 30`; do
     echo "setting up for user $user"
 
 #    set the password
-#    echo "setting password for user $user"
-#    echo "XXX" | passwd --stdin $user
+#    passwd="XXX"
+#    echo "setting password for user $user to $passwd"    
+#    echo $passwd | passwd --stdin $user
 
     
     su - $user <<EOF
