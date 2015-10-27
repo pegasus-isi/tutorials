@@ -557,8 +557,7 @@ UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME
       statistics on the number of jobs in each state and the percentage of the
       jobs in the workflow that have finished successfully.</para>
 
-      <para>Use the <literal>watch</literal> command to continuously monitor
-      the workflow:</para>
+      
 
       <programlisting>$ <emphasis role="bold">pegasus-status -w pegtrainXX/pegasus/split/run0001</emphasis>
 
