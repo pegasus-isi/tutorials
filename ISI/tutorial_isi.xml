@@ -664,15 +664,15 @@ working dir : /nfs/ccg3/ccg/home/pegtrainXX/examples/split/pegtrainXX/pegasus/sp
 2015-10-22 21:13:50,972    INFO:  --------------------------------------------------------------------------------
 2015-10-22 21:13:50,972    INFO:  Starting transfers - attempt 1
 2015-10-22 21:13:50,972    INFO:  Using 1 threads for this round of transfers
-2015-10-22 21:13:53,845   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /home/tutorial/.ssh/id_rsa -P 22 '/nfs/ccg3/ccg/home/pegtrainXX/examples/split/input/pegasus.html' 'tutorial@127.0.0.1:/home/tutorial/work/tutorial/pegtrainXX/pegasus/split/run0002/pegasus.html'
+2015-10-22 21:13:53,845   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /nfs/ccg3/ccg/home/pegtrainXX/.ssh/id_rsa -P 22 '/nfs/ccg3/ccg/home/pegtrainXX/examples/split/input/pegasus.html' 'tutorial@127.0.0.1:/nfs/ccg3/ccg/home/pegtrainXX/work/tutorial/pegtrainXX/pegasus/split/run0002/pegasus.html'
 2015-10-22 21:15:55,911    INFO:  --------------------------------------------------------------------------------
 2015-10-22 21:15:55,912    INFO:  Starting transfers - attempt 2
 2015-10-22 21:15:55,912    INFO:  Using 1 threads for this round of transfers
-2015-10-22 21:15:58,446   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /home/tutorial/.ssh/id_rsa -P 22 '/nfs/ccg3/ccg/home/pegtrainXX/examples/split/input/pegasus.html' 'tutorial@127.0.0.1:/home/tutorial/work/tutorial/pegtrainXX/pegasus/split/run0002/pegasus.html'
+2015-10-22 21:15:58,446   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /nfs/ccg3/ccg/home/pegtrainXX/.ssh/id_rsa -P 22 '/nfs/ccg3/ccg/home/pegtrainXX/examples/split/input/pegasus.html' 'tutorial@127.0.0.1:/nfs/ccg3/ccg/home/pegtrainXX/work/tutorial/pegtrainXX/pegasus/split/run0002/pegasus.html'
 2015-10-22 21:16:40,468    INFO:  --------------------------------------------------------------------------------
 2015-10-22 21:16:40,469    INFO:  Starting transfers - attempt 3
 2015-10-22 21:16:40,469    INFO:  Using 1 threads for this round of transfers
-2015-10-22 21:16:43,168   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /home/tutorial/.ssh/id_rsa -P 22 '/nfs/ccg3/ccg/home/pegtrainXX/examples/split/input/pegasus.html' 'tutorial@127.0.0.1:/home/tutorial/work/tutorial/pegtrainXX/pegasus/split/run0002/pegasus.html'
+2015-10-22 21:16:43,168   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /nfs/ccg3/ccg/home/pegtrainXX/.ssh/id_rsa -P 22 '/nfs/ccg3/ccg/home/pegtrainXX/examples/split/input/pegasus.html' 'tutorial@127.0.0.1:/nfs/ccg3/ccg/home/pegtrainXX/work/tutorial/pegtrainXX/pegasus/split/run0002/pegasus.html'
 2015-10-22 21:16:43,173    INFO:  --------------------------------------------------------------------------------
 2015-10-22 21:16:43,173    INFO:  Stats: no local files in the transfer set
 2015-10-22 21:16:43,173 CRITICAL:  Some transfers failed! See above, and possibly stderr.
@@ -970,15 +970,15 @@ working dir : /nfs/ccg3/ccg/home/pegtrainXX/examples/split/pegtrainXX/pegasus/sp
 2015-10-22 21:13:50,972    INFO:  --------------------------------------------------------------------------------
 2015-10-22 21:13:50,972    INFO:  Starting transfers - attempt 1
 2015-10-22 21:13:50,972    INFO:  Using 1 threads for this round of transfers
-2015-10-22 21:13:53,845   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /home/tutorial/.ssh/id_rsa -P 22 '/nfs/ccg3/ccg/home/pegtrainXX/examples/split/input/pegasus.html' 'tutorial@127.0.0.1:/home/tutorial/work/tutorial/pegtrainXX/pegasus/split/run0002/pegasus.html'
+2015-10-22 21:13:53,845   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /nfs/ccg3/ccg/home/pegtrainXX/.ssh/id_rsa -P 22 '/nfs/ccg3/ccg/home/pegtrainXX/examples/split/input/pegasus.html' 'tutorial@127.0.0.1:/nfs/ccg3/ccg/home/pegtrainXX/work/tutorial/pegtrainXX/pegasus/split/run0002/pegasus.html'
 2015-10-22 21:15:55,911    INFO:  --------------------------------------------------------------------------------
 2015-10-22 21:15:55,912    INFO:  Starting transfers - attempt 2
 2015-10-22 21:15:55,912    INFO:  Using 1 threads for this round of transfers
-2015-10-22 21:15:58,446   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /home/tutorial/.ssh/id_rsa -P 22 '/nfs/ccg3/ccg/home/pegtrainXX/examples/split/input/pegasus.html' 'tutorial@127.0.0.1:/home/tutorial/work/tutorial/pegtrainXX/pegasus/split/run0002/pegasus.html'
+2015-10-22 21:15:58,446   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /nfs/ccg3/ccg/home/pegtrainXX/.ssh/id_rsa -P 22 '/nfs/ccg3/ccg/home/pegtrainXX/examples/split/input/pegasus.html' 'tutorial@127.0.0.1:/nfs/ccg3/ccg/home/pegtrainXX/work/tutorial/pegtrainXX/pegasus/split/run0002/pegasus.html'
 2015-10-22 21:16:40,468    INFO:  --------------------------------------------------------------------------------
 2015-10-22 21:16:40,469    INFO:  Starting transfers - attempt 3
 2015-10-22 21:16:40,469    INFO:  Using 1 threads for this round of transfers
-2015-10-22 21:16:43,168   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /home/tutorial/.ssh/id_rsa -P 22 '/nfs/ccg3/ccg/home/pegtrainXX/examples/split/input/pegasus.html' 'tutorial@127.0.0.1:/home/tutorial/work/tutorial/pegtrainXX/pegasus/split/run0002/pegasus.html'
+2015-10-22 21:16:43,168   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /nfs/ccg3/ccg/home/pegtrainXX/.ssh/id_rsa -P 22 '/nfs/ccg3/ccg/home/pegtrainXX/examples/split/input/pegasus.html' 'tutorial@127.0.0.1:/nfs/ccg3/ccg/home/pegtrainXX/work/tutorial/pegtrainXX/pegasus/split/run0002/pegasus.html'
 2015-10-22 21:16:43,173    INFO:  --------------------------------------------------------------------------------
 2015-10-22 21:16:43,173    INFO:  Stats: no local files in the transfer set
 2015-10-22 21:16:43,173 CRITICAL:  Some transfers failed! See above, and possibly stderr.
@@ -1209,14 +1209,14 @@ tr ls {
 
         &lt;!-- These are the paths on the submit host were Pegasus stores data --&gt;
         &lt;!-- Scratch is where temporary files go --&gt;
-        &lt;directory type="shared-scratch" path="/home/tutorial/run"&gt;
-            &lt;file-server operation="all" url="file:///home/tutorial/run"/&gt;
+        &lt;directory type="shared-scratch" path="/nfs/ccg3/ccg/home/pegtrainXX/run"&gt;
+            &lt;file-server operation="all" url="file:///nfs/ccg3/ccg/home/pegtrainXX/run"/&gt;
         &lt;/directory&gt;
 
        <emphasis role="bold"> </emphasis>&lt;!-- Storage is where pegasus stores output files --&gt;<emphasis
           role="bold">
-        </emphasis>&lt;directory type="local-storage" path="/home/tutorial/outputs"&gt;
-            &lt;file-server operation="all" url="file:///home/tutorial/outputs"/&gt;
+        </emphasis>&lt;directory type="local-storage" path="/nfs/ccg3/ccg/home/pegtrainXX/outputs"&gt;
+            &lt;file-server operation="all" url="file:///nfs/ccg3/ccg/home/pegtrainXX/outputs"/&gt;
         &lt;/directory&gt;
 
     &lt;/site&gt;
