@@ -543,7 +543,7 @@ $ ls
       <para>After the workflow has been submitted you can monitor it using the
       <literal>pegasus-status</literal> command:</para>
 
-      <programlisting>$ <emphasis role="bold">pegasus-status ﻿tutorial/pegtrainXX/split/run0001</emphasis>
+      <programlisting>$ <emphasis role="bold">pegasus-status pegtrainXX/pegasus/split/run0001</emphasis>
 ﻿STAT  IN_STATE  JOB                                                                     
 ﻿Run      00:39  split-0 ( /nfs/ccg3/ccg/home/pegtrainXX/examples/split/tutorial/pegtrainXX/split/run0001 )
 Idle     00:03   ┗━split_ID0000001                                                      
@@ -560,7 +560,8 @@ UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME
       <para>Use the <literal>watch</literal> command to continuously monitor
       the workflow:</para>
 
-      <programlisting>$ <emphasis role="bold">pegasus-status -w﻿ tutorial/pegtrainXX/split/run0001</emphasis>
+      <programlisting>$ <emphasis role="bold">pegasus-status -w pegtrainXX/pegasus/split/run0001</emphasis>
+
 ...</programlisting>
 
       <para>You should see all of the jobs in the workflow run one after the
@@ -609,7 +610,8 @@ count.txt.c file:///nfs/ccg3/ccg/home/pegtrainXX/examples/split/./outputs/count.
       succeeded, <literal>pegasus-analyzer</literal> will only show some basic
       statistics about the number of successful jobs:</para>
 
-      <programlisting>$ <emphasis role="bold">pegasus-analyzer ﻿tutorial/pegtrainXX/split/run0001</emphasis>
+      <programlisting>$ <emphasis role="bold">pegasus-analyzer pegtrainXX/pegasus/split/run0001</emphasis>
+
 pegasus-analyzer: initializing...
 
 ****************************Summary***************************
@@ -700,7 +702,7 @@ Warning: Permanently added '127.0.0.1' (RSA) to the list of known hosts.<emphasi
       <literal>-s all</literal> argument tells the program to generate all
       statistics it knows how to calculate:</para>
 
-      <programlisting>$ <emphasis role="bold">pegasus-statistics –s all ﻿tutorial/pegtrainXX/split/run0001</emphasis>
+      <programlisting>$ <emphasis role="bold">pegasus-statistics -s all pegtrainXX/pegasus/split/run0001</emphasis>
 
 #
 # Pegasus Workflow Management System - http://pegasus.isi.edu
@@ -792,7 +794,8 @@ Time statistics               :pegtrainXX/split/run0001/statistics/time.txt
       several reports in the <filename>statistics</filename> subdirectory of
       the workflow submit directory:</para>
 
-      <programlisting>$ <emphasis role="bold">ls ﻿tutorial/pegtrainXX/split/run0001/statistics/</emphasis>
+      <programlisting>$ <emphasis role="bold">ls pegtrainXX/pegasus/split/run0001/statistics</emphasis>
+
 breakdown.csv  jobs.txt          summary.txt         time.txt
 breakdown.txt  summary-time.csv  time-per-host.csv   workflow.csv
 jobs.csv       summary.csv       time.csv            workflow.txt</programlisting>
@@ -800,7 +803,8 @@ jobs.csv       summary.csv       time.csv            workflow.txt</programlistin
       <para>The file <filename>breakdown.txt</filename>, for example, has min,
       max, and mean runtimes for each transformation:</para>
 
-      <programlisting>$ <emphasis role="bold">more ﻿tutorial/pegtrainXX/split/run0001/statistics/breakdown.txt</emphasis>
+      <programlisting>$ <emphasis role="bold">more pegtrainXX/pegasus/split/run0001/statistics/breakdown.txt</emphasis>
+
 # legends
 # Transformation - name of the transformation.
 # Count          - the number of times the invocations corresponding to
@@ -1020,8 +1024,8 @@ Your workflow has been started and is running in the base directory:
 
       <para>The workflow will now run to completion and succeed.</para>
 
-      <programlisting><emphasis role="bold">$ pegasus-status -l pegtrainXX<emphasis
-            role="bold">/split/run0002/</emphasis></emphasis>
+      <programlisting>$ <emphasis role="bold">pegasus-status -l pegtrainXX/pegasus/split/run0002</emphasis>
+
 ﻿no matching jobs found in Condor Q)
 UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME                                 
     0     0     0     0     0    17     0 100.0 Success *split-0.dag                            
