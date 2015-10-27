@@ -319,15 +319,15 @@ $ ls
 2015.10.22 19:12:16.035 PDT:    
 2015.10.22 19:12:16.055 PDT:   Your workflow has been started and is running in the base directory: 
 2015.10.22 19:12:16.061 PDT:    
-2015.10.22 19:12:16.071 PDT:     /nfs/ccg3/ccg/home/pegtrainXX/examples/split/tutorial/pegtrainXX/split/run0001 
+2015.10.22 19:12:16.071 PDT:     /nfs/ccg3/ccg/home/pegtrainXX/examples/split/pegtrainXX/split/run0001 
 2015.10.22 19:12:16.078 PDT:    
 2015.10.22 19:12:16.084 PDT:   *** To monitor the workflow you can run *** 
 2015.10.22 19:12:16.090 PDT:    
-2015.10.22 19:12:16.098 PDT:     pegasus-status -l /nfs/ccg3/ccg/home/pegtrainXX/examples/split/tutorial/pegtrainXX/split/run0001 
+2015.10.22 19:12:16.098 PDT:     pegasus-status -l /nfs/ccg3/ccg/home/pegtrainXX/examples/split/pegtrainXX/split/run0001 
 2015.10.22 19:12:16.114 PDT:    
 2015.10.22 19:12:16.119 PDT:   *** To remove your workflow run *** 
 2015.10.22 19:12:16.125 PDT:    
-2015.10.22 19:12:16.131 PDT:     pegasus-remove /nfs/ccg3/ccg/home/pegtrainXX/examples/split/tutorial/pegtrainXX/split/run0001 
+2015.10.22 19:12:16.131 PDT:     pegasus-remove /nfs/ccg3/ccg/home/pegtrainXX/examples/split/pegtrainXX/split/run0001 
 2015.10.22 19:12:16.137 PDT:    
 2015.10.22 19:12:17.630 PDT:   Time taken to execute is 10.109 seconds</programlisting>
 
@@ -545,7 +545,7 @@ $ ls
 
       <programlisting>$ <emphasis role="bold">pegasus-status pegtrainXX/pegasus/split/run0001</emphasis>
 ﻿STAT  IN_STATE  JOB                                                                     
-﻿Run      00:39  split-0 ( /nfs/ccg3/ccg/home/pegtrainXX/examples/split/tutorial/pegtrainXX/split/run0001 )
+﻿Run      00:39  split-0 ( /nfs/ccg3/ccg/home/pegtrainXX/examples/split/pegtrainXX/split/run0001 )
 Idle     00:03   ┗━split_ID0000001                                                      
 Summary: 2 Condor jobs total (I:1 R:1)
 
@@ -652,7 +652,7 @@ hostname    : unknown
 executable  : /usr/bin/pegasus-transfer
 arguments   :   --threads   2  
 exitcode    : 1
-working dir : /nfs/ccg3/ccg/home/pegtrainXX/examples/split/tutorial/pegtrainXX/pegasus/split/run0002
+working dir : /nfs/ccg3/ccg/home/pegtrainXX/examples/split/pegtrainXX/pegasus/split/run0002
 
 ------------------Task #1 - pegasus::transfer - None - stdout-------------------
 
@@ -903,15 +903,15 @@ wc                       4         4          0       0.005     0.029     0.012 
 2015.10.22 20:20:14.288 PDT:    
 2015.10.22 20:20:14.297 PDT:   Your workflow has been started and is running in the base directory: 
 2015.10.22 20:20:14.303 PDT:    
-2015.10.22 20:20:14.309 PDT:     /nfs/ccg3/ccg/home/pegtrainXX/examples/split/tutorial/pegtrainXX/pegasus/split/run0002 
+2015.10.22 20:20:14.309 PDT:     /nfs/ccg3/ccg/home/pegtrainXX/examples/split/pegtrainXX/pegasus/split/run0002 
 2015.10.22 20:20:14.315 PDT:    
 2015.10.22 20:20:14.321 PDT:   *** To monitor the workflow you can run *** 
 2015.10.22 20:20:14.326 PDT:    
-2015.10.22 20:20:14.332 PDT:     pegasus-status -l /nfs/ccg3/ccg/home/pegtrainXX/examples/split/tutorial/pegtrainXX/pegasus/split/run0002 
+2015.10.22 20:20:14.332 PDT:     pegasus-status -l /nfs/ccg3/ccg/home/pegtrainXX/examples/split/pegtrainXX/pegasus/split/run0002 
 2015.10.22 20:20:14.351 PDT:    
 2015.10.22 20:20:14.369 PDT:   *** To remove your workflow run *** 
 2015.10.22 20:20:14.376 PDT:    
-2015.10.22 20:20:14.388 PDT:     pegasus-remove /nfs/ccg3/ccg/home/pegtrainXX/examples/split/tutorial/pegtrainXX/pegasus/split/run0002 
+2015.10.22 20:20:14.388 PDT:     pegasus-remove /nfs/ccg3/ccg/home/pegtrainXX/examples/split/pegtrainXX/pegasus/split/run0002 
 2015.10.22 20:20:14.397 PDT:    
 2015.10.22 20:20:16.146 PDT:   Time taken to execute is 10.292 seconds 
 </programlisting>
@@ -958,7 +958,7 @@ hostname    : unknown
 executable  : /usr/bin/pegasus-transfer
 arguments   :   --threads   2  
 exitcode    : 1
-working dir : /nfs/ccg3/ccg/home/pegtrainXX/examples/split/tutorial/pegtrainXX/pegasus/split/run0002
+working dir : /nfs/ccg3/ccg/home/pegtrainXX/examples/split/pegtrainXX/pegasus/split/run0002
 
 ------------------Task #1 - pegasus::transfer - None - stdout-------------------
 
@@ -1004,7 +1004,7 @@ Warning: Permanently added '127.0.0.1' (RSA) to the list of known hosts.<emphasi
       directory from our previous failed workflow run.</para>
 
       <programlisting><emphasis role="bold">$</emphasis> <emphasis role="bold">﻿ pegasus-run   pegtrainXX/pegasus/split/run0002/</emphasis>
-Rescued /nfs/ccg3/ccg/home/pegtrainXX/examples/split/tutorial/pegtrainXX/pegasus/split/run0002/split-0.log as /nfs/ccg3/ccg/home/pegtrainXX/examples/split/tutorial/pegtrainXX/pegasus/split/run0002/split-0.log.000
+Rescued /nfs/ccg3/ccg/home/pegtrainXX/examples/split/pegtrainXX/pegasus/split/run0002/split-0.log as /nfs/ccg3/ccg/home/pegtrainXX/examples/split/pegtrainXX/pegasus/split/run0002/split-0.log.000
 Submitting to condor split-0.dag.condor.sub
 Submitting job(s).
 1 job(s) submitted to cluster 181.
@@ -1346,7 +1346,7 @@ tr ls {
       enables Pegasus to map abstract DAXes to different execution sites and
       plan out the required file transfers automatically.</para>
 
-      <para>The Replica Catalog for the diamond workflow is in the
+      <para>The Replica Catalog for the split workflow is in the
       <filename>rc.dat</filename> file:</para>
 
       <programlisting>$ <emphasis role="bold">more rc.dat</emphasis>
@@ -1358,7 +1358,7 @@ tr ls {
 </emphasis>
 # The format is:
 # LFN     PFN    site="SITE"
-
+pegasus.html file:///nfs/ccg3/ccg/home/pegtrainXX/examples/split/input/pegasus.html site="local"
 f.a    file:///nfs/ccg3/ccg/home/pegtrainXX/examples/diamond/input/f.a    site="local"</programlisting>
 
       <note>
@@ -1367,9 +1367,9 @@ f.a    file:///nfs/ccg3/ccg/home/pegtrainXX/examples/diamond/input/f.a    site="
         located.</para>
       </note>
 
-      <para>This replica catalog contains only one entry for the diamond
-      workflow’s only input file. This entry has an LFN of “f.a” with a PFN of
-      “file:///home/tutorial/input/f.a” and the file is stored on the local
+      <para>This replica catalog contains two entries. The first one
+      is for the split workflow input file. This entry has an LFN of “pegasus.html” with a PFN of
+      “file:///nfs/ccg3/ccg/home/pegtrainXX/examples/split/input/pegasus.html” and the file is stored on the local
       site, which implies that it will need to be transferred to the
       "condorpool" site when the workflow runs.</para>
     </section>
@@ -1382,12 +1382,13 @@ f.a    file:///nfs/ccg3/ccg/home/pegtrainXX/examples/diamond/input/f.a    site="
     configuration file that specifies settings that control how it plans the
     workflow.</para>
 
-    <para>For the diamond workflow, the Pegasus configuration file is
+    <para>For the split workflow, the Pegasus configuration file is
     relatively simple. It only contains settings to help Pegasus find the
-    information catalogs. These settings are in the
-    <filename>pegasus.conf</filename> file:</para>
+    information catalogs. For the tutorial, there is a single
+    properties file in ~/.pegasusrc . 
+    </para>
 
-    <programlisting>$ <emphasis role="bold">more pegasus.conf</emphasis>
+    <programlisting>$ <emphasis role="bold">more ~/.pegasusrc</emphasis>
 # This tells Pegasus where to find the Site Catalog
 pegasus.catalog.site=XML
 pegasus.catalog.site.file=sites.xml
@@ -1399,7 +1400,13 @@ pegasus.catalog.replica.file=rc.dat
 # This tells Pegasus where to find the Transformation Catalog
 pegasus.catalog.transformation=Text
 pegasus.catalog.transformation.file=tc.txt</programlisting>
+  
+  <note>If you don't want to have a global properties file, you can
+  pass the --conf option to pegasus-plan to point it to the properties 
+	   file to use</note>  
   </section>
+
+  
 
   <section>
     <title id="tutorial_conclusion">Conclusion</title>
