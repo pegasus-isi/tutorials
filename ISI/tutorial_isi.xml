@@ -625,11 +625,11 @@ pegasus-analyzer: initializing...
       <para>If the workflow had failed you would see something like
       this:</para>
 
-      <programlisting>$ <emphasis role="bold">pegasus-analyzer pegtrainXX/split/run0002</emphasis>
+      <programlisting>$ <emphasis role="bold">pegasus-analyzer pegtrainXX/pegasus/split/run000</emphasis>
 
 ﻿************************************Summary*************************************
 
- Submit Directory   :pegtrainXX/split/run0002
+ Submit Directory   :pegtrainXX/pegasus/split/run000
  Total jobs         :     17 (100.00%)
  # jobs succeeded   :      1 (5.88%)
  # jobs failed      :      1 (5.88%)
@@ -652,7 +652,7 @@ hostname    : unknown
 executable  : /usr/bin/pegasus-transfer
 arguments   :   --threads   2  
 exitcode    : 1
-working dir : /nfs/ccg3/ccg/home/pegtrainXX/examples/split/tutorial/pegtrainXX/split/run0002
+working dir : /nfs/ccg3/ccg/home/pegtrainXX/examples/split/tutorial/pegtrainXX/pegasus/split/run000
 
 ------------------Task #1 - pegasus::transfer - None - stdout-------------------
 
@@ -664,15 +664,15 @@ working dir : /nfs/ccg3/ccg/home/pegtrainXX/examples/split/tutorial/pegtrainXX/s
 2015-10-22 21:13:50,972    INFO:  --------------------------------------------------------------------------------
 2015-10-22 21:13:50,972    INFO:  Starting transfers - attempt 1
 2015-10-22 21:13:50,972    INFO:  Using 1 threads for this round of transfers
-2015-10-22 21:13:53,845   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /home/tutorial/.ssh/id_rsa -P 22 '/nfs/ccg3/ccg/home/pegtrainXX/examples/split/input/pegasus.html' 'tutorial@127.0.0.1:/home/tutorial/work/tutorial/pegtrainXX/split/run0002/pegasus.html'
+2015-10-22 21:13:53,845   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /home/tutorial/.ssh/id_rsa -P 22 '/nfs/ccg3/ccg/home/pegtrainXX/examples/split/input/pegasus.html' 'tutorial@127.0.0.1:/home/tutorial/work/tutorial/pegtrainXX/pegasus/split/run000/pegasus.html'
 2015-10-22 21:15:55,911    INFO:  --------------------------------------------------------------------------------
 2015-10-22 21:15:55,912    INFO:  Starting transfers - attempt 2
 2015-10-22 21:15:55,912    INFO:  Using 1 threads for this round of transfers
-2015-10-22 21:15:58,446   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /home/tutorial/.ssh/id_rsa -P 22 '/nfs/ccg3/ccg/home/pegtrainXX/examples/split/input/pegasus.html' 'tutorial@127.0.0.1:/home/tutorial/work/tutorial/pegtrainXX/split/run0002/pegasus.html'
+2015-10-22 21:15:58,446   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /home/tutorial/.ssh/id_rsa -P 22 '/nfs/ccg3/ccg/home/pegtrainXX/examples/split/input/pegasus.html' 'tutorial@127.0.0.1:/home/tutorial/work/tutorial/pegtrainXX/pegasus/split/run000/pegasus.html'
 2015-10-22 21:16:40,468    INFO:  --------------------------------------------------------------------------------
 2015-10-22 21:16:40,469    INFO:  Starting transfers - attempt 3
 2015-10-22 21:16:40,469    INFO:  Using 1 threads for this round of transfers
-2015-10-22 21:16:43,168   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /home/tutorial/.ssh/id_rsa -P 22 '/nfs/ccg3/ccg/home/pegtrainXX/examples/split/input/pegasus.html' 'tutorial@127.0.0.1:/home/tutorial/work/tutorial/pegtrainXX/split/run0002/pegasus.html'
+2015-10-22 21:16:43,168   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /home/tutorial/.ssh/id_rsa -P 22 '/nfs/ccg3/ccg/home/pegtrainXX/examples/split/input/pegasus.html' 'tutorial@127.0.0.1:/home/tutorial/work/tutorial/pegtrainXX/pegasus/split/run000/pegasus.html'
 2015-10-22 21:16:43,173    INFO:  --------------------------------------------------------------------------------
 2015-10-22 21:16:43,173    INFO:  Stats: no local files in the transfer set
 2015-10-22 21:16:43,173 CRITICAL:  Some transfers failed! See above, and possibly stderr.
@@ -903,15 +903,15 @@ wc                       4         4          0       0.005     0.029     0.012 
 2015.10.22 20:20:14.288 PDT:    
 2015.10.22 20:20:14.297 PDT:   Your workflow has been started and is running in the base directory: 
 2015.10.22 20:20:14.303 PDT:    
-2015.10.22 20:20:14.309 PDT:     /nfs/ccg3/ccg/home/pegtrainXX/examples/split/tutorial/pegtrainXX/split/run0002 
+2015.10.22 20:20:14.309 PDT:     /nfs/ccg3/ccg/home/pegtrainXX/examples/split/tutorial/pegtrainXX/pegasus/split/run000 
 2015.10.22 20:20:14.315 PDT:    
 2015.10.22 20:20:14.321 PDT:   *** To monitor the workflow you can run *** 
 2015.10.22 20:20:14.326 PDT:    
-2015.10.22 20:20:14.332 PDT:     pegasus-status -l /nfs/ccg3/ccg/home/pegtrainXX/examples/split/tutorial/pegtrainXX/split/run0002 
+2015.10.22 20:20:14.332 PDT:     pegasus-status -l /nfs/ccg3/ccg/home/pegtrainXX/examples/split/tutorial/pegtrainXX/pegasus/split/run000 
 2015.10.22 20:20:14.351 PDT:    
 2015.10.22 20:20:14.369 PDT:   *** To remove your workflow run *** 
 2015.10.22 20:20:14.376 PDT:    
-2015.10.22 20:20:14.388 PDT:     pegasus-remove /nfs/ccg3/ccg/home/pegtrainXX/examples/split/tutorial/pegtrainXX/split/run0002 
+2015.10.22 20:20:14.388 PDT:     pegasus-remove /nfs/ccg3/ccg/home/pegtrainXX/examples/split/tutorial/pegtrainXX/pegasus/split/run000 
 2015.10.22 20:20:14.397 PDT:    
 2015.10.22 20:20:16.146 PDT:   Time taken to execute is 10.292 seconds 
 </programlisting>
@@ -921,7 +921,7 @@ wc                       4         4          0       0.005     0.029     0.012 
       automatically till the workflow finishes</para>
 
       <programlisting><emphasis role="bold">$ ﻿</emphasis><emphasis
-          role="bold">pegasus-status -w pegtrainXX/split/run0002</emphasis>
+          role="bold">pegasus-status -w pegtrainXX/pegasus/split/run000</emphasis>
 ﻿(no matching jobs found in Condor Q)
 UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME                                 
    15     0     0     0     0     1     1   5.9 Failure *split-0.dag                            
@@ -931,11 +931,11 @@ UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME
       went wrong</para>
 
       <programlisting><emphasis role="bold">$ </emphasis>﻿<emphasis
-          role="bold">pegasus-analyzer pegtrainXX/split/run0002</emphasis>
+          role="bold">pegasus-analyzer pegtrainXX/pegasus/split/run000</emphasis>
 
 ﻿************************************Summary*************************************
 
- Submit Directory   :pegtrainXX/split/run0002
+ Submit Directory   :pegtrainXX/pegasus/split/run000
  Total jobs         :     17 (100.00%)
  # jobs succeeded   :      1 (5.88%)
  # jobs failed      :      1 (5.88%)
@@ -958,7 +958,7 @@ hostname    : unknown
 executable  : /usr/bin/pegasus-transfer
 arguments   :   --threads   2  
 exitcode    : 1
-working dir : /nfs/ccg3/ccg/home/pegtrainXX/examples/split/tutorial/pegtrainXX/split/run0002
+working dir : /nfs/ccg3/ccg/home/pegtrainXX/examples/split/tutorial/pegtrainXX/pegasus/split/run000
 
 ------------------Task #1 - pegasus::transfer - None - stdout-------------------
 
@@ -970,15 +970,15 @@ working dir : /nfs/ccg3/ccg/home/pegtrainXX/examples/split/tutorial/pegtrainXX/s
 2015-10-22 21:13:50,972    INFO:  --------------------------------------------------------------------------------
 2015-10-22 21:13:50,972    INFO:  Starting transfers - attempt 1
 2015-10-22 21:13:50,972    INFO:  Using 1 threads for this round of transfers
-2015-10-22 21:13:53,845   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /home/tutorial/.ssh/id_rsa -P 22 '/nfs/ccg3/ccg/home/pegtrainXX/examples/split/input/pegasus.html' 'tutorial@127.0.0.1:/home/tutorial/work/tutorial/pegtrainXX/split/run0002/pegasus.html'
+2015-10-22 21:13:53,845   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /home/tutorial/.ssh/id_rsa -P 22 '/nfs/ccg3/ccg/home/pegtrainXX/examples/split/input/pegasus.html' 'tutorial@127.0.0.1:/home/tutorial/work/tutorial/pegtrainXX/pegasus/split/run000/pegasus.html'
 2015-10-22 21:15:55,911    INFO:  --------------------------------------------------------------------------------
 2015-10-22 21:15:55,912    INFO:  Starting transfers - attempt 2
 2015-10-22 21:15:55,912    INFO:  Using 1 threads for this round of transfers
-2015-10-22 21:15:58,446   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /home/tutorial/.ssh/id_rsa -P 22 '/nfs/ccg3/ccg/home/pegtrainXX/examples/split/input/pegasus.html' 'tutorial@127.0.0.1:/home/tutorial/work/tutorial/pegtrainXX/split/run0002/pegasus.html'
+2015-10-22 21:15:58,446   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /home/tutorial/.ssh/id_rsa -P 22 '/nfs/ccg3/ccg/home/pegtrainXX/examples/split/input/pegasus.html' 'tutorial@127.0.0.1:/home/tutorial/work/tutorial/pegtrainXX/pegasus/split/run000/pegasus.html'
 2015-10-22 21:16:40,468    INFO:  --------------------------------------------------------------------------------
 2015-10-22 21:16:40,469    INFO:  Starting transfers - attempt 3
 2015-10-22 21:16:40,469    INFO:  Using 1 threads for this round of transfers
-2015-10-22 21:16:43,168   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /home/tutorial/.ssh/id_rsa -P 22 '/nfs/ccg3/ccg/home/pegtrainXX/examples/split/input/pegasus.html' 'tutorial@127.0.0.1:/home/tutorial/work/tutorial/pegtrainXX/split/run0002/pegasus.html'
+2015-10-22 21:16:43,168   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /home/tutorial/.ssh/id_rsa -P 22 '/nfs/ccg3/ccg/home/pegtrainXX/examples/split/input/pegasus.html' 'tutorial@127.0.0.1:/home/tutorial/work/tutorial/pegtrainXX/pegasus/split/run000/pegasus.html'
 2015-10-22 21:16:43,173    INFO:  --------------------------------------------------------------------------------
 2015-10-22 21:16:43,173    INFO:  Stats: no local files in the transfer set
 2015-10-22 21:16:43,173 CRITICAL:  Some transfers failed! See above, and possibly stderr.
@@ -1003,23 +1003,23 @@ Warning: Permanently added '127.0.0.1' (RSA) to the list of known hosts.<emphasi
       of executing pegasus-plan we will use the command pegasus-run on the
       directory from our previous failed workflow run.</para>
 
-      <programlisting><emphasis role="bold">$</emphasis> <emphasis role="bold">﻿ pegasus-run   pegtrainXX/split/run0002/</emphasis>
-Rescued /nfs/ccg3/ccg/home/pegtrainXX/examples/split/tutorial/pegtrainXX/split/run0002/split-0.log as /nfs/ccg3/ccg/home/pegtrainXX/examples/split/tutorial/pegtrainXX/split/run0002/split-0.log.000
+      <programlisting><emphasis role="bold">$</emphasis> <emphasis role="bold">﻿ pegasus-run   pegtrainXX/pegasus/split/run000/</emphasis>
+Rescued /nfs/ccg3/ccg/home/pegtrainXX/examples/split/tutorial/pegtrainXX/pegasus/split/run000/split-0.log as /nfs/ccg3/ccg/home/pegtrainXX/examples/split/tutorial/pegtrainXX/pegasus/split/run000/split-0.log.000
 Submitting to condor split-0.dag.condor.sub
 Submitting job(s).
 1 job(s) submitted to cluster 181.
 
 Your workflow has been started and is running in the base directory:
 
- pegtrainXX/split/run0002/
+ pegtrainXX/pegasus/split/run000/
 
 *** To monitor the workflow you can run ***
 
-  pegasus-status -lpegtrainXX/split/run0002/
+  pegasus-status -l pegtrainXX/pegasus/split/run000/
 
 *** To remove your workflow run ***
 
-  pegasus-removepegtrainXX/split/run0002/
+  pegasus-remove pegtrainXX/pegasus/split/run000/
 </programlisting>
 
       <para>The workflow will now run to completion and succeed.</para>
