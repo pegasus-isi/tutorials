@@ -625,7 +625,7 @@ pegasus-analyzer: initializing...
       <para>If the workflow had failed you would see something like
       this:</para>
 
-      <programlisting>$ <emphasis role="bold">pegasus-analyzerpegtrainXX/split/run0002</emphasis>
+      <programlisting>$ <emphasis role="bold">pegasus-analyzer pegtrainXX/split/run0002</emphasis>
 
 ﻿************************************Summary*************************************
 
