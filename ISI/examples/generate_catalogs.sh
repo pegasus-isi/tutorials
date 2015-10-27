@@ -168,7 +168,7 @@ EOF
 
 examples=( diamond   merge  pipeline  process  split)
 for EXAMPLE in "${examples[@]}"; do
-    cp ${HOME}/.pegasusrc ${EXAMPLE}/
+    cp ${HOME}/.pegasusrc ${EXAMPLE}/pegasus.conf
     cp sites.xml ${EXAMPLE}/
     cp tc.txt ${EXAMPLE}/
 done
