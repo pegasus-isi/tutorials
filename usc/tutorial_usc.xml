@@ -1420,7 +1420,7 @@ pegasus.metrics.app=pegasus-tutorial
 </programlisting>
   </section>
 
-  <section>
+  <section id="tutorial_pmc">
     <title>Running the whole workflow as an MPI job</title>
 
     <para>Often, users have lots of short running single processor jobs in
@@ -1620,7 +1620,7 @@ pegasus-plan \
     replaced by a single merge_p1 job, that is executed as a MPI job.</para>
   </section>
 
-  <section>
+  <section id="tutorial_conclusion">
     <title>Conclusion</title>
 
     <para>This brings you to the end of the Pegasus tutorial on USC HPC
