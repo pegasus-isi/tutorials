@@ -1215,20 +1215,43 @@ Generated dax split.dax</programlisting>
       <programlisting>$ <emphasis role="bold">more sites.xml</emphasis>
 ...
    &lt;!-- The local site contains information about the submit host --&gt;
-    &lt;!-- The arch and os keywords are used to match binaries in the transformation catalog --&gt;
-    &lt;site handle="local" arch="x86_64" os="LINUX"&gt;
-
-        <emphasis role="bold">&lt;!-- These are the paths on the submit host were Pegasus stores data --&gt;
-        &lt;!-- Scratch is where temporary files go --&gt;</emphasis>
-        &lt;directory type="shared-scratch" path="/home/tutorial/scratch"&gt;
-            &lt;file-server operation="all" url="file:///home/tutorial/scratch"/&gt;
+    &lt;site handle="local"&gt;
+        <emphasis role="bold">&lt;!-- This is where intermediate data will be stored --&gt;</emphasis>
+        &lt;directory type="shared-scratch" path="/auto/rcf-40/vahi/tutorial/split/scratch"&gt;
+            &lt;file-server operation="all" url="file:///auto/rcf-40/vahi/tutorial/split/scratch"/&gt;
         &lt;/directory&gt;
-
-       <emphasis role="bold"> &lt;!-- Storage is where pegasus stores output files --&gt;</emphasis>
-        &lt;directory type="local-storage" path="/home/tutorial/output"&gt;
-            &lt;file-server operation="all" url="file:///home/tutorial/output"/&gt;
+        <emphasis role="bold">&lt;!-- This is where output data will be stored --&gt;</emphasis>
+        &lt;directory type="shared-storage" path="/auto/rcf-40/vahi/tutorial/split/output"&gt;
+            &lt;file-server operation="all" url="file:///auto/rcf-40/vahi/tutorial/split/output"/&gt;
         &lt;/directory&gt;
     &lt;/site&gt;
+
+    &lt;site handle="usc-hpcc" arch="x86_64" os="LINUX"&gt;
+         <emphasis role="bold">&lt;!-- Scratch directory on the cluster --&gt;</emphasis>
+        &lt;directory type="shared-scratch" path="/auto/rcf-40/vahi/tutorial/split/hpcc/scratch"&gt;
+            &lt;file-server operation="all" url="file:///auto/rcf-40/vahi/tutorial/split/hpcc/scratch"/&gt;
+        &lt;/directory&gt;
+
+
+        &lt;profile namespace="pegasus" key="style"&gt;glite&lt;/profile&gt;
+
+
+        <emphasis role="bold">&lt;!-- This tells glite what scheduler to use. It can be 'pbs' or 'sge' --&gt;</emphasis>
+        &lt;profile namespace="condor" key="grid_resource"&gt;pbs&lt;/profile&gt;
+
+       <emphasis role="bold"> &lt;!-- This tells glite what batch queue to submit jobs to --&gt;</emphasis>
+        &lt;profile namespace="pegasus" key="queue"&gt;default&lt;/profile&gt;
+
+       <emphasis role="bold">&lt;!--- This tells pegasus to have the auxillary jobs run on submit host 
+             and not go through the local PBS queue --&gt;</emphasis>
+       &lt;profile namespace="pegasus"	key="auxillary.local"&gt;true&lt;/profile&gt;
+               
+       &lt;!-- This profile tells Pegasus where the worker package is installed on the site --&gt;
+        &lt;!-- Without this, Pegasus will automatically stage a worker package to the site,
+             which fails because USC worker nodes are behind a firewall --&gt;
+        &lt;profile namespace="env" key="PEGASUS_HOME"&gt;/home/rcf-proj/gmj/pegasus/SOFTWARE/pegasus/default&lt;/profile&gt; 
+
+
 
 ...
       </programlisting>
