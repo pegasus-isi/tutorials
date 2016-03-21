@@ -457,10 +457,15 @@ Generated dax split.dax
     of the split workflow.</para>
 
     <para>By default, the dashboard server can only monitor workflows run by
-    the current user i.e. the user who is running the pegasus-service.</para>
+    the current user i.e. the user who is running the pegasus-service. On
+    hpc-pegasus.usc.edu, it is running in a multiuser mode. Before accessing
+    the dashboard, you need to give world read permissions to the workflow
+    database in your home directory.</para>
+
+    <programlisting>$ <emphasis role="bold">chmod +r ~/.pegasus/workflow.db</emphasis></programlisting>
 
     <para>Access the dashboard by navigating your browser to <emphasis
-    role="bold">https://hpc-pegasus.usc.edu</emphasis>.</para>
+    role="bold">https://hpc-pegasus.usc.edu/u/trainXX </emphasis>.</para>
 
     <para>When the webpage loads up, it will ask you for a username and a
     password. It is your USC RCF UNIX username and password corresponding to
