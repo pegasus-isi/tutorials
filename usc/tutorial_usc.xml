@@ -146,9 +146,10 @@ you get this</programlisting>
 
 </programlisting>
 
-    <para><emphasis role="bold">For the purpose of this tutorial replace any
-    instance of userXX with your hpc-pegasus.usc.edu
-    username.</emphasis></para>
+    <note>
+      <para>For the purpose of this tutorial replace any instance of trainXX
+      with your hpc-pegasus.usc.edu username.</para>
+    </note>
 
     <para><emphasis role="bold">If you are having trouble with this tutorial,
     or anything else related to Pegasus, you can contact the Pegasus Users
