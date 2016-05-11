@@ -2,7 +2,7 @@
 
 set -e 
 
-for count in `seq -w  01 03`; do
+for count in `seq -w  01 40`; do
     user=pegtrain$count
 
     echo "------------------------------"
