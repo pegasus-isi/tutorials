@@ -2,7 +2,7 @@
 
 set -e 
 
-for count in `seq -w  1 30`; do
+for count in `seq -w  01 40`; do
     user=pegtrain$count
 
     echo "------------------------------"
@@ -23,24 +23,21 @@ for count in `seq -w  1 30`; do
 	condor_rm $user
 	set -e
 
-        # remove the output and scratch dir
-        rm -rf ./run ./outputs ./examples
+        # setup SSH key to be used by tutorial
+        rm -rf ~/.ssh
+        mkdir -p ~/.ssh
+        ssh-keygen -b 2048 -t rsa -f ~/.ssh/workflow -N ""
+        cat ~/.ssh/workflow.pub > ~/.ssh/authorized_keys2
 
-	cp -r /local-scratch/vahi/software/git/tutorials/ISI/examples .
-
-	cd ./examples
-	./generate_catalogs.sh
-        rm ./*~ ./tutorial_setup.sh
-	cd ..
-
-        
-	
 	#setup workflow db for dashboard
 	rm -f ~${user}/.pegasus/workflow.db
 	pegasus-db-admin create
 	chmod +r ~${user}/.pegasus/workflow.db
         chmod +rx ~${user}
 	chmod +rx ~${user}/.pegasus
+
+        rm -rf ~/examples ~/run ~/tutorial
+        mkdir -p ~/tutorial
 
 EOF
      
