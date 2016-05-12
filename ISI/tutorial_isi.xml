@@ -1267,7 +1267,7 @@ Generated dax split.dax</programlisting>
       </note>
 
       <para>There are three sites defined in the site catalog: "local", "osg"
-      and "isi_workflow". </para>
+      and "isi_workflow".</para>
 
       <orderedlist>
         <listitem>
@@ -1300,7 +1300,7 @@ Generated dax split.dax</programlisting>
 
       <para>One can also use in-built Condor file transfer to do the
       transfers. This is done by setting <literal>pegasus.data.configuration =
-      condorio</literal> in the properties file. </para>
+      condorio</literal> in the properties file.</para>
 
       <para>Finally, the "osg" site is configured with two profiles that tell
       Pegasus that it is a plain Condor pool. Pegasus supports many ways of
@@ -1482,6 +1482,138 @@ pegasus.data.configuration=nonsharedfs
 # This is the name of the application for analytics
 pegasus.metrics.app=pegasus-tutorial
 </programlisting>
+  </section>
+
+  <section id="tutorial_clustering">
+    <title>Clustering Short Running Tasks</title>
+
+    <para>Often, users have lots of short running single processor jobs in
+    their workflow, that if submitted individually to the compute
+    infrastructure take a long time to execute, as each job sits in the job
+    management system's queue. For example in our previous example, each job
+    in the split workflow actually runs for less than a minute each. This is
+    not ideal, as each job is submitted individually to OSG and needs to be
+    matched to a node before it can be executed. In order to alleviate this,
+    it makes sense to cluster the short running jobs together. Pegasus allows
+    users to cluster tasks in their workflow into larger chunks, and then
+    execute them using a sequential tool called <emphasis
+    role="bold">pegasus-cluster</emphasis> or MPI based master worker tool
+    called <emphasis><emphasis
+    role="bold">pegasus-mpi-cluster</emphasis></emphasis> .</para>
+
+    <para>In this exercise we will re-run the split workflow with job
+    clustering turned on and use pegasus-cluster to run the clustered job on
+    the remote node. We will cluster parallel jobs on the same level of the
+    workflow into larger chunks.</para>
+
+    <para>In order to tell Pegasus to cluster the jobs we have to do the
+    following</para>
+
+    <orderedlist>
+      <listitem>
+        <para>Tell Pegasus how many clustered jobs per level of the workflow
+        to create. We usually do it by setting a profile in the site
+        catalog.</para>
+
+        <programlisting>&lt;site handle="osg" arch="x86_64" os="linux"&gt;
+
+     &lt;profile namespace="pegasus" key="style" &gt;condor&lt;/profile&gt;
+     &lt;profile namespace="condor" key="universe" &gt;vanilla&lt;/profile&gt;
+     &lt;profile namespace="condor" key="requirements"&gt;OSGVO_OS_STRING == "RHEL 6" &amp;amp;&amp;amp; Arch == "X86_64" &amp;amp;&amp;amp;  HAS_MODULES == True&lt;/profile&gt;
+     &lt;profile namespace="condor" key="+ProjectName"&gt;"PegasusTraining"&lt;/profile&gt;
+
+     <emphasis role="bold">&lt;!-- This profile tells Pegasus to create two clustered jobs
+          per level of the workflow, when horizontal clustering is
+          enabled --&gt;</emphasis>
+     &lt;profile namespace="pegasus" key="clusters.num" &gt;2&lt;/profile&gt;
+
+&lt;/site&gt;</programlisting>
+      </listitem>
+
+      <listitem>
+        <para>Tell pegasus that it has to do job clustering</para>
+
+        <para>To do this, while planning the workflow we add <emphasis
+        role="bold">--cluster </emphasis>option to pegasus-plan. That is what
+        we have in plan_cluster_dax.sh file.</para>
+
+        <programlisting>$ <emphasis role="bold">cat plan_cluster_dax.sh</emphasis>
+
+#!/bin/sh
+
+set -e
+...
+
+# This command tells Pegasus to plan the workflow contained in 
+# dax file passed as an argument. The planned workflow will be stored
+# in the "submit" directory. The execution # site is "".
+# --input-dir tells Pegasus where to find workflow input files.
+# --output-dir tells Pegasus where to place workflow output files.
+pegasus-plan --conf pegasus.properties \
+    --dax $DAXFILE \
+    --dir $DIR/submit \
+    --input-dir $DIR/input \
+    --output-dir $DIR/output \
+    --cleanup leaf \
+    <emphasis role="bold">--cluster horizontal \</emphasis>
+    --force \
+    --sites osg \
+    --staging-site isi_workflow \
+    --submit
+</programlisting>
+      </listitem>
+    </orderedlist>
+
+    <para><emphasis role="bold">Let us now plan and run the
+    workflow.</emphasis></para>
+
+    <programlisting>$ <emphasis role="bold">./plan_cluster_dax.sh split.dax </emphasis>
+2016.03.17 19:00:26.835 PDT:    
+2016.03.17 19:00:26.841 PDT:   ----------------------------------------------------------------------- 
+2016.03.17 19:00:26.846 PDT:   File for submitting this DAG to Condor           : split-0.dag.condor.sub 
+2016.03.17 19:00:26.851 PDT:   Log of DAGMan debugging messages                 : split-0.dag.dagman.out 
+2016.03.17 19:00:26.857 PDT:   Log of Condor library output                     : split-0.dag.lib.out 
+2016.03.17 19:00:26.862 PDT:   Log of Condor library error messages             : split-0.dag.lib.err 
+2016.03.17 19:00:26.867 PDT:   Log of the life of condor_dagman itself          : split-0.dag.dagman.log 
+2016.03.17 19:00:26.873 PDT:    
+2016.03.17 19:00:26.888 PDT:   ----------------------------------------------------------------------- 
+2016.03.17 19:00:28.295 PDT:   Your database is compatible with Pegasus version: 4.6.1 
+2016.03.17 19:00:28.470 PDT:   Submitting to condor split-0.dag.condor.sub 
+2016.03.17 19:00:28.535 PDT:   Submitting job(s). 
+2016.03.17 19:00:28.540 PDT:   1 job(s) submitted to cluster 8523. 
+2016.03.17 19:00:28.545 PDT:    
+2016.03.17 19:00:28.551 PDT:   Your workflow has been started and is running in the base directory: 
+2016.03.17 19:00:28.556 PDT:    
+2016.03.17 19:00:28.561 PDT:     ./submit/trainXX/pegasus/split/run0003 
+2016.03.17 19:00:28.567 PDT:    
+2016.03.17 19:00:28.572 PDT:   *** To monitor the workflow you can run *** 
+2016.03.17 19:00:28.577 PDT:    
+2016.03.17 19:00:28.583 PDT:     pegasus-status -l ./submit/trainXX/pegasus/split/run0003 
+2016.03.17 19:00:28.588 PDT:    
+2016.03.17 19:00:28.593 PDT:   *** To remove your workflow run *** 
+2016.03.17 19:00:28.599 PDT:    
+2016.03.17 19:00:28.604 PDT:     pegasus-remove ./submit/trainXX/pegasus/split/run0003 
+2016.03.17 19:00:28.609 PDT:    
+2016.03.17 19:00:28.737 PDT:   Time taken to execute is 3.371 seconds 
+</programlisting>
+
+    <para>This is what the diamond workflow looks like after Pegasus has
+    finished planning the DAX:</para>
+
+    <figure>
+      <title>Clustered Diamond DAG</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata contentwidth="70%"
+                     fileref="images/tutorial-split-clustered.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>You can see that instead of 4 jobs for wc, we two merge_wc jobs.
+    Each of these jobs runs two wc invocations one after the other using tool
+    called pegasus-cluster.</para>
   </section>
 
   <section id="tutorial_conclusion">
