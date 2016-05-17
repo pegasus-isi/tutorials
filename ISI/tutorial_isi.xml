@@ -492,6 +492,12 @@ Generated dax split.dax
       </listitem>
     </itemizedlist>
 
+    <note>
+      <para>On tutorial machine pegasus-service is running through apache.
+      Users can also start the dashboard as their own user using
+      pegasus-service command on the command line e.g. <programlisting>$ pegasus-service -H workflow.isi.edu -p 5001 -v</programlisting></para>
+    </note>
+
     <figure>
       <title>Dashboard Home Page</title>
 
@@ -1267,7 +1273,7 @@ Generated dax split.dax</programlisting>
       </note>
 
       <para>There are three sites defined in the site catalog: "local", "osg"
-      and "isi_workflow". </para>
+      and "isi_workflow".</para>
 
       <orderedlist>
         <listitem>
@@ -1300,7 +1306,7 @@ Generated dax split.dax</programlisting>
 
       <para>One can also use in-built Condor file transfer to do the
       transfers. This is done by setting <literal>pegasus.data.configuration =
-      condorio</literal> in the properties file. </para>
+      condorio</literal> in the properties file.</para>
 
       <para>Finally, the "osg" site is configured with two profiles that tell
       Pegasus that it is a plain Condor pool. Pegasus supports many ways of
