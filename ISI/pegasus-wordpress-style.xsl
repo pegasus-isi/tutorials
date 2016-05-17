@@ -4,7 +4,6 @@
 
     <!-- This should map via /etc/xml/catalog to a file on the local system -->
     <xsl:import href="http://docbook.sourceforge.net/release/xsl/current/html/chunk.xsl"/>
-    <!-- <xsl:import href="http://yggdrasil.isi.edu/docbook-xsl/html/chunk.xsl"/> -->
 
     <xsl:output method="html" encoding="UTF-8" indent="no"/> 
 
@@ -16,7 +15,6 @@
     <xsl:param name="chunk.section.depth">1</xsl:param>
     <xsl:param name="section.label.includes.component.label">1</xsl:param>
     <xsl:param name="section.autolabel">1</xsl:param>
-
 
     <xsl:param name="generate.toc">
         appendix toc
@@ -43,6 +41,8 @@
         </l:l10n>
     </l:i18n>
 
+    <xsl:template name="book.titlepage.separator">
+    </xsl:template>
 
     <!-- ==================================================================== -->
     <xsl:template name="chunk-element-content">
@@ -54,29 +54,21 @@
         </xsl:param>
 
         <xsl:call-template name="user.preroot"/>
+        <xsl:variable name="doc" select="self::*"/>
         <xsl:processing-instruction name="php"> 
-            include_once( $_SERVER['DOCUMENT_ROOT']."/static/includes/common.inc.php" );
-            do_html_header("Pegasus Tutorial");
+            require('/srv/new-pegasus.isi.edu/includes/common.php'); 
+            pegasus_header("<xsl:apply-templates select="$doc" mode="object.title.markup.textonly"/>");
         ?</xsl:processing-instruction>
-        <div id="content">
-        <!-- breadcrumbs are turned off
-        <xsl:call-template name="breadcrumbs"/>
+        <xsl:call-template name="user.header.content"/>
         <hr/>
-        -->
-        <xsl:call-template name="header.navigation.custom">
-            <xsl:with-param name="prev" select="$prev"/>
-            <xsl:with-param name="next" select="$next"/>
-            <xsl:with-param name="nav.context" select="$nav.context"/>
-        </xsl:call-template>
         <xsl:copy-of select="$content"/>
         <xsl:call-template name="footer.navigation">
             <xsl:with-param name="prev" select="$prev"/>
             <xsl:with-param name="next" select="$next"/>
             <xsl:with-param name="nav.context" select="$nav.context"/>
         </xsl:call-template>
-        </div> <!-- Close content -->
         <xsl:processing-instruction name="php"> 
-            do_html_footer();
+            pegasus_footer();
         ?</xsl:processing-instruction>
         <xsl:value-of select="$chunk.append"/>
     </xsl:template>
