@@ -492,6 +492,12 @@ Generated dax split.dax
       </listitem>
     </itemizedlist>
 
+    <note>
+      <para>On tutorial machine pegasus-service is running through apache.
+      Users can also start the dashboard as their own user using
+      pegasus-service command on the command line e.g. <programlisting>$ pegasus-service -H workflow.isi.edu -p 5001 -v</programlisting></para>
+    </note>
+
     <figure>
       <title>Dashboard Home Page</title>
 
