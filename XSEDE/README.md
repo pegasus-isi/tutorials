@@ -18,6 +18,88 @@ tasks in a scientific workflow can be everything from short serial tasks
 to very large parallel tasks (MPI for example) surrounded by a large
 number of small, serial tasks used for pre- and post-processing.
 
+## Bosco: a pilot system for HTCondor
+
+The remote jobs submission approach for when using Pegasus on XSEDE
+depends on what type of workload you intend to run. If you have a small
+number of traditional MPI jobs, the standard Globus GRAM servies is a
+good solution. However, if your workload is more of a high throughput
+workload, such as a large number of tasks, Bosco is a good solution.
+Note that the tasks can have varying core/memory requirements, as long
+as task is not larger than a single node on the target cluster.
+
+[Bosco](http://bosco.opensciencegrid.org/) is a pilot system for
+HTCondor. Pilots under HTCondor is generally called *glideins* as the
+approach is to glide in the execution part of HTCondor to a cluster
+and thus extend your local HTCondor pool onto that cluster. Once you
+have glideins, you can use regular HTCondor jobs, and commands such as
+*condor_status* to view the status of your pool.
+
+To get started with Bosco, first log in to workflow.iu.xsede.org, and then
+run:
+
+```shell
+$ /opt/pegasus/bosco-installer/bosco_install
+```
+This will install Bosco into your home directory. It is important to
+understand that his is a local install available to your user only. For
+example, when listing the jobs in the queue, you will only see your own
+jobs. Because the setup is local, you also have to source a shell setup
+script to get the correct environment. _Note: you will have to source
+this script every time you log in._
+
+```shell
+$ source $HOME/bosco/bosco_setenv
+```
+
+Go ahead and start the system. You only need to do this once (or again
+if the submit host gets rebooted):
+
+```shell
+$ bosco_start
+```
+
+After a few seconds we can verify that the system is running with
+the *condor_q* and *condor_status* commands. The latter will return
+an empty list as we do not have any execution resources added yet.
+
+```shell
+$ condor_q
+
+-- Schedd: workflow.iu.xsede.org : 127.0.0.1:11000?...
+ ID      OWNER            SUBMITTED     RUN_TIME ST PRI SIZE CMD
+
+0 jobs; 0 completed, 0 removed, 0 idle, 0 running, 0 held, 0 suspended
+$ condor_status
+```
+
+Let's tell Bosco about our SDSC Comet account:
+
+```shell
+$ bosco_cluster -a comet-ln2.sdsc.edu pbs
+```
+
+Bosco needs a little bit more information to be able to submit
+the glideins to Comet. Log in to your Comet account via ssh
+(_important - this step has to take place on Comet_) and create the
+*~/bosco/glite/bin/pbs_local_submit_attributes.sh* file with the following
+content. You can find your allocation by running show_accounts and
+looking at the project column.
+
+```
+echo "#PBS -q compute"
+echo "#PBS -l nodes=1:ppn=24"
+echo "#PBS -l walltime=24:00:00"
+echo "#PBS -A [YOUR_COMET_ALLOCATION]"
+``` 
+
+Also chmod the file:
+
+```shell
+$ chmod 755 ~/bosco/glite/bin/pbs_local_submit_attributes.sh
+``` 
+
+
 ## Example 1: Two sites
 
 As a first example we will run a very simple workflow: two tasks, named
