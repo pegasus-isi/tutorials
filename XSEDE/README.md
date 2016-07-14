@@ -74,17 +74,22 @@ $ condor_q
 $ condor_status
 ```
 
-Let's tell Bosco about our SDSC Comet account:
+Let's tell Bosco about our SDSC Comet account. Your SDSC username might
+be different from your XSEDE portal username. If you are using a XSEDE
+training account, the SDSC account is xdtr*NN* where the NN is the same
+as the number from the train*NN* account. If you are using your own
+XSEDE account, you can find the username on the
+[XSEDE accounts page](https://www.xsede.org/group/xup/accounts).
 
 ```
-$ bosco_cluster -a comet-ln2.sdsc.edu pbs
+$ bosco_cluster -a YOUR_SDSC_USERNAME@comet-ln2.sdsc.edu pbs
 ```
 
 Bosco needs a little bit more information to be able to submit
 the glideins to Comet. Log in to your Comet account via ssh
-(**note: this step has to take place on Comet_) and create the
+(**note: this step has to take place on Comet**) and create the
 *~/bosco/glite/bin/pbs_local_submit_attributes.sh* file with the following
-content. You can find your allocation by running show_accounts and
+content. You can find your allocation by running *show_accounts* and
 looking at the project column.
 
 ```
@@ -99,6 +104,8 @@ Also chmod the file:
 ```
 $ chmod 755 ~/bosco/glite/bin/pbs_local_submit_attributes.sh
 ``` 
+
+You should now be all set up to run jobs on Comet.
 
 
 ## Example 1: Two sites
