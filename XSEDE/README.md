@@ -336,20 +336,23 @@ After the workflow has been submitted you can monitor it using the *pegasus-stat
 
 ```
 $ pegasus-status /YOUR/WF/PATH
-STAT  IN_STATE  JOB
-Run      02:04  two-xsede-sites-0 ( /YOUR/WF/PATH )
-Idle     01:11   ┗━step1_ID0000001
-Summary: 2 Condor jobs total (I:1 R:1), 1 Condor-G job (P:1)
+STAT  IN_STATE  JOB                                                                 
+Run      00:48  split-0 ( /home/train11/split/submit/train11/pegasus/split/run0001 )
+Idle     00:09   ┗━split_ID0000001                                                  
+Summary: 2 Condor jobs total (I:1 R:1)
 
-UNREADY   READY     PRE  QUEUED    POST SUCCESS FAILURE %DONE
-     10       0       0       1       0       3       0  21.4
-Summary: 1 DAG total (Running:1)
+UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME                                 
+    9     0     0     1     0     3     0  23.1 Running *split-0.dag
 ```
 
 This command shows the workflow the current jobs (in the above output it
-shows the *step1* job in the idle state). It also gives statistics on
+shows the *split* job in the idle state). It also gives statistics on
 the number of jobs in each state and the percentage of the jobs in the
 workflow that have finished successfully.
+
+The workflow might sit in this state while glideins are being submitted
+to SDSC Comet. Keep running *pegasus-status* and you will eventually
+see the workflow make progress.
 
 In the case that one or more jobs fails, then the output of the
 *pegasus-status* command above will have a non-zero value in the
@@ -371,46 +374,6 @@ $ pegasus-analyzer /YOUR/WF/PATH
  # jobs failed      :      0 (0.00%)
  # jobs unsubmitted :      0 (0.00%)
 ```
-If the workflow had failed you would see something like this:
-
-```shell
-$ pegasus-analyzer /YOUR/WF/PATH
-
-**************************Summary*************************************
-
- Total jobs         :      7 (100.00%)
- # jobs succeeded   :      2 (28.57%)
- # jobs failed      :      1 (14.29%)
- # jobs unsubmitted :      4 (57.14%)
-
-**********************Failed jobs' details****************************
-
-====================step1_ID0000001==============================
-
- last state: POST_SCRIPT_FAILED
-       site: sdsc-gordon
-submit file: step1_ID0000001.sub
-output file: step1_ID0000001.out.003
- error file: step1_ID0000001.err.003
-
------------------------Task #1 - Summary-----------------------------
-
-site        : sdsc-gordon
-hostname    : local-01
-executable  : /home/tutorial/bin/step1
-arguments   : -i f.a -o f.b1 -o f.b2
-exitcode    : -128
-working dir : -
-
--------------Task #1 - step1 - ID0000001 - stderr---------------
-
-FATAL: Executable not found.
-```
-
-In this example I removed the *step1* executable and
-re-planned/re-submitted the workflow. The output of *pegasus-analyzer*
-indicates that the preprocess task failed with an error message that
-indicates that the executable could not be found.
 
 The *pegasus-statistics* command can be used to gather statistics about
 the runtime of the workflow and its jobs. The *-s all* argument tells
@@ -513,24 +476,26 @@ $ cat statistics/breakdown.txt
 # Total(sec)     - the cumulative of invocation runtime corresponding
 #                  to the transformation.
 
-# e720e913-6635-4d6c-a5ae-41b33c899529 (two-xsede-sites)
-Transformation           Count     Succeeded Failed  Min       Max       Mean      Total     
-dagman::post             14        14        0       5.0       6.0       5.071     71.0      
-pegasus::cleanup         6         6         0       5.088     21.541    8.312     49.872    
-pegasus::dirmanager      2         2         0       5.438     5.471     5.454     10.909    
-pegasus::transfer        4         4         0       3.446     37.37     20.594    82.378    
-step1                    1         1         0       60.02     60.02     60.02     60.02     
-step2                    1         1         0       60.047    60.047    60.047    60.047    
+# 7acd92ab-5f84-44cd-a2f9-4e6542746994 (split)
+Transformation           Count     Succeeded Failed  Min       Max       Mean           Total     
+dagman::post             11        11        0       0.0       1.0       0.636          7.0       
+pegasus::cleanup         1         1         0       3.0       3.0       3.0            3.0       
+pegasus::dirmanager      1         1         0       4.0       4.0       4.0            4.0       
+pegasus::rc-client       2         2         0       0.582     0.668     0.625          1.25      
+pegasus::transfer        4         4         0       2.274     4.264     3.697          14.79     
+split                    1         1         0       0.001     0.001     0.001          0.001     
+wc                       4         4         0       0.001     0.001     0.001          0.004     
 
 
 # All (All)
-Transformation           Count     Succeeded  Failed  Min        Max        Mean      Total     
-dagman::post             14        14         0       5.0        6.0        5.071     71.0      
-pegasus::cleanup         6         6          0       5.088      21.541     8.312     49.872    
-pegasus::dirmanager      2         2          0       5.438      5.471      5.454     10.909    
-pegasus::transfer        4         4          0       3.446      37.37      20.594    82.378    
-step1                    1         1          0       60.02      60.02      60.02     60.02     
-step2                    1         1          0       60.047     60.047     60.047    60.047    
+Transformation           Count     Succeeded Failed  Min       Max       Mean           Total     
+dagman::post             11        11        0       0.0       1.0       0.636          7.0       
+pegasus::cleanup         1         1         0       3.0       3.0       3.0            3.0       
+pegasus::dirmanager      1         1         0       4.0       4.0       4.0            4.0       
+pegasus::rc-client       2         2         0       0.582     0.668     0.625          1.25      
+pegasus::transfer        4         4         0       2.274     4.264     3.697          14.79     
+split                    1         1         0       0.001     0.001     0.001          0.001     
+wc                       4         4         0       0.001     0.001     0.001          0.004
 ```
 
 ## <a name="TOC-Example-2:-Running-MPI-jobs"></a>Example 2: Running MPI jobs
@@ -542,7 +507,8 @@ world MPI executable that is pre-installed on the Gordon cluster.
 
 
 ```shell
-$ cd ~/pegasus-tutorial/mpi-example
+$ cp -r /opt/pegasus/tutorial/mpi-example ~/
+$ cd ~/mpi-example
 $  ./dax-generator.py > mpi-hw.dax 
 ```
 
@@ -655,8 +621,8 @@ $ pegasus-plan --conf pegasus.conf \
 	       --output-site local \
 	       --dir work \
 	       --dax mpi-hw.dax \
-	        --nocleanup \
-		--submit 
+	       --cleanup none \
+           --submit 
 ```
 
 This takes the mpi-hw.dax and plans it against the sdsc-gordon site.
