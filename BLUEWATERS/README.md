@@ -112,7 +112,7 @@ The diamond workflow runs combines the split and merge workflow patterns to crea
 **Complex Workflows**
 
 The above examples can be used as building blocks for much complex workflows. 
-Some of these are showcased on the ![Pegasus Applications page](https://pegasus.isi.edu/application-showcase/) .
+Some of these are showcased on the [Pegasus Applications page](https://pegasus.isi.edu/application-showcase/) .
 
 
 ## Setup your environment for Pegasus
@@ -289,7 +289,7 @@ required to submit and monitor the workflow are stored.
 
 This is what the mpi workflow looks like after Pegasus has finished planning the DAX:
 
-[DAG](https://raw.githubusercontent.com/pegasus-isi/tutorials/master/XSEDE/figures/tutorial-mpi-dag.jpg)
+![DAG](https://raw.githubusercontent.com/pegasus-isi/tutorials/master/XSEDE/figures/tutorial-mpi-dag.jpg)
 
 For this workflow the only jobs Pegasus needs to add are a directory
 creation job, a stage-in job (for pegasus.html), and stage-out jobs
