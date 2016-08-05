@@ -660,4 +660,4 @@ xsi:schemaLocation="http://pegasus.isi.edu/schema/DAX http://pegasus.isi.edu/sch
 ```
 
 The task requirement profiles and the mappings to the PBS parameters are explained 
-![here] (https://pegasus.isi.edu/documentation/glite.php#glite_mappings)
+[here] (https://pegasus.isi.edu/documentation/glite.php#glite_mappings)
