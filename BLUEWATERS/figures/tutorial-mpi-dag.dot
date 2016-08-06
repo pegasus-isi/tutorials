@@ -1,0 +1,18 @@
+digraph E {
+size="8.0,10.0"
+ratio=fill
+node [shape=ellipse]
+edge [arrowhead=normal, arrowsize=1.0]
+	"mpihw_ID0000001" [color=blueviolet,style=filled,label="mpihw_ID0000001"]
+	"cleanup_mpi-hello-world_0_bluewaters" [color=deepskyblue,style=filled,label="cleanup_mpi-hello-world_0_bluewaters"]
+	"register_bluewaters_0_0" [color=orange,style=filled,label="register_bluewaters_0_0"]
+	"stage_out_local_bluewaters_0_0" [color=goldenrod,style=filled,label="stage_out_local_bluewaters_0_0"]
+	"create_dir_mpi-hello-world_0_bluewaters" [color=darkturquoise,style=filled,label="create_dir_mpi-hello-world_0_bluewaters"]
+	"stage_in_local_bluewaters_0_0" [color=gold,style=filled,label="stage_in_local_bluewaters_0_0"]
+
+	"mpihw_ID0000001" -> "stage_out_local_bluewaters_0_0"
+	"stage_out_local_bluewaters_0_0" -> "cleanup_mpi-hello-world_0_bluewaters"
+	"stage_out_local_bluewaters_0_0" -> "register_bluewaters_0_0"
+	"create_dir_mpi-hello-world_0_bluewaters" -> "stage_in_local_bluewaters_0_0"
+	"stage_in_local_bluewaters_0_0" -> "mpihw_ID0000001"
+}
