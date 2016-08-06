@@ -496,8 +496,179 @@ pegasus::transfer        2         2         0       2.243     2.678     2.46   
 
 ```
 
+### Recovery from Failures
 
+Executing workflows in a distributed environment can lead to failures. Often, 
+they are a result of the underlying infrastructure being temporarily unavailable, 
+or errors in workflow setup such as incorrect executables specified, or input files being unavailable.
 
+In case of transient infrastructure failures such as a node being 
+temporarily down in a cluster, Pegasus will automatically retry jobs 
+in case of failure. After a set number of retries (usually once), 
+a hard failure occurs, because of which workflow will eventually fail.
+
+In most of the cases, these errors are correctable 
+(either the resource comes back online or application errors are fixed). 
+Once the errors are fixed, you may not want to start a new workflow but 
+instead start from the point of failure. In order to do this, you can 
+submit the rescue workflows automatically created in case of failures. 
+A rescue workflow contains only a description of only the work that remains 
+to be done.
+
+#### Submitting Rescue Workflows
+
+In this example, we will take our previously run workflow and introduce errors such that workflow we just executed fails at runtime.
+
+First we will "hide" the input file to cause a failure by renaming it:
+
+```bash
+$ cd ~/pegasus-tutorial/mpi
+$ mv input/f.in input/f.in.bak
+```
+
+Now submit the workflow again:
+```bash
+$  ./plan_dax.sh mpi.dax 
+   2016.08.05 19:46:26.552 CDT:    
+   2016.08.05 19:46:26.558 CDT:   ----------------------------------------------------------------------- 
+   2016.08.05 19:46:26.563 CDT:   File for submitting this DAG to HTCondor           : mpi-hello-world-0.dag.condor.sub 
+   2016.08.05 19:46:26.568 CDT:   Log of DAGMan debugging messages                 : mpi-hello-world-0.dag.dagman.out 
+   2016.08.05 19:46:26.574 CDT:   Log of HTCondor library output                     : mpi-hello-world-0.dag.lib.out 
+   2016.08.05 19:46:26.579 CDT:   Log of HTCondor library error messages             : mpi-hello-world-0.dag.lib.err 
+   2016.08.05 19:46:26.584 CDT:   Log of the life of condor_dagman itself          : mpi-hello-world-0.dag.dagman.log 
+   2016.08.05 19:46:26.590 CDT:    
+   2016.08.05 19:46:26.595 CDT:   -no_submit given, not submitting DAG to HTCondor.  You can do this with: 
+   2016.08.05 19:46:26.605 CDT:   ----------------------------------------------------------------------- 
+   2016.08.05 19:46:31.743 CDT:   Your database is compatible with Pegasus version: 4.6.2 
+   2016.08.05 19:46:31.900 CDT:   Submitting to condor mpi-hello-world-0.dag.condor.sub 
+   2016.08.05 19:46:33.117 CDT:   Submitting job(s). 
+   2016.08.05 19:46:33.122 CDT:   1 job(s) submitted to cluster 184. 
+   2016.08.05 19:46:33.156 CDT:    
+   2016.08.05 19:46:33.161 CDT:   Your workflow has been started and is running in the base directory: 
+   2016.08.05 19:46:33.167 CDT:    
+   2016.08.05 19:46:33.172 CDT:     /u/training/instr006/pegasus-tutorial/mpi/submit/instr006/pegasus/mpi-hello-world/run0002 
+   2016.08.05 19:46:33.177 CDT:    
+   2016.08.05 19:46:33.183 CDT:   *** To monitor the workflow you can run *** 
+   2016.08.05 19:46:33.188 CDT:    
+   2016.08.05 19:46:33.193 CDT:     pegasus-status -l /u/training/instr006/pegasus-tutorial/mpi/submit/instr006/pegasus/mpi-hello-world/run0002 
+   2016.08.05 19:46:33.199 CDT:    
+   2016.08.05 19:46:33.204 CDT:   *** To remove your workflow run *** 
+   2016.08.05 19:46:33.209 CDT:    
+   2016.08.05 19:46:33.215 CDT:     pegasus-remove /u/training/instr006/pegasus-tutorial/mpi/submit/instr006/pegasus/mpi-hello-world/run0002 
+   2016.08.05 19:46:33.220 CDT:    
+   2016.08.05 19:46:33.396 CDT:   Time taken to execute is 9.811 seconds 
+
+```
+
+We will add -w option to pegasus-status to watch automatically till the workflow finishes:
+
+```bash
+ $ pegasus-status /YOUR/WF/PATH
+(no matching jobs found in Condor Q)
+UNREADY   READY     PRE  QUEUED    POST SUCCESS FAILURE %DONE
+      4       0       0       0       0       1       1  16.7
+
+```
+
+Now we can use the pegasus-analyzer command to determine what went wrong:
+```bash
+$ pegasus-analyzer /YOUR/WF/PATH
+************************************Summary*************************************
+
+ Submit Directory   : submit/instr006/pegasus/mpi-hello-world/run0002
+ Total jobs         :      6 (100.00%)
+ # jobs succeeded   :      1 (16.67%)
+ # jobs failed      :      1 (16.67%)
+ # jobs unsubmitted :      4 (66.67%)
+
+******************************Failed jobs' details******************************
+
+=========================stage_in_local_bluewaters_0_0==========================
+
+ last state: POST_SCRIPT_FAILED
+       site: local
+submit file: stage_in_local_bluewaters_0_0.sub
+output file: stage_in_local_bluewaters_0_0.out.001
+ error file: stage_in_local_bluewaters_0_0.err.001
+
+-------------------------------Task #1 - Summary--------------------------------
+
+site        : local
+hostname    : h2ologin2.ncsa.illinois.edu
+executable  : /mnt/b/projects/eot/bafu/pegasus/pegasus-4.6.2dev/bin/pegasus-transfer
+arguments   :   --threads   2  
+exitcode    : 1
+working dir : /mnt/a/u/training/instr006/pegasus-tutorial/mpi/submit/instr006/pegasus/mpi-hello-world/run0002
+
+------------------Task #1 - pegasus::transfer - None - stdout-------------------
+
+2016-08-05 19:50:22,153    INFO:  Reading URL pairs from stdin
+2016-08-05 19:50:22,157    INFO:  1 transfers loaded
+2016-08-05 19:50:22,157    INFO:  PATH=/usr/bin:/bin:/usr/local/globus-5.2.5/bin
+2016-08-05 19:50:22,157    INFO:  LD_LIBRARY_PATH=/sw/xe/darshan/2.3.0/darshan-2.3.0_cle52/lib:/usr/local/globus-5.2.5/lib64:/usr/local/globus/lib64:/usr/local/globus-5.2.5/lib
+2016-08-05 19:50:22,216    INFO:  --------------------------------------------------------------------------------
+2016-08-05 19:50:22,216    INFO:  Starting transfers - attempt 1
+2016-08-05 19:50:24,223    INFO:  /bin/cp -f -R -L '/mnt/a/u/training/instr006/pegasus-tutorial/mpi/input/f.in' '/mnt/a/u/training/instr006/pegasus-tutorial/mpi/bluewaters/scratch/instr006/pegasus/mpi-hello-world/run0002/f.in'
+2016-08-05 19:50:24,240    INFO:  /bin/cp: cannot stat `/mnt/a/u/training/instr006/pegasus-tutorial/mpi/input/f.in': No such file or directory
+2016-08-05 19:50:24,240   ERROR:  Command exited with non-zero exit code (1): /bin/cp ...
+2016-08-05 19:50:59,272    INFO:  --------------------------------------------------------------------------------
+2016-08-05 19:50:59,273    INFO:  Starting transfers - attempt 2
+2016-08-05 19:51:01,425    INFO:  /bin/cp -f -R -L '/mnt/a/u/training/instr006/pegasus-tutorial/mpi/input/f.in' '/mnt/a/u/training/instr006/pegasus-tutorial/mpi/bluewaters/scratch/instr006/pegasus/mpi-hello-world/run0002/f.in'
+2016-08-05 19:51:03,694    INFO:  /bin/cp: cannot stat `/mnt/a/u/training/instr006/pegasus-tutorial/mpi/input/f.in': No such file or directory
+2016-08-05 19:51:03,694   ERROR:  Command exited with non-zero exit code (1): /bin/cp ...
+2016-08-05 19:53:17,795    INFO:  --------------------------------------------------------------------------------
+2016-08-05 19:53:17,796    INFO:  Starting transfers - attempt 3
+2016-08-05 19:53:19,801    INFO:  /bin/cp -f -R -L '/mnt/a/u/training/instr006/pegasus-tutorial/mpi/input/f.in' '/mnt/a/u/training/instr006/pegasus-tutorial/mpi/bluewaters/scratch/instr006/pegasus/mpi-hello-world/run0002/f.in'
+2016-08-05 19:53:19,818    INFO:  /bin/cp: cannot stat `/mnt/a/u/training/instr006/pegasus-tutorial/mpi/input/f.in': No such file or directory
+2016-08-05 19:53:19,818   ERROR:  Command exited with non-zero exit code (1): /bin/cp ...
+2016-08-05 19:53:19,818    INFO:  --------------------------------------------------------------------------------
+2016-08-05 19:53:19,819    INFO:  Stats: Total 3 transfers, 0.0 B transferred in 178 seconds. Rate: 0.0 B/s (0.0 b/s)
+2016-08-05 19:53:19,819    INFO:         Between sites bluewaters->bluewaters : 3 transfers, 0.0 B transferred in 178 seconds. Rate: 0.0 B/s (0.0 b/s)
+2016-08-05 19:53:19,819 CRITICAL:  Some transfers failed! See above, and possibly stderr.
+
+```
+
+The above listing indicates that it could not transfer f.in 
+Let's correct that error by restoring the f.in file:
+
+```bash
+$  mv input/f.in.bak input/f.in
+```
+
+Now in order to start the workflow from where we left off, instead of executing pegasus-plan 
+we will use the command pegasus-run on the directory from our previous failed workflow run:
+
+```bash
+$ pegasus-run  /YOUR/WF/PATH
+Rescued /u/training/instr006/pegasus-tutorial/mpi/submit/instr006/pegasus/mpi-hello-world/run0002/mpi-hello-world-0.log as /u/training/instr006/pegasus-tutorial/mpi/submit/instr006/pegasus/mpi-hello-world/run0002/mpi-hello-world-0.log.000
+Submitting to condor mpi-hello-world-0.dag.condor.sub
+Submitting job(s).
+1 job(s) submitted to cluster 191.
+
+Your workflow has been started and is running in the base directory:
+
+  submit/instr006/pegasus/mpi-hello-world/run0002
+
+*** To monitor the workflow you can run ***
+
+  pegasus-status -l submit/instr006/pegasus/mpi-hello-world/run0002
+
+*** To remove your workflow run ***
+
+  pegasus-remove submit/instr006/pegasus/mpi-hello-world/run0002
+
+```
+
+The workflow will now run to completion and succeed.
+```bash
+pegasus-status -l -w /YOUR/WF/PATH
+
+(no matching jobs found in Condor Q)
+UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME                                 
+    0     0     0     0     0     6     0 100.0 Success *mpi-hello-world-0.dag                  
+Summary: 1 DAG total (Success:1)
+
+```
 ### Catalogs
 
 There are three information catalogs that Pegasus uses when planning
@@ -644,12 +815,16 @@ xsi:schemaLocation="http://pegasus.isi.edu/schema/DAX http://pegasus.isi.edu/sch
 	<job id="ID0000001" namespace="pegasus" name="mpihw">
 		<argument>-i  <file name="f.in"/> -o  <file name="f.out"/></argument>
 		<profile namespace="globus" key="jobtype">mpi</profile>
+		
 		<!-- the number of nodes required -->
 		<profile namespace="pegasus" key="nodes">2</profile>
+		
 		<!-- the number of cores required -->
 		<profile namespace="pegasus" key="cores">32</profile>
+		
 		<!-- specifies the number of processors per node that the job should use -->
 		<profile namespace="pegasus" key="ppn">16</profile>  
+		
 		<!-- expected runtime of job in seconds -->
 		<profile namespace="pegasus" key="runtime">300</profile>
 		<uses name="f.in" link="input"/>
@@ -661,3 +836,17 @@ xsi:schemaLocation="http://pegasus.isi.edu/schema/DAX http://pegasus.isi.edu/sch
 
 The task requirement profiles and the mappings to the PBS parameters are explained 
 [here] (https://pegasus.isi.edu/documentation/glite.php#glite_mappings)
+
+## Conclusion
+his brings you to the end of the Pegasus tutorial on Bluewaters. 
+The tutorial should have given you an overview of how to compose a simple
+workflow using Pegasus and running it on Bluewaters.
+The tutorial examples, should provide a good starting point for you to 
+port your application to a Pegasus workflow. If you need help in porting your application to Pegasus contact us on the following support channels
+
+public mailman list : <pegasus-users@isi.edu>
+
+private support list: <pegasus-support@isi.edu>
+
+Detailed Pegasus Documentation can be found 
+[here] (https://pegasus.isi.edu/documentation/).
