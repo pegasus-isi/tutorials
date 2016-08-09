@@ -129,6 +129,8 @@ $ condor_version
 $CondorVersion: 8.5.5 Jul 28 2016 BuildID: BW $
 $CondorPlatform: X86_64-sles_11 $
 
+$ mkdir pegasus-tutorial
+$ cd pegasus-tutorial
 ```
 
 
