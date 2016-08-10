@@ -677,6 +677,9 @@ There are three information catalogs that Pegasus uses when planning
 the workflow. These are the *Site* catalog, *Transformation* catalog, and
 *Replica* catalog.
 
+
+![Catalogs Used by Pegasus](https://raw.githubusercontent.com/pegasus-isi/tutorials/master/BLUEWATERS/figures/tutorial-pegasus-catalogs.png)
+
 ## Site Catalog
 
 The site catalog describes the sites where the workflow jobs are to
@@ -787,12 +790,38 @@ aprun.
 The final catalog is the *Replica* catalog. This catalog tells Pegasus
 where to find each of the input files for the workflow.
 
+The example that you ran, was configured with the inputs already present 
+on the submit host (where Pegasus is installed) in a directory. 
+If you have inputs at external servers, then you can specify the URLs 
+to the input files in the Replica Catalog. 
+
 All files in a Pegasus workflow are referred to in the DAX using their
 Logical File Name (LFN). These LFNs are mapped to Physical File Names
 (PFNs) when Pegasus plans the workflow. This level of indirection
 enables Pegasus to map abstract DAXes to different execution sites and
 plan out the required file transfers automatically.
 
+The Replica Catalog for the diamond workflow is in the rc.txt file:
+```bash
+more rc.txt
+# This is the replica catalog. It lists information about each of the
+# input files used by the workflow. 
+# You can use this to specify locations to input files present on external servers.
+
+# The format is:
+# LFN     PFN    pool="SITE"
+#
+# For example:
+#data.txt  file:///tmp/data.txt         site="local"
+#data.txt  http://example.org/data.txt  site="example"
+f.in file:///u/training/traXXX/pegasus-tutorial/mpi/input/f.in   site="local"
+```
+
+**Note** By default (unless specified in properties), Pegasus picks ups the 
+replica catalog from a text file named rc.txt in the current working 
+directory from where pegasus-plan is invoked. In our tutorial, input files 
+are on the submit host and we used the --input dir option to pegasus-plan
+to specify where they are located.
 
 # Specifying Task Requirements for MPI jobs
 
@@ -811,9 +840,8 @@ xsi:schemaLocation="http://pegasus.isi.edu/schema/DAX http://pegasus.isi.edu/sch
 3.6.xsd" version="3.6" name="mpi-hello-world">
 	<metadata key="created">Fri Aug  5 15:57:44 2016</metadata>
 	<metadata key="creator">instr006@h2ologin1</metadata>
-	<file name="f.in">
-		<pfn url="file:///mnt/a/u/training/instr006/pegasus-tutorial/mpi/input/f.in" site="bluewaters"/>
-	</file>
+	
+	
 	<job id="ID0000001" namespace="pegasus" name="mpihw">
 		<argument>-i  <file name="f.in"/> -o  <file name="f.out"/></argument>
 		<profile namespace="globus" key="jobtype">mpi</profile>
@@ -836,11 +864,13 @@ xsi:schemaLocation="http://pegasus.isi.edu/schema/DAX http://pegasus.isi.edu/sch
 
 ```
 
+
+
 The task requirement profiles and the mappings to the PBS parameters are explained 
 [here] (https://pegasus.isi.edu/documentation/glite.php#glite_mappings)
 
 # Conclusion
-his brings you to the end of the Pegasus tutorial on Bluewaters. 
+This brings you to the end of the Pegasus tutorial on Bluewaters. 
 The tutorial should have given you an overview of how to compose a simple
 workflow using Pegasus and running it on Bluewaters.
 The tutorial examples, should provide a good starting point for you to 
