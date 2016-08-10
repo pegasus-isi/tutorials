@@ -277,6 +277,7 @@ The code has 3 main sections:
     has a single job. Hence, we are not adding any depedency. To add a depedency
     we use *depends* function on the ADAG object. For example, snippet from 
     the split example 
+    
     ```bash
     # Add control-flow dependencies
     dax.depends(wc, split)
