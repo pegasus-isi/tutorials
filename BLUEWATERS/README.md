@@ -299,7 +299,7 @@ creation job, a stage-in job (for pegasus.html), and stage-out jobs
 required as workflow executes.
 
 
-## Monitoring, statistics and debugging
+# Monitoring, statistics and debugging
 
 All the command line interfaces described so far, and the ones
 following, all have man pages which describe the command and arguments.
@@ -498,7 +498,7 @@ pegasus::transfer        2         2         0       2.243     2.678     2.46   
 
 ```
 
-### Recovery from Failures
+## Recovery from Failures
 
 Executing workflows in a distributed environment can lead to failures. Often, 
 they are a result of the underlying infrastructure being temporarily unavailable, 
@@ -517,7 +517,7 @@ submit the rescue workflows automatically created in case of failures.
 A rescue workflow contains only a description of only the work that remains 
 to be done.
 
-#### Submitting Rescue Workflows
+### Submitting Rescue Workflows
 
 In this example, we will take our previously run workflow and introduce errors such that workflow we just executed fails at runtime.
 
@@ -671,13 +671,13 @@ UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME
 Summary: 1 DAG total (Success:1)
 
 ```
-### Catalogs
+# Catalogs
 
 There are three information catalogs that Pegasus uses when planning
 the workflow. These are the *Site* catalog, *Transformation* catalog, and
 *Replica* catalog.
 
-#### Site Catalog
+## Site Catalog
 
 The site catalog describes the sites where the workflow jobs are to
 be executed. Typically the sites in the site catalog describe remote
@@ -746,7 +746,7 @@ your ssh authorized keys.
  [https://pegasus.isi.edu/documentation/transfer.php](https://pegasus.isi.edu/documentation/transfer.php)
 
 
-#### Transformation Catalog
+## Transformation Catalog
 
 The transformation catalog describes all of the executables (called
 *transformations*) used by the workflow. This description includes
@@ -782,7 +782,7 @@ A thing to note is that we are pointing to the wrapper instead of the mpi
 executatble. This is required as on Bluewaters all mpi jobs should go through
 aprun.
 
-#### Replica Catalog
+## Replica Catalog
 
 The final catalog is the *Replica* catalog. This catalog tells Pegasus
 where to find each of the input files for the workflow.
@@ -794,7 +794,7 @@ enables Pegasus to map abstract DAXes to different execution sites and
 plan out the required file transfers automatically.
 
 
-### Specifying Task Requirements for MPI jobs
+# Specifying Task Requirements for MPI jobs
 
 To specify the task requirements for MPI jobs, you can asscociate pegasus
 task requirement profiles with the job. You can do this either in the 
@@ -839,7 +839,7 @@ xsi:schemaLocation="http://pegasus.isi.edu/schema/DAX http://pegasus.isi.edu/sch
 The task requirement profiles and the mappings to the PBS parameters are explained 
 [here] (https://pegasus.isi.edu/documentation/glite.php#glite_mappings)
 
-## Conclusion
+# Conclusion
 his brings you to the end of the Pegasus tutorial on Bluewaters. 
 The tutorial should have given you an overview of how to compose a simple
 workflow using Pegasus and running it on Bluewaters.
