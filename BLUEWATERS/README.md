@@ -287,6 +287,7 @@ You can inspect it by typing:
 ```bash
 $ more mpi.dax
 ```
+
 # Planning a workflow
 
 The pegasus-plan command is used to submit the workflow through Pegasus.
