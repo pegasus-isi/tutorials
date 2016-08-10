@@ -230,6 +230,63 @@ file with a .dax extension using the Pegasus Python API.
 Pegasus reads the DAX and generates an executable HTCondor workflow that
 is run on an execution site.
 
+The DAX generator for the split workflow is in the file daxgen.py.
+Look at the file by typing:
+```bash
+$ more daxgen.py
+```
+
+The code has 3 main sections:
+
+1.  A new ADAG object is created. This is the main object to which jobs 
+    and dependencies are added.
+    ```bash
+    # Create a abstract dag
+    dax = ADAG("mpi-hello-world")
+    
+    # Add some workflow-level metadata
+    dax.metadata("creator", "%s@%s" % (os.getlogin(), os.uname()[1]))
+    dax.metadata("created", time.ctime())
+
+    ```
+2.  Jobs and files are added.  Arguments are defined using strings and File objects. 
+    The input and output files are defined for each job. 
+    This is an important step, as it allows Pegasus to track the files, 
+    and stage the data if necessary. Workflow outputs are tagged with "transfer=true".
+    ```bash
+    # Add input file to the DAX-level replica catalog
+    fin = File("f.in")
+    
+    # optional if you want to put the file locations in the DAX
+    # for tutorial we are picking up from --input-dir option to
+    # pegasus-plan
+    # fin.addPFN(PFN("file://" + os.getcwd() + "/input/f.in", "bluewaters"))
+    # dax.addFile(fin)
+            
+    
+    # Add the mpi hello world job
+    mpi_hw_job = Job(namespace="pegasus", name="mpihw" )
+    fout = File("f.out")
+    mpi_hw_job.addArguments("-i ", fin )
+    mpi_hw_job.addArguments("-o ", fout )
+    mpi_hw_job.uses(fin, link=Link.INPUT)
+    mpi_hw_job.uses(fout, link=Link.OUTPUT)
+
+    ```
+3.  Dependencies between jobs are expressed as edges in the DAG. This example
+    has a single job. Hence, we are not adding any depedency. To add a depedency
+    we use *depends* function on the ADAG object. For example, snippet from 
+    the split example 
+    ```bash
+    # Add control-flow dependencies
+    dax.depends(wc, split)
+    ```
+
+The mpi.dax file should contain an XML representation of the split workflow.
+You can inspect it by typing:
+```bash
+$ more mpi.dax
+```
 # Planning a workflow
 
 The pegasus-plan command is used to submit the workflow through Pegasus.
