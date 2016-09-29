@@ -296,16 +296,20 @@ you get this</programlisting>
     <programlisting>$ <emphasis role="bold">mkdir ~/tutorial
 </emphasis>$ <emphasis role="bold">cd </emphasis>/home/rcf-40/trainXX/tutorial
 $ <emphasis role="bold">pegasus-init split</emphasis> 
-Do you want to generate a tutorial workflow? (y/n) [n]: <emphasis role="bold">y</emphasis>
+Do you want to generate a tutorial workflow? (y/n) [n]: y
+1: Local Machine
+2: USC HPCC Cluster
+3: OSG from ISI submit node
+4: XSEDE, with Bosco
+5: Bluewaters, with Glite
+What environment is tutorial to be setup for? (1-5) [1]: 2
 1: Process
 2: Pipeline
 3: Split
 4: Merge
 5: Diamond
-What tutorial workflow do you want? (1-5) [1]: <emphasis role="bold">3</emphasis>
-1: Local Machine
-2: USC HPCC Cluster
-What environment is tutorial to be setup for? (1-2) [1]: <emphasis role="bold">2</emphasis>
+What tutorial workflow do you want? (1-5) [1]: 3
+
 
 Pegasus Tutorial setup for example workflow - split for execution on usc-hpcc in directory <emphasis
         role="bold">/auto/rcf-40/trainXX/tutorial/split</emphasis>
