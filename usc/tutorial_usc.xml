@@ -1532,7 +1532,7 @@ Summary: 1 DAG total (Success:1)
 
         <itemizedlist>
           <listitem>
-            <para>In pegasus.conf file specify the property <emphasis
+            <para>In pegasus.properties file specify the property <emphasis
             role="bold">pegasus.job.aggregator mpiexec</emphasis></para>
           </listitem>
 
