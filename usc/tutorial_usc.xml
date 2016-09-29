@@ -56,6 +56,14 @@
       </listitem>
 
       <listitem>
+        <para>information catalogs configuration.</para>
+      </listitem>
+
+      <listitem>
+        <para>creation of workflow using system provided API</para>
+      </listitem>
+
+      <listitem>
         <para>how to use the Pegasus Workflow Dashboard for monitoring
         workflows.</para>
       </listitem>
@@ -67,14 +75,6 @@
 
       <listitem>
         <para>recovery from failures</para>
-      </listitem>
-
-      <listitem>
-        <para>creation of workflow using system provided API</para>
-      </listitem>
-
-      <listitem>
-        <para>information catalogs configuration.</para>
       </listitem>
 
       <listitem>
@@ -447,6 +447,403 @@ Generated dax split.dax
     creation job, a stage-in job (for pegasus.html), and stage-out jobs (for
     wc count outputs). The cleanup jobs remove data that is no longer required
     as workflow executes.</para>
+  </section>
+
+  <section id="tutorial_wf_generation">
+    <title>Generating the Workflow</title>
+
+    <para>The example that you ran earlier already had the workflow
+    description (split.dax) generated. Pegasus reads workflow descriptions
+    from DAX files. The term "DAX" is short for "Directed Acyclic Graph in
+    XML". DAX is an XML file format that has syntax for expressing jobs,
+    arguments, files, and dependencies. We now will be creating the split
+    workflow that we just ran using the Pegasus provided DAX API:</para>
+
+    <figure>
+      <title>Split Workflow</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata align="center" contentwidth="70%"
+                     fileref="images/tutorial-split-wf.jpg"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>In this diagram, the ovals represent computational jobs, the
+    dog-eared squares are files, and the arrows are dependencies.</para>
+
+    <para>In order to create a DAX it is necessary to write code for a DAX
+    generator. Pegasus comes with Perl, Java, and Python libraries for writing
+    DAX generators. In this tutorial we will show how to use the Python
+    library.</para>
+
+    <para>The DAX generator for the split workflow is in the file
+    <filename>daxgen.py</filename>. Look at the file by typing:</para>
+
+    <programlisting>$ <emphasis role="bold">more daxgen.py</emphasis>
+...</programlisting>
+
+    <tip>
+      <para>We will be using the <literal>more</literal> command to inspect
+      several files in this tutorial. <literal>more</literal> is a pager
+      application, meaning that it splits text files into pages and displays
+      the pages one at a time. You can view the next page of a file by
+      pressing the spacebar. Type 'h' to get help on using
+      <literal>more</literal>. When you are done, you can type 'q' to close
+      the file.</para>
+    </tip>
+
+    <para>The code has 3 main sections:</para>
+
+    <orderedlist>
+      <listitem>
+        <para>A new ADAG object is created. This is the main object to which
+        jobs and dependencies are added.</para>
+
+        <programlisting># Create a abstract dag
+dax = ADAG("split")
+...
+</programlisting>
+      </listitem>
+
+      <listitem>
+        <para>Jobs and files are added. The 5 jobs in the diagram above are
+        added and 9 files are referenced. Arguments are defined using strings
+        and File objects. The input and output files are defined for each job.
+        This is an important step, as it allows Pegasus to track the files,
+        and stage the data if necessary. Workflow outputs are tagged with
+        "transfer=true".</para>
+
+        <programlisting># the split job that splits the webpage into smaller chunks
+webpage = File("pegasus.html")
+
+split = Job("split")
+split.addArguments("-l","100","-a","1",webpage,"part.")
+split.uses(webpage, link=Link.INPUT)
+dax.addJob(split)
+
+...
+</programlisting>
+      </listitem>
+
+      <listitem>
+        <para>Dependencies are added. These are shown as arrows in the diagram
+        above. They define the parent/child relationships between the jobs.
+        When the workflow is executing, the order in which the jobs will be
+        run is determined by the dependencies between them.</para>
+
+        <programlisting># Add control-flow dependencies
+dax.depends(wc, split)
+</programlisting>
+      </listitem>
+    </orderedlist>
+
+    <para>Generate a DAX file named <filename>split.dax</filename> by
+    typing:</para>
+
+    <programlisting>$ <emphasis role="bold">./generate_dax.sh </emphasis>split.dax
+Generated dax split.dax</programlisting>
+
+    <para>The <filename>split.dax</filename> file should contain an XML
+    representation of the split workflow. You can inspect it by typing:</para>
+
+    <programlisting>$ <emphasis role="bold">more split.dax</emphasis>
+...</programlisting>
+  </section>
+
+  <section id="tutorial_catalogs">
+    <title>Information Catalogs</title>
+
+    <para>The workflow description (DAX) that you specify to Pegasus is
+    portable, and usually does not contain any locations to physical input
+    files, executables or cluster end points where jobs are executed. Pegasus
+    uses three information catalogs during the planning process.</para>
+
+    <figure>
+      <title>Information Catalogs used by Pegasus</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/tutorial-pegasus-catalogs.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <section id="tut_site_catalog">
+      <title>The Site Catalog</title>
+
+      <para>The site catalog describes the sites where the workflow jobs are
+      to be executed. In this tutorial we assume that you have a Personal
+      Condor pool running on localhost. If you are using one of the tutorial
+      VMs this has already been setup for you. The site catalog for the
+      tutorial examples is in <filename>sites.xml</filename>:</para>
+
+      <programlisting>$ <emphasis role="bold">more sites.xml</emphasis>
+...
+   &lt;!-- The local site contains information about the submit host --&gt;
+    &lt;site handle="local"&gt;
+        <emphasis role="bold">&lt;!-- This is where intermediate data will be stored --&gt;</emphasis>
+        &lt;directory type="shared-scratch" path="/auto/rcf-40/vahi/tutorial/split/scratch"&gt;
+            &lt;file-server operation="all" url="file:///auto/rcf-40/vahi/tutorial/split/scratch"/&gt;
+        &lt;/directory&gt;
+        <emphasis role="bold">&lt;!-- This is where output data will be stored --&gt;</emphasis>
+        &lt;directory type="shared-storage" path="/auto/rcf-40/vahi/tutorial/split/output"&gt;
+            &lt;file-server operation="all" url="file:///auto/rcf-40/vahi/tutorial/split/output"/&gt;
+        &lt;/directory&gt;
+    &lt;/site&gt;
+
+    &lt;site handle="usc-hpcc" arch="x86_64" os="LINUX"&gt;
+         <emphasis role="bold">&lt;!-- Scratch directory on the cluster --&gt;</emphasis>
+        &lt;directory type="shared-scratch" path="/auto/rcf-40/vahi/tutorial/split/hpcc/scratch"&gt;
+            &lt;file-server operation="all" url="file:///auto/rcf-40/vahi/tutorial/split/hpcc/scratch"/&gt;
+        &lt;/directory&gt;
+
+
+        &lt;profile namespace="pegasus" key="style"&gt;glite&lt;/profile&gt;
+
+
+        <emphasis role="bold">&lt;!-- This tells glite what scheduler to use. It can be 'pbs' or 'sge' --&gt;</emphasis>
+        &lt;profile namespace="condor" key="grid_resource"&gt;pbs&lt;/profile&gt;
+
+       <emphasis role="bold"> &lt;!-- This tells glite what batch queue to submit jobs to --&gt;</emphasis>
+        &lt;profile namespace="pegasus" key="queue"&gt;default&lt;/profile&gt;
+
+       <emphasis role="bold">&lt;!--- This tells pegasus to have the auxillary jobs run on submit host 
+             and not go through the local PBS queue --&gt;</emphasis>
+       &lt;profile namespace="pegasus"	key="auxillary.local"&gt;true&lt;/profile&gt;
+               
+       &lt;!-- This profile tells Pegasus where the worker package is installed on the site --&gt;
+        &lt;!-- Without this, Pegasus will automatically stage a worker package to the site,
+             which fails because USC worker nodes are behind a firewall --&gt;
+        &lt;profile namespace="env" key="PEGASUS_HOME"&gt;/home/rcf-proj/gmj/pegasus/SOFTWARE/pegasus/default&lt;/profile&gt; 
+
+
+
+...
+      </programlisting>
+
+      <note>
+        <para>By default (unless specified in properties), Pegasus picks ups
+        the site catalog from a XML file named sites.xml in the current
+        working directory from where pegasus-plan is invoked.</para>
+      </note>
+
+      <para>There are two sites defined in the site catalog: "local" and
+      "condorpool". The "local" site is used by Pegasus to learn about the
+      submit host where the workflow management system runs. The "condorpool"
+      site is the Condor pool configured on your submit machine. In the case
+      of the tutorial VM, the local site and the condorpool site refer to the
+      same machine, but they are logically separate as far as Pegasus is
+      concerned.</para>
+
+      <orderedlist>
+        <listitem>
+          <para>The <emphasis role="bold">local</emphasis> site is configured
+          with a "storage" file system that is mounted on the submit host
+          (indicated by the file:// URL). This file system is where the output
+          data from the workflow will be stored. When the workflow is planned
+          we will tell Pegasus that the output site is "local".</para>
+        </listitem>
+
+        <listitem>
+          <para>The <emphasis role="bold">condorpool</emphasis> site is also
+          configured with a "scratch" file system. This file system is where
+          the working directory will be created. When we plan the workflow we
+          will tell Pegasus that the execution site is "condorpool".</para>
+        </listitem>
+      </orderedlist>
+
+      <para>Pegasus supports many different file transfer protocols. In this
+      case the Pegasus configuration is set up so that input and output files
+      are transferred to/from the condorpool site by Condor. This is done by
+      setting <literal>pegasus.data.configuration = condorio</literal> in the
+      properties file. In a normal Condor pool, this will cause job
+      input/output files to be transferred from/to the submit host to/from the
+      worker node. In the case of the tutorial VM, this configuration is just
+      a fancy way to copy files from the workflow scratch directory to the job
+      scratch directory.</para>
+
+      <para>Finally, the condorpool site is configured with two profiles that
+      tell Pegasus that it is a plain Condor pool. Pegasus supports many ways
+      of submitting tasks to a remote cluster. In this configuration it will
+      submit vanilla Condor jobs.</para>
+
+      <section>
+        <title>HPC Clusters</title>
+
+        <para>Typically the sites in the site catalog describe remote
+        clusters, such as PBS clusters or Condor pools.</para>
+
+        <para>Usually, a typical deployment of an HPC cluster is illustrated
+        below. The site catalog, captures for each cluster (site)</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>directories that can be used for executing jobs</para>
+          </listitem>
+
+          <listitem>
+            <para>whether a shared file system is available</para>
+          </listitem>
+
+          <listitem>
+            <para>file servers to use for staging input data and staging out
+            output data</para>
+          </listitem>
+
+          <listitem>
+            <para>headnode of the cluster to which jobs can be
+            submitted.</para>
+          </listitem>
+        </itemizedlist>
+
+        <figure>
+          <title>Sample HPC Cluster Setup</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/tutorial-hpc-cluster.png"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>Below is a sample site catalog entry for HPC cluster at SDSC
+        that is part of XSEDE</para>
+
+        <programlisting>&lt;site  handle="sdsc-gordon" arch="x86_64" os="LINUX"&gt;
+        &lt;grid  type="gt5" contact="gordon-ln4.sdsc.xsede.org:2119/jobmanager-fork" scheduler="Fork" jobtype="auxillary"/&gt;
+        &lt;grid  type="gt5" contact="gordon-ln4.sdsc.xsede.org:2119/jobmanager-pbs" scheduler="unknown" jobtype="compute"/&gt;
+
+        &lt;!-- the base directory where workflow jobs will execute for the site --&gt;
+        &lt;directory type="shared-scratch" path="/oasis/scratch/ux454281/temp_project"&gt;
+            &lt;file-server operation="all" url="gsiftp://oasis-dm.sdsc.xsede.org:2811/oasis/scratch/ux454281/temp_project"/&gt;
+        &lt;/directory&gt;
+
+        &lt;profile namespace="globus" key="project"&gt;TG-STA110014S&lt;/profile&gt;
+        &lt;profile namespace="env" key="PEGASUS_HOME"&gt;/home/ux454281/software/pegasus/pegasus-4.5.0&lt;/profile&gt;
+    &lt;/site&gt;</programlisting>
+      </section>
+    </section>
+
+    <section>
+      <title id="tut_xform_catalog">The Transformation Catalog</title>
+
+      <para>The transformation catalog describes all of the executables
+      (called "transformations") used by the workflow. This description
+      includes the site(s) where they are located, the architecture and
+      operating system they are compiled for, and any other information
+      required to properly transfer them to the execution site and run
+      them.</para>
+
+      <para>For this tutorial, the transformation catalog is in the file
+      <filename>tc.txt</filename>:</para>
+
+      <programlisting>$ <emphasis role="bold">more tc.txt</emphasis>
+tr wc {
+    site condorpool {
+        pfn "/usr/bin/wc"
+        arch "x86_64"
+        os "linux"
+        type "INSTALLED"
+    }
+}
+...</programlisting>
+
+      <note>
+        <para>By default (unless specified in properties), Pegasus picks up
+        the transformation catalog from a text file named tc.txt in the
+        current working directory from where pegasus-plan is invoked.</para>
+      </note>
+
+      <para>The <filename>tc.txt</filename> file contains information about
+      two transformations: wc, and split. These three transformations are
+      referenced in the split DAX. The transformation catalog indicates that
+      both transformations are installed on the condorpool site, and are
+      compiled for x86_64 Linux.</para>
+    </section>
+
+    <section>
+      <title id="tut_replica_catalog">The Replica Catalog</title>
+
+      <para><emphasis role="bold">Note:</emphasis> Replica Catalog
+      configuration is not required for the tutorial setup. It is only
+      required if you want to refer to input files on external servers.</para>
+
+      <para>The example that you ran, was configured with the inputs already
+      present on the submit host (where Pegasus is installed) in a directory.
+      If you have inputs at external servers, then you can specify the URLs to
+      the input files in the Replica Catalog. This catalog tells Pegasus where
+      to find each of the input files for the workflow.</para>
+
+      <para>All files in a Pegasus workflow are referred to in the DAX using
+      their Logical File Name (LFN). These LFNs are mapped to Physical File
+      Names (PFNs) when Pegasus plans the workflow. This level of indirection
+      enables Pegasus to map abstract DAXes to different execution sites and
+      plan out the required file transfers automatically.</para>
+
+      <para>The Replica Catalog for the diamond workflow is in the
+      <filename>rc.txt</filename> file:</para>
+
+      <programlisting>$ <emphasis role="bold">more rc.txt</emphasis>
+# This is the replica catalog. It lists information about each of the
+# input files used by the workflow. You can use this to specify locations to input files present on external servers.
+
+# The format is:
+# LFN     PFN    pool="SITE"
+#
+# For example:
+#data.txt  file:///tmp/data.txt         site="local"
+#data.txt  http://example.org/data.txt  site="example"
+pegasus.html file:///home/tutorial/split/input/pegasus.html   site="local"
+</programlisting>
+
+      <note>
+        <para>By default (unless specified in properties), Pegasus picks ups
+        the transformation catalog from a text file named tc.txt in the
+        current working directory from where pegasus-plan is invoked. In our
+        tutorial, input files are on the submit host and we used the --input
+        dir option to pegasus-plan to specify where they are located.</para>
+      </note>
+
+      <para>This replica catalog contains only one entry for the split
+      workflow’s only input file. This entry has an LFN of "pegasus.html" with
+      a PFN of "file:///home/tutorial/split/input/pegasus.html" and the file
+      is stored on the local site, which implies that it will need to be
+      transferred to the condorpool site when the workflow runs.</para>
+    </section>
+  </section>
+
+  <section id="tutorial_configuration">
+    <title>Configuring Pegasus</title>
+
+    <para>In addition to the information catalogs, Pegasus takes a
+    configuration file that specifies settings that control how it plans the
+    workflow.</para>
+
+    <para>For the diamond workflow, the Pegasus configuration file is
+    relatively simple. It only contains settings to help Pegasus find the
+    information catalogs. These settings are in the
+    <filename>pegasus.properties</filename> file:</para>
+
+    <programlisting>$ <emphasis role="bold">more pegasus.properties</emphasis>
+# This tells Pegasus where to find the Site Catalog
+pegasus.catalog.site.file=sites.xml
+
+# This tells Pegasus where to find the Replica Catalog
+pegasus.catalog.replica=File
+pegasus.catalog.replica.file=rc.txt
+
+# This tells Pegasus where to find the Transformation Catalog
+pegasus.catalog.transformation=Text
+pegasus.catalog.transformation.file=tc.txt
+
+# Use condor to transfer workflow data
+pegasus.data.configuration=condorio
+
+# This is the name of the application for analytics
+pegasus.metrics.app=pegasus-tutorial
+</programlisting>
   </section>
 
   <section id="tutorial_wf_dashboard">
@@ -1086,403 +1483,6 @@ Summary: 1 DAG total (Success:1)
                      
 </programlisting>
     </section>
-  </section>
-
-  <section id="tutorial_wf_generation">
-    <title>Generating the Workflow</title>
-
-    <para>The example that you ran earlier already had the workflow
-    description (split.dax) generated. Pegasus reads workflow descriptions
-    from DAX files. The term "DAX" is short for "Directed Acyclic Graph in
-    XML". DAX is an XML file format that has syntax for expressing jobs,
-    arguments, files, and dependencies. We now will be creating the split
-    workflow that we just ran using the Pegasus provided DAX API:</para>
-
-    <figure>
-      <title>Split Workflow</title>
-
-      <mediaobject>
-        <imageobject>
-          <imagedata align="center" contentwidth="70%"
-                     fileref="images/tutorial-split-wf.jpg"/>
-        </imageobject>
-      </mediaobject>
-    </figure>
-
-    <para>In this diagram, the ovals represent computational jobs, the
-    dog-eared squares are files, and the arrows are dependencies.</para>
-
-    <para>In order to create a DAX it is necessary to write code for a DAX
-    generator. Pegasus comes with Perl, Java, and Python libraries for writing
-    DAX generators. In this tutorial we will show how to use the Python
-    library.</para>
-
-    <para>The DAX generator for the split workflow is in the file
-    <filename>daxgen.py</filename>. Look at the file by typing:</para>
-
-    <programlisting>$ <emphasis role="bold">more daxgen.py</emphasis>
-...</programlisting>
-
-    <tip>
-      <para>We will be using the <literal>more</literal> command to inspect
-      several files in this tutorial. <literal>more</literal> is a pager
-      application, meaning that it splits text files into pages and displays
-      the pages one at a time. You can view the next page of a file by
-      pressing the spacebar. Type 'h' to get help on using
-      <literal>more</literal>. When you are done, you can type 'q' to close
-      the file.</para>
-    </tip>
-
-    <para>The code has 3 main sections:</para>
-
-    <orderedlist>
-      <listitem>
-        <para>A new ADAG object is created. This is the main object to which
-        jobs and dependencies are added.</para>
-
-        <programlisting># Create a abstract dag
-dax = ADAG("split")
-...
-</programlisting>
-      </listitem>
-
-      <listitem>
-        <para>Jobs and files are added. The 5 jobs in the diagram above are
-        added and 9 files are referenced. Arguments are defined using strings
-        and File objects. The input and output files are defined for each job.
-        This is an important step, as it allows Pegasus to track the files,
-        and stage the data if necessary. Workflow outputs are tagged with
-        "transfer=true".</para>
-
-        <programlisting># the split job that splits the webpage into smaller chunks
-webpage = File("pegasus.html")
-
-split = Job("split")
-split.addArguments("-l","100","-a","1",webpage,"part.")
-split.uses(webpage, link=Link.INPUT)
-dax.addJob(split)
-
-...
-</programlisting>
-      </listitem>
-
-      <listitem>
-        <para>Dependencies are added. These are shown as arrows in the diagram
-        above. They define the parent/child relationships between the jobs.
-        When the workflow is executing, the order in which the jobs will be
-        run is determined by the dependencies between them.</para>
-
-        <programlisting># Add control-flow dependencies
-dax.depends(wc, split)
-</programlisting>
-      </listitem>
-    </orderedlist>
-
-    <para>Generate a DAX file named <filename>split.dax</filename> by
-    typing:</para>
-
-    <programlisting>$ <emphasis role="bold">./generate_dax.sh </emphasis>split.dax
-Generated dax split.dax</programlisting>
-
-    <para>The <filename>split.dax</filename> file should contain an XML
-    representation of the split workflow. You can inspect it by typing:</para>
-
-    <programlisting>$ <emphasis role="bold">more split.dax</emphasis>
-...</programlisting>
-  </section>
-
-  <section id="tutorial_catalogs">
-    <title>Information Catalogs</title>
-
-    <para>The workflow description (DAX) that you specify to Pegasus is
-    portable, and usually does not contain any locations to physical input
-    files, executables or cluster end points where jobs are executed. Pegasus
-    uses three information catalogs during the planning process.</para>
-
-    <figure>
-      <title>Information Catalogs used by Pegasus</title>
-
-      <mediaobject>
-        <imageobject>
-          <imagedata fileref="images/tutorial-pegasus-catalogs.png"/>
-        </imageobject>
-      </mediaobject>
-    </figure>
-
-    <section id="tut_site_catalog">
-      <title>The Site Catalog</title>
-
-      <para>The site catalog describes the sites where the workflow jobs are
-      to be executed. In this tutorial we assume that you have a Personal
-      Condor pool running on localhost. If you are using one of the tutorial
-      VMs this has already been setup for you. The site catalog for the
-      tutorial examples is in <filename>sites.xml</filename>:</para>
-
-      <programlisting>$ <emphasis role="bold">more sites.xml</emphasis>
-...
-   &lt;!-- The local site contains information about the submit host --&gt;
-    &lt;site handle="local"&gt;
-        <emphasis role="bold">&lt;!-- This is where intermediate data will be stored --&gt;</emphasis>
-        &lt;directory type="shared-scratch" path="/auto/rcf-40/vahi/tutorial/split/scratch"&gt;
-            &lt;file-server operation="all" url="file:///auto/rcf-40/vahi/tutorial/split/scratch"/&gt;
-        &lt;/directory&gt;
-        <emphasis role="bold">&lt;!-- This is where output data will be stored --&gt;</emphasis>
-        &lt;directory type="shared-storage" path="/auto/rcf-40/vahi/tutorial/split/output"&gt;
-            &lt;file-server operation="all" url="file:///auto/rcf-40/vahi/tutorial/split/output"/&gt;
-        &lt;/directory&gt;
-    &lt;/site&gt;
-
-    &lt;site handle="usc-hpcc" arch="x86_64" os="LINUX"&gt;
-         <emphasis role="bold">&lt;!-- Scratch directory on the cluster --&gt;</emphasis>
-        &lt;directory type="shared-scratch" path="/auto/rcf-40/vahi/tutorial/split/hpcc/scratch"&gt;
-            &lt;file-server operation="all" url="file:///auto/rcf-40/vahi/tutorial/split/hpcc/scratch"/&gt;
-        &lt;/directory&gt;
-
-
-        &lt;profile namespace="pegasus" key="style"&gt;glite&lt;/profile&gt;
-
-
-        <emphasis role="bold">&lt;!-- This tells glite what scheduler to use. It can be 'pbs' or 'sge' --&gt;</emphasis>
-        &lt;profile namespace="condor" key="grid_resource"&gt;pbs&lt;/profile&gt;
-
-       <emphasis role="bold"> &lt;!-- This tells glite what batch queue to submit jobs to --&gt;</emphasis>
-        &lt;profile namespace="pegasus" key="queue"&gt;default&lt;/profile&gt;
-
-       <emphasis role="bold">&lt;!--- This tells pegasus to have the auxillary jobs run on submit host 
-             and not go through the local PBS queue --&gt;</emphasis>
-       &lt;profile namespace="pegasus"	key="auxillary.local"&gt;true&lt;/profile&gt;
-               
-       &lt;!-- This profile tells Pegasus where the worker package is installed on the site --&gt;
-        &lt;!-- Without this, Pegasus will automatically stage a worker package to the site,
-             which fails because USC worker nodes are behind a firewall --&gt;
-        &lt;profile namespace="env" key="PEGASUS_HOME"&gt;/home/rcf-proj/gmj/pegasus/SOFTWARE/pegasus/default&lt;/profile&gt; 
-
-
-
-...
-      </programlisting>
-
-      <note>
-        <para>By default (unless specified in properties), Pegasus picks ups
-        the site catalog from a XML file named sites.xml in the current
-        working directory from where pegasus-plan is invoked.</para>
-      </note>
-
-      <para>There are two sites defined in the site catalog: "local" and
-      "condorpool". The "local" site is used by Pegasus to learn about the
-      submit host where the workflow management system runs. The "condorpool"
-      site is the Condor pool configured on your submit machine. In the case
-      of the tutorial VM, the local site and the condorpool site refer to the
-      same machine, but they are logically separate as far as Pegasus is
-      concerned.</para>
-
-      <orderedlist>
-        <listitem>
-          <para>The <emphasis role="bold">local</emphasis> site is configured
-          with a "storage" file system that is mounted on the submit host
-          (indicated by the file:// URL). This file system is where the output
-          data from the workflow will be stored. When the workflow is planned
-          we will tell Pegasus that the output site is "local".</para>
-        </listitem>
-
-        <listitem>
-          <para>The <emphasis role="bold">condorpool</emphasis> site is also
-          configured with a "scratch" file system. This file system is where
-          the working directory will be created. When we plan the workflow we
-          will tell Pegasus that the execution site is "condorpool".</para>
-        </listitem>
-      </orderedlist>
-
-      <para>Pegasus supports many different file transfer protocols. In this
-      case the Pegasus configuration is set up so that input and output files
-      are transferred to/from the condorpool site by Condor. This is done by
-      setting <literal>pegasus.data.configuration = condorio</literal> in the
-      properties file. In a normal Condor pool, this will cause job
-      input/output files to be transferred from/to the submit host to/from the
-      worker node. In the case of the tutorial VM, this configuration is just
-      a fancy way to copy files from the workflow scratch directory to the job
-      scratch directory.</para>
-
-      <para>Finally, the condorpool site is configured with two profiles that
-      tell Pegasus that it is a plain Condor pool. Pegasus supports many ways
-      of submitting tasks to a remote cluster. In this configuration it will
-      submit vanilla Condor jobs.</para>
-
-      <section>
-        <title>HPC Clusters</title>
-
-        <para>Typically the sites in the site catalog describe remote
-        clusters, such as PBS clusters or Condor pools.</para>
-
-        <para>Usually, a typical deployment of an HPC cluster is illustrated
-        below. The site catalog, captures for each cluster (site)</para>
-
-        <itemizedlist>
-          <listitem>
-            <para>directories that can be used for executing jobs</para>
-          </listitem>
-
-          <listitem>
-            <para>whether a shared file system is available</para>
-          </listitem>
-
-          <listitem>
-            <para>file servers to use for staging input data and staging out
-            output data</para>
-          </listitem>
-
-          <listitem>
-            <para>headnode of the cluster to which jobs can be
-            submitted.</para>
-          </listitem>
-        </itemizedlist>
-
-        <figure>
-          <title>Sample HPC Cluster Setup</title>
-
-          <mediaobject>
-            <imageobject>
-              <imagedata fileref="images/tutorial-hpc-cluster.png"/>
-            </imageobject>
-          </mediaobject>
-        </figure>
-
-        <para>Below is a sample site catalog entry for HPC cluster at SDSC
-        that is part of XSEDE</para>
-
-        <programlisting>&lt;site  handle="sdsc-gordon" arch="x86_64" os="LINUX"&gt;
-        &lt;grid  type="gt5" contact="gordon-ln4.sdsc.xsede.org:2119/jobmanager-fork" scheduler="Fork" jobtype="auxillary"/&gt;
-        &lt;grid  type="gt5" contact="gordon-ln4.sdsc.xsede.org:2119/jobmanager-pbs" scheduler="unknown" jobtype="compute"/&gt;
-
-        &lt;!-- the base directory where workflow jobs will execute for the site --&gt;
-        &lt;directory type="shared-scratch" path="/oasis/scratch/ux454281/temp_project"&gt;
-            &lt;file-server operation="all" url="gsiftp://oasis-dm.sdsc.xsede.org:2811/oasis/scratch/ux454281/temp_project"/&gt;
-        &lt;/directory&gt;
-
-        &lt;profile namespace="globus" key="project"&gt;TG-STA110014S&lt;/profile&gt;
-        &lt;profile namespace="env" key="PEGASUS_HOME"&gt;/home/ux454281/software/pegasus/pegasus-4.5.0&lt;/profile&gt;
-    &lt;/site&gt;</programlisting>
-      </section>
-    </section>
-
-    <section>
-      <title id="tut_xform_catalog">The Transformation Catalog</title>
-
-      <para>The transformation catalog describes all of the executables
-      (called "transformations") used by the workflow. This description
-      includes the site(s) where they are located, the architecture and
-      operating system they are compiled for, and any other information
-      required to properly transfer them to the execution site and run
-      them.</para>
-
-      <para>For this tutorial, the transformation catalog is in the file
-      <filename>tc.txt</filename>:</para>
-
-      <programlisting>$ <emphasis role="bold">more tc.txt</emphasis>
-tr wc {
-    site condorpool {
-        pfn "/usr/bin/wc"
-        arch "x86_64"
-        os "linux"
-        type "INSTALLED"
-    }
-}
-...</programlisting>
-
-      <note>
-        <para>By default (unless specified in properties), Pegasus picks up
-        the transformation catalog from a text file named tc.txt in the
-        current working directory from where pegasus-plan is invoked.</para>
-      </note>
-
-      <para>The <filename>tc.txt</filename> file contains information about
-      two transformations: wc, and split. These three transformations are
-      referenced in the split DAX. The transformation catalog indicates that
-      both transformations are installed on the condorpool site, and are
-      compiled for x86_64 Linux.</para>
-    </section>
-
-    <section>
-      <title id="tut_replica_catalog">The Replica Catalog</title>
-
-      <para><emphasis role="bold">Note:</emphasis> Replica Catalog
-      configuration is not required for the tutorial setup. It is only
-      required if you want to refer to input files on external servers.</para>
-
-      <para>The example that you ran, was configured with the inputs already
-      present on the submit host (where Pegasus is installed) in a directory.
-      If you have inputs at external servers, then you can specify the URLs to
-      the input files in the Replica Catalog. This catalog tells Pegasus where
-      to find each of the input files for the workflow.</para>
-
-      <para>All files in a Pegasus workflow are referred to in the DAX using
-      their Logical File Name (LFN). These LFNs are mapped to Physical File
-      Names (PFNs) when Pegasus plans the workflow. This level of indirection
-      enables Pegasus to map abstract DAXes to different execution sites and
-      plan out the required file transfers automatically.</para>
-
-      <para>The Replica Catalog for the diamond workflow is in the
-      <filename>rc.txt</filename> file:</para>
-
-      <programlisting>$ <emphasis role="bold">more rc.txt</emphasis>
-# This is the replica catalog. It lists information about each of the
-# input files used by the workflow. You can use this to specify locations to input files present on external servers.
-
-# The format is:
-# LFN     PFN    pool="SITE"
-#
-# For example:
-#data.txt  file:///tmp/data.txt         site="local"
-#data.txt  http://example.org/data.txt  site="example"
-pegasus.html file:///home/tutorial/split/input/pegasus.html   site="local"
-</programlisting>
-
-      <note>
-        <para>By default (unless specified in properties), Pegasus picks ups
-        the transformation catalog from a text file named tc.txt in the
-        current working directory from where pegasus-plan is invoked. In our
-        tutorial, input files are on the submit host and we used the --input
-        dir option to pegasus-plan to specify where they are located.</para>
-      </note>
-
-      <para>This replica catalog contains only one entry for the split
-      workflow’s only input file. This entry has an LFN of "pegasus.html" with
-      a PFN of "file:///home/tutorial/split/input/pegasus.html" and the file
-      is stored on the local site, which implies that it will need to be
-      transferred to the condorpool site when the workflow runs.</para>
-    </section>
-  </section>
-
-  <section id="tutorial_configuration">
-    <title>Configuring Pegasus</title>
-
-    <para>In addition to the information catalogs, Pegasus takes a
-    configuration file that specifies settings that control how it plans the
-    workflow.</para>
-
-    <para>For the diamond workflow, the Pegasus configuration file is
-    relatively simple. It only contains settings to help Pegasus find the
-    information catalogs. These settings are in the
-    <filename>pegasus.properties</filename> file:</para>
-
-    <programlisting>$ <emphasis role="bold">more pegasus.properties</emphasis>
-# This tells Pegasus where to find the Site Catalog
-pegasus.catalog.site.file=sites.xml
-
-# This tells Pegasus where to find the Replica Catalog
-pegasus.catalog.replica=File
-pegasus.catalog.replica.file=rc.txt
-
-# This tells Pegasus where to find the Transformation Catalog
-pegasus.catalog.transformation=Text
-pegasus.catalog.transformation.file=tc.txt
-
-# Use condor to transfer workflow data
-pegasus.data.configuration=condorio
-
-# This is the name of the application for analytics
-pegasus.metrics.app=pegasus-tutorial
-</programlisting>
   </section>
 
   <section id="tutorial_pmc">
