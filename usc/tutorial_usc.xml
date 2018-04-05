@@ -607,14 +607,14 @@ Generated dax split.dax</programlisting>
         &lt;profile namespace="pegasus" key="style"&gt;glite&lt;/profile&gt;
 
 
-        <emphasis role="bold">&lt;!-- This tells glite what scheduler to use. It can be 'pbs' or 'sge' --&gt;</emphasis>
-        &lt;profile namespace="condor" key="grid_resource"&gt;pbs&lt;/profile&gt;
+        <emphasis role="bold">&lt;!-- This tells glite what scheduler to use --&gt;</emphasis>
+        &lt;profile namespace="condor" key="grid_resource"&gt;batch slurm&lt;/profile&gt;
 
        <emphasis role="bold"> &lt;!-- This tells glite what batch queue to submit jobs to --&gt;</emphasis>
         &lt;profile namespace="pegasus" key="queue"&gt;default&lt;/profile&gt;
 
        <emphasis role="bold">&lt;!--- This tells pegasus to have the auxillary jobs run on submit host 
-             and not go through the local PBS queue --&gt;</emphasis>
+             and not go through the local SLURM queue --&gt;</emphasis>
        &lt;profile namespace="pegasus"	key="auxillary.local"&gt;true&lt;/profile&gt;
                
        &lt;!-- This profile tells Pegasus where the worker package is installed on the site --&gt;
@@ -1493,14 +1493,14 @@ Summary: 1 DAG total (Success:1)
     <title>Running the whole workflow as an MPI job</title>
 
     <para>Often, users have lots of short running single processor jobs in
-    their workflow, that if submitted individually to the underlying PBS
-    cluster take a long time to execute, as each job sits in the PBS queue.
+    their workflow, that if submitted individually to the underlying SLURM
+    cluster take a long time to execute, as each job sits in the SLURM queue.
     For example in our previous example, each job in the blackdiamond workflow
     actually runs for a minute each. However, since each job is submitted as a
-    separate job to PBS, each job sits in the cluster PBS queue before it is
-    executed. In order to alleviate this, it makes sense to cluster the short
-    running jobs together. Pegasus allows users to cluster tasks in their
-    workflow into larger chunks, and then execute them using a MPI based
+    separate job to SLURM, each job sits in the cluster SLURM queue before it
+    is executed. In order to alleviate this, it makes sense to cluster the
+    short running jobs together. Pegasus allows users to cluster tasks in
+    their workflow into larger chunks, and then execute them using a MPI based
     master worker tool called <emphasis><emphasis
     role="bold">pegasus-mpi-cluster</emphasis></emphasis> .</para>
 
