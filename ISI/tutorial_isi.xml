@@ -1621,16 +1621,18 @@ total 50M
 #   from the sub workflows as well.
 ------------------------------------------------------------------------------
 Type           Succeeded Failed  Incomplete  Total     Retries   Total+Retries
-Tasks          10        0       0           10        0         10           
-Jobs           25        0       0           25        0         25           
+Tasks          13        0       0           13        0         13           
+Jobs           28        0       0           28        0         28           
 Sub-Workflows  0         0       0           0         0         0            
 ------------------------------------------------------------------------------
 
-Workflow wall time                                       : 2 mins, 59 secs
-Cumulative job wall time                                 : 1 min, 24 secs
-Cumulative job wall time as seen from submit side        : 2 mins, 16 secs
+Workflow wall time                                       : 3 mins, 20 secs
+Cumulative job wall time                                 : 1 min, 26 secs
+Cumulative job wall time as seen from submit side        : 3 mins, 0 secs
 Cumulative job badput wall time                          : 
 Cumulative job badput wall time as seen from submit side : 
+
+
 
 Summary                       : submit/pegtrain01/pegasus/population/run0002/statistics/summary.txt
 Workflow execution statistics : submit/pegtrain01/pegasus/population/run0002/statistics/workflow.txt
@@ -1674,30 +1676,30 @@ jobs.txt          summary.txt         time.txt          breakdown.txt          w
 # Total(sec)     - the cumulative of invocation runtime corresponding
 #                  to the transformation.
 
-# 1da8aca4-97d2-43eb-aa78-ca7c2c64b1ed (population)
+# 579b97fd-c51f-4170-9213-903a27f74759 (population)
 Transformation           Count     Succeeded Failed  Min       Max       Mean           Total     
-animate                  1         1         0       2.775     2.775     2.775          2.775     
-county_population_raster 3         3         0       7.715     7.998     7.829          23.488    
-dagman::post             24        24        0       0.0       1.0       0.292          7.0       
-full_res_pop_raster      3         3         0       1.791     2.18      1.925          5.775     
-pegasus::cleanup         1         1         0       3.0       3.0       3.0            3.0       
-pegasus::dirmanager      1         1         0       3.0       3.0       3.0            3.0       
-pegasus::rc-client       4         4         0       0.345     0.397     0.359          1.438     
-pegasus::transfer        9         9         0       2.183     9.307     4.306          38.752    
-raster_to_png            3         3         0       1.904     2.109     1.978          5.933     
+animate                  1         1         0       2.268     2.268     2.268          2.268     
+county_population_raster 4         4         0       5.098     5.716     5.434          21.738    
+dagman::post             27        27        0       0.0       1.0       0.296          8.0       
+full_res_pop_raster      4         4         0       2.041     3.297     2.815          11.258    
+pegasus::cleanup         1         1         0       2.0       2.0       2.0            2.0       
+pegasus::dirmanager      1         1         0       2.0       2.0       2.0            2.0       
+pegasus::rc-client       4         4         0       0.344     0.369     0.352          1.41      
+pegasus::transfer        9         9         0       2.152     7.229     4.063          36.571    
+raster_to_png            4         4         0       2.261     2.363     2.325          9.298     
 
 
 # All (All)
 Transformation           Count     Succeeded Failed  Min       Max       Mean           Total     
-animate                  1         1         0       2.775     2.775     2.775          2.775     
-county_population_raster 3         3         0       7.715     7.998     7.829          23.488    
-dagman::post             24        24        0       0.0       1.0       0.292          7.0       
-full_res_pop_raster      3         3         0       1.791     2.18      1.925          5.775     
-pegasus::cleanup         1         1         0       3.0       3.0       3.0            3.0       
-pegasus::dirmanager      1         1         0       3.0       3.0       3.0            3.0       
-pegasus::rc-client       4         4         0       0.345     0.397     0.359          1.438     
-pegasus::transfer        9         9         0       2.183     9.307     4.306          38.752    
-raster_to_png            3         3         0       1.904     2.109     1.978          5.933 </programlisting>
+animate                  1         1         0       2.268     2.268     2.268          2.268     
+county_population_raster 4         4         0       5.098     5.716     5.434          21.738    
+dagman::post             27        27        0       0.0       1.0       0.296          8.0       
+full_res_pop_raster      4         4         0       2.041     3.297     2.815          11.258    
+pegasus::cleanup         1         1         0       2.0       2.0       2.0            2.0       
+pegasus::dirmanager      1         1         0       2.0       2.0       2.0            2.0       
+pegasus::rc-client       4         4         0       0.344     0.369     0.352          1.41      
+pegasus::transfer        9         9         0       2.152     7.229     4.063          36.571    
+raster_to_png            4         4         0       2.261     2.363     2.325          9.298     </programlisting>
   </section>
 
   <section id="tutorial_clustering">
