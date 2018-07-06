@@ -1534,7 +1534,7 @@ tr county_population_raster {
     till it fails. We will add -w option to pegasus-status to watch
     automatically till the workflow finishes:</para>
 
-    <programlisting><emphasis role="bold">$ </emphasis><emphasis role="bold">pegasus-status -w submit/tutorial/pegasus/population/run0002</emphasis>
+    <programlisting><emphasis role="bold">$ </emphasis><emphasis role="bold">pegasus-status -w submit/pegtrainXX/pegasus/population/run0002</emphasis>
 STAT  IN_STATE  JOB                                                                                                    
 Run      03:00  population-0 ( /local-scratch/home/pegtrainXX/population/submit/pegtrainXX/pegasus/population/run0002 )
 Summary: 1 Condor job total (R:1)
@@ -1561,7 +1561,35 @@ total 50M
 -rw-r--r-- 1 pegtrainXX ccg-external 5.8M Jul  6 13:28 county_level_pop_2018.tif
 -rw-r--r-- 1 pegtrainXX ccg-external 5.8M Jul  6 13:28 county_level_pop_2017.tif</programlisting>
 
-    <para/>
+    <para>To see how Pegasus handled the container in this case, let’s look at
+    some plumbing for one of the mProject job. The HTCondor submit file can be
+    seen with:</para>
+
+    <programlisting><emphasis role="bold">$ cd submit/pegtrainXX/pegasus/population/run0002
+$  cat `find . -name county_population_raster_ID0000002.sub`</emphasis></programlisting>
+
+    <para> Look at the transfer_input_files attribute line, and specifically
+    for the gis.simg file. It is transferred together with all the other
+    inputs for the job: </para>
+
+    <programlisting>transfer_input_files = SouthSudan_CountyPopulation.shx,county_cohort_pop_config.ini,county_population_raster,geospatial.py,SouthSudan_CountyPopulation.dbf,
+                       SouthSudan_CountyPopulation.sbx,SouthSudan_CountyPopulation.prj,SouthSudan_CountyPopulation.cpg,SouthSudan_CountyPopulation.shp,
+                       SouthSudan_CountyPopulation.sbn,<emphasis role="bold">gis.simg</emphasis>,/opt/training/pegasus-4.8.3dev/share/pegasus/sh/pegasus-lite-common.sh,
+                       /scitech/home/pegtrain01/population/submit/pegtrain01/pegasus/population/run0002/pegasus-worker-4.8.3dev-x86_64_rhel_7.tar.gz
+</programlisting>
+
+    <para>Looking at the corresponding .sh file we can see how Pegasus
+    executed the container: </para>
+
+    <programlisting>$ cat `find . -name county_population_raster_ID0000002.sh`
+
+...
+
+singularity exec --pwd /srv --home $PWD:/srv gis.simg ./county_population_raster_ID0000002-cont.sh 
+...</programlisting>
+
+    <para>The county_population_raster_ID0000002-cont.sh is a script generated
+    at runtime, containing the execution of the user codes.</para>
   </section>
 
   <section>
