@@ -1213,31 +1213,27 @@ tr county_population_raster {
       <filename>rc.txt</filename> file:</para>
 
       <programlisting>$ <emphasis role="bold">more rc.txt</emphasis>
-# This is the replica catalog. It lists information about each of the
-# input files used by the workflow. You can use this to specify locations to input files present on external servers.
+# file-based replica catalog: 2018-07-06T14:20:38.300-07:00
 
-# The format is:
-# LFN     PFN    pool="SITE"
-#
-# For example:
-#data.txt  file:///tmp/data.txt         site="local"
-#data.txt  http://example.org/data.txt  site="example"
-pegasus.html file:///nfs/ccg3/ccg/home/pegtrainXX/tutorial/population/input/pegasus.html   site="local"
+county_cohort_pop_config.ini file:///local-scratch/home/pegtrainXX/population/scripts/config/county_cohort_pop_config.ini site="local"
+geospatial.py file:///local-scratch/home/pegtrainXX/population/scripts/geospatial.py site="local"
 </programlisting>
 
       <note>
         <para>By default (unless specified in properties), Pegasus picks ups
-        the transformation catalog from a text file named tc.txt in the
-        current working directory from where pegasus-plan is invoked. In our
-        tutorial, input files are on the submit host and we used the --input
-        dir option to pegasus-plan to specify where they are located.</para>
+        the replica catalog from a text file named rc.txt in the current
+        working directory from where pegasus-plan is invoked. In our tutorial,
+        input files are on the submit host and we also use the --input dir
+        option to pegasus-plan to specify where they are located.</para>
       </note>
 
-      <para>This replica catalog contains only one entry for the split
-      workflow’s only input file. This entry has an LFN of "pegasus.html" with
-      a PFN of "file:///home/tutorial/split/input/pegasus.html" and the file
-      is stored on the local site, which implies that it will need to be
-      transferred to the condorpool site when the workflow runs.</para>
+      <para>This replica catalog contains couple of files for the population
+      workflow. One of the entries is with a LFN of
+      "county_cohort_pop_config.ini" and PFN as
+      "ile:///local-scratch/home/pegtrainXX/population/scripts/config/county_cohort_pop_config.inl"
+      and the file is stored on the local site, which implies that it will
+      need to be transferred to the condorpool site when the workflow
+      runs.</para>
     </section>
   </section>
 
