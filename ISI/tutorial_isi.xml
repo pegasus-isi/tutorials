@@ -320,7 +320,7 @@ daxgen.py  Dockerfile  generate_dax.sh  input  output  pegasus.properties
       scratch.</para>
     </tip>
 
-    <para>The split workflow looks like this:</para>
+    <para>The population modelling workflow looks like this:</para>
 
     <figure>
       <title>Population Modelling Workflow</title>
@@ -624,10 +624,12 @@ Generated dax pop.dax
       </listitem>
 
       <listitem>
-        <para>pegasus-statistics : generate statistics from a workflow
-        run.</para>
+        <para>pegasus-statistics : generate statistics from a workflow run.
+        </para>
       </listitem>
     </itemizedlist>
+
+    <para>We will run pegasus-statistics in a later section.</para>
 
     <section>
       <title>pegasus-status - monitoring the workflow</title>
@@ -827,12 +829,12 @@ ImportError: No module named 'pandas'
     workflow that we just ran using the Pegasus provided DAX API:</para>
 
     <figure>
-      <title>Split Workflow</title>
+      <title>Population Modelling Workflow</title>
 
       <mediaobject>
         <imageobject>
-          <imagedata align="center" contentwidth="70%"
-                     fileref="images/tutorial-split-wf.jpg"/>
+          <imagedata align="center" contentwidth="100%"
+                     fileref="images/tutorial-pop-wf.jpg"/>
         </imageobject>
       </mediaobject>
     </figure>
@@ -868,8 +870,9 @@ ImportError: No module named 'pandas'
         <para>A new ADAG object is created. This is the main object to which
         jobs and dependencies are added.</para>
 
-        <programlisting># Create a abstract dag
-dax = ADAG("split")
+        <programlisting><emphasis role="bold"># Create a abstract dag</emphasis>
+dax = ADAG("population")
+
 ...
 </programlisting>
       </listitem>
@@ -882,14 +885,39 @@ dax = ADAG("split")
         and stage the data if necessary. Workflow outputs are tagged with
         "transfer=true".</para>
 
-        <programlisting># the split job that splits the webpage into smaller chunks
-webpage = File("pegasus.html")
+        <programlisting><emphasis role="bold"># config file</emphasis>
+config = File('county_cohort_pop_config.ini')
+dax.addFile(config)
+..
+<emphasis role="bold">
+# add one job per year                                                                                                                                                                                                       
+# we have data till 2030    </emphasis>                                                                                                                                                                                                 
+for year in range(2017, 2020):
+  
+   # create a job to process the shape file                                                                                                                                                                                 
+    j1 = Job("county_population_raster")
 
-split = Job("split")
-split.addArguments("-l","100","-a","1",webpage,"part.")
-split.uses(webpage, link=Link.INPUT)
-dax.addJob(split)
+    # we need the geospatial lib                                                                                                                                                                                             
+    j1.uses(geospatial, link=Link.INPUT)
 
+    # config file                                                                                                                                                                                                            
+    j1.uses(config, link=Link.INPUT)
+    j1.addArguments('--config', config)
+
+    # add input shapes file                                                                                                                                                                                                  
+    for f in shapefiles:
+        j1.uses(f, link=Link.INPUT)
+    j1.addArguments('--shapefile', basename + '.shp')
+
+    # year                                                                                                                                                                                                                   
+    j1.addArguments('--year', str(year))
+
+    # add outputs                                                                                                                                                                                                            
+    tif = File('county_level_pop_' + str(year) + '.tif')
+    j1.uses(tif, link=Link.OUTPUT, transfer=True)
+    j1.addArguments('--outfile', tif)
+
+    dax.addJob(j1)
 ...
 </programlisting>
       </listitem>
@@ -900,22 +928,24 @@ dax.addJob(split)
         When the workflow is executing, the order in which the jobs will be
         run is determined by the dependencies between them.</para>
 
-        <programlisting># Add control-flow dependencies
-dax.depends(wc, split)
+        <programlisting># add file dependencies to the  animate job                                                                                                                                                                              
+animate.uses(png, link=Link.INPUT)
+dax.depends(parent=j3, child=animate)
 </programlisting>
       </listitem>
     </orderedlist>
 
-    <para>Generate a DAX file named <filename>split.dax</filename> by
+    <para>Generate a DAX file named <filename>pop.dax</filename> by
     typing:</para>
 
-    <programlisting>$ <emphasis role="bold">./generate_dax.sh </emphasis>split.dax
-Generated dax split.dax</programlisting>
+    <programlisting>$ <emphasis role="bold">./generate_dax.sh </emphasis>pop.dax
+Generated dax pop.dax</programlisting>
 
-    <para>The <filename>split.dax</filename> file should contain an XML
-    representation of the split workflow. You can inspect it by typing:</para>
+    <para>The <filename>pop.dax</filename> file should contain an XML
+    representation of the population workflow. You can inspect it by
+    typing:</para>
 
-    <programlisting>$ <emphasis role="bold">more split.dax</emphasis>
+    <programlisting>$ <emphasis role="bold">more pop.dax</emphasis>
 ...</programlisting>
   </section>
 
@@ -1528,8 +1558,7 @@ total 38M
   </section>
 
   <section>
-    <title>pegasus-statistics - collect statistics about a workflow
-    run</title>
+    <title>Collecting statistics about a workflow run</title>
 
     <para>The <literal>pegasus-statistics</literal> command can be used to
     gather statistics about the runtime of the workflow and its jobs. The
