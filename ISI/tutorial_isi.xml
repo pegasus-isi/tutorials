@@ -1601,7 +1601,8 @@ singularity exec --pwd /srv --home $PWD:/srv gis.simg ./county_population_raster
     <literal>-s all</literal> argument tells the program to generate all
     statistics it knows how to calculate:</para>
 
-    <programlisting><emphasis role="bold">$  pegasus-statistics -s all submit/pegtrainXX/pegasus/population/run0002</emphasis>
+    <programlisting><emphasis role="bold">$  cd ~/population
+$  pegasus-statistics -s all submit/pegtrainXX/pegasus/population/run0002</emphasis>
 
 #
 # Pegasus Workflow Management System - http://pegasus.isi.edu
