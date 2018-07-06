@@ -1491,7 +1491,7 @@ tr county_population_raster {
     </section>
   </section>
 
-  <section>
+  <section id="tutorial_containers_wf">
     <title>Executing a workflow with Containers</title>
 
     <para>Now we will submit the same workflow using containers . To do that,
@@ -1569,9 +1569,9 @@ total 50M
     <programlisting><emphasis role="bold">$ cd submit/pegtrainXX/pegasus/population/run0002
 $  cat `find . -name county_population_raster_ID0000002.sub`</emphasis></programlisting>
 
-    <para> Look at the transfer_input_files attribute line, and specifically
+    <para>Look at the transfer_input_files attribute line, and specifically
     for the gis.simg file. It is transferred together with all the other
-    inputs for the job: </para>
+    inputs for the job:</para>
 
     <programlisting>transfer_input_files = SouthSudan_CountyPopulation.shx,county_cohort_pop_config.ini,county_population_raster,geospatial.py,SouthSudan_CountyPopulation.dbf,
                        SouthSudan_CountyPopulation.sbx,SouthSudan_CountyPopulation.prj,SouthSudan_CountyPopulation.cpg,SouthSudan_CountyPopulation.shp,
@@ -1580,7 +1580,7 @@ $  cat `find . -name county_population_raster_ID0000002.sub`</emphasis></program
 </programlisting>
 
     <para>Looking at the corresponding .sh file we can see how Pegasus
-    executed the container: </para>
+    executed the container:</para>
 
     <programlisting>$ cat `find . -name county_population_raster_ID0000002.sh`
 
@@ -1593,7 +1593,7 @@ singularity exec --pwd /srv --home $PWD:/srv gis.simg ./county_population_raster
     at runtime, containing the execution of the user codes.</para>
   </section>
 
-  <section>
+  <section id="tutorial_statistics">
     <title>Collecting statistics about a workflow run</title>
 
     <para>The <literal>pegasus-statistics</literal> command can be used to
