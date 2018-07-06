@@ -624,8 +624,8 @@ Generated dax pop.dax
       </listitem>
 
       <listitem>
-        <para>pegasus-statistics : generate statistics from a workflow run.
-        </para>
+        <para>pegasus-statistics : generate statistics from a workflow
+        run.</para>
       </listitem>
     </itemizedlist>
 
@@ -1156,8 +1156,8 @@ tr county_population_raster {
       </note>
 
       <para>The <filename>tc.txt</filename> file contains information about
-      the 4 transformations referred to in the population modelling DAX.
-      </para>
+      the 4 transformations referred to in the population modelling
+      DAX.</para>
 
       <orderedlist>
         <listitem>
@@ -1542,17 +1542,20 @@ UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME
     <para>You can check the outputs created in the output directory</para>
 
     <programlisting><emphasis role="bold">$ ls -lht output/</emphasis>
-total 38M
--rw-r--r-- 1 pegtrain01 ccg-external 964K Jul  6 11:13 animation.gif
--rw-r--r-- 1 pegtrain01 ccg-external 795K Jul  6 11:12 pop_dist_2019.png
--rw-r--r-- 1 pegtrain01 ccg-external 785K Jul  6 11:12 pop_dist_2018.png
--rw-r--r-- 1 pegtrain01 ccg-external 778K Jul  6 11:12 pop_dist_2017.png
--rw-r--r-- 1 pegtrain01 ccg-external 5.8M Jul  6 11:12 pop_dist_2019.tif
--rw-r--r-- 1 pegtrain01 ccg-external 5.8M Jul  6 11:12 pop_dist_2018.tif
--rw-r--r-- 1 pegtrain01 ccg-external 5.8M Jul  6 11:12 pop_dist_2017.tif
--rw-r--r-- 1 pegtrain01 ccg-external 5.8M Jul  6 11:12 county_level_pop_2019.tif
--rw-r--r-- 1 pegtrain01 ccg-external 5.8M Jul  6 11:12 county_level_pop_2018.tif
--rw-r--r-- 1 pegtrain01 ccg-external 5.8M Jul  6 11:12 county_level_pop_2017.tif</programlisting>
+total 50M
+-rw-r--r-- 1 pegtrain01 ccg-external 1.3M Jul  6 13:29 animation.gif
+-rw-r--r-- 1 pegtrain01 ccg-external 795K Jul  6 13:29 pop_dist_2019.png
+-rw-r--r-- 1 pegtrain01 ccg-external 801K Jul  6 13:29 pop_dist_2020.png
+-rw-r--r-- 1 pegtrain01 ccg-external 785K Jul  6 13:29 pop_dist_2018.png
+-rw-r--r-- 1 pegtrain01 ccg-external 778K Jul  6 13:29 pop_dist_2017.png
+-rw-r--r-- 1 pegtrain01 ccg-external 5.8M Jul  6 13:28 pop_dist_2019.tif
+-rw-r--r-- 1 pegtrain01 ccg-external 5.8M Jul  6 13:28 pop_dist_2020.tif
+-rw-r--r-- 1 pegtrain01 ccg-external 5.8M Jul  6 13:28 pop_dist_2018.tif
+-rw-r--r-- 1 pegtrain01 ccg-external 5.8M Jul  6 13:28 pop_dist_2017.tif
+-rw-r--r-- 1 pegtrain01 ccg-external 5.8M Jul  6 13:28 county_level_pop_2019.tif
+-rw-r--r-- 1 pegtrain01 ccg-external 5.8M Jul  6 13:28 county_level_pop_2020.tif
+-rw-r--r-- 1 pegtrain01 ccg-external 5.8M Jul  6 13:28 county_level_pop_2018.tif
+-rw-r--r-- 1 pegtrain01 ccg-external 5.8M Jul  6 13:28 county_level_pop_2017.tif</programlisting>
 
     <para/>
   </section>
@@ -1695,193 +1698,6 @@ pegasus::dirmanager      1         1         0       3.0       3.0       3.0    
 pegasus::rc-client       4         4         0       0.345     0.397     0.359          1.438     
 pegasus::transfer        9         9         0       2.183     9.307     4.306          38.752    
 raster_to_png            3         3         0       1.904     2.109     1.978          5.933 </programlisting>
-
-    <para/>
-  </section>
-
-  <section id="tutorial_failure_recovery">
-    <title>Recovery from Failures</title>
-
-    <para>Executing workflows in a distributed environment can lead to
-    failures. Often, they are a result of the underlying infrastructure being
-    temporarily unavailable, or errors in workflow setup such as incorrect
-    executables specified, or input files being unavailable.</para>
-
-    <para>In case of transient infrastructure failures such as a node being
-    temporarily down in a cluster, Pegasus will automatically retry jobs in
-    case of failure. After a set number of retries (usually once), a hard
-    failure occurs, because of which workflow will eventually fail.</para>
-
-    <para>In most of the cases, these errors are correctable (either the
-    resource comes back online or application errors are fixed). Once the
-    errors are fixed, you may not want to start a new workflow but instead
-    start from the point of failure. In order to do this, you can submit the
-    rescue workflows automatically created in case of failures. A rescue
-    workflow contains only a description of only the work that remains to be
-    done.</para>
-
-    <section>
-      <title>Submitting Rescue Workflows</title>
-
-      <para>In this example, we will take our previously run workflow and
-      introduce errors such that workflow we just executed fails at
-      runtime.</para>
-
-      <para>First we will "hide" the input file to cause a failure by renaming
-      it:</para>
-
-      <programlisting>$ <emphasis role="bold">mv input/pegasus.html input/pegasus.html.bak</emphasis>
-      </programlisting>
-
-      <para>Now submit the workflow again:</para>
-
-      <programlisting>$ <emphasis role="bold">./plan_dax.sh split.dax </emphasis>
-2016.03.17 18:45:40.465 PDT:    
-2016.03.17 18:45:40.470 PDT:   ----------------------------------------------------------------------- 
-2016.03.17 18:45:40.476 PDT:   File for submitting this DAG to Condor           : split-0.dag.condor.sub 
-2016.03.17 18:45:40.481 PDT:   Log of DAGMan debugging messages                 : split-0.dag.dagman.out 
-2016.03.17 18:45:40.486 PDT:   Log of Condor library output                     : split-0.dag.lib.out 
-2016.03.17 18:45:40.492 PDT:   Log of Condor library error messages             : split-0.dag.lib.err 
-2016.03.17 18:45:40.497 PDT:   Log of the life of condor_dagman itself          : split-0.dag.dagman.log 
-2016.03.17 18:45:40.502 PDT:    
-2016.03.17 18:45:40.518 PDT:   ----------------------------------------------------------------------- 
-2016.03.17 18:45:41.694 PDT:   Your database is compatible with Pegasus version: 4.6.1 
-2016.03.17 18:45:41.865 PDT:   Submitting to condor split-0.dag.condor.sub 
-2016.03.17 18:45:41.926 PDT:   Submitting job(s). 
-2016.03.17 18:45:41.932 PDT:   1 job(s) submitted to cluster 8511. 
-2016.03.17 18:45:41.937 PDT:    
-2016.03.17 18:45:41.942 PDT:   Your workflow has been started and is running in the base directory: 
-2016.03.17 18:45:41.948 PDT:    
-2016.03.17 18:45:41.953 PDT:     ./submit/pegtrainXX/pegasus/split/run0002 
-2016.03.17 18:45:41.958 PDT:    
-2016.03.17 18:45:41.964 PDT:   *** To monitor the workflow you can run *** 
-2016.03.17 18:45:41.969 PDT:    
-2016.03.17 18:45:41.974 PDT:     pegasus-status -l ./split/submit/pegtrainXX/pegasus/split/run0002 
-2016.03.17 18:45:41.980 PDT:    
-2016.03.17 18:45:41.985 PDT:   *** To remove your workflow run *** 
-2016.03.17 18:45:41.990 PDT:    
-2016.03.17 18:45:41.996 PDT:     pegasus-remove ./split/submit/pegtrainXX/pegasus/split/run0002 
-2016.03.17 18:45:42.001 PDT:    
-2016.03.17 18:45:42.130 PDT:   Time taken to execute is 3.19 seconds 
-
-</programlisting>
-
-      <para>We will now monitor the workflow using the pegasus-status command
-      till it fails. We will add -w option to pegasus-status to watch
-      automatically till the workflow finishes:</para>
-
-      <programlisting><emphasis role="bold">$ </emphasis><emphasis role="bold">pegasus-status -w submit/tutorial/pegasus/split/run0002</emphasis>
-(no matching jobs found in Condor Q)
-UNREADY   READY     PRE  QUEUED    POST SUCCESS FAILURE %DONE
-      8       0       0       0       0       2       1  18.2
-Summary: 1 DAG total (Failure:1)
-</programlisting>
-
-      <para>Now we can use the pegasus-analyzer command to determine what went
-      wrong:</para>
-
-      <programlisting><emphasis role="bold">$ </emphasis> <emphasis
-          role="bold">pegasus-analyzer submit/pegtrainXX/pegasus/split/run0002</emphasis>
-
-************************************Summary*************************************
-
- Submit Directory   : ./submit/pegtrainXX/pegasus/split/run0002
- Total jobs         :     11 (100.00%)
- # jobs succeeded   :      2 (18.18%)
- # jobs failed      :      1 (9.09%)
- # jobs unsubmitted :      8 (72.73%)
-
-******************************Failed jobs' details******************************
-
-========================stage_in_local_isi_workflow_0_0=========================
-
- last state: POST_SCRIPT_FAILED
-       site: local
-submit file: stage_in_local_isi_workflow_0_0.sub
-output file: stage_in_local_isi_workflow_0_0.out.001
- error file: stage_in_local_isi_workflow_0_0.err.001
-
--------------------------------Task #1 - Summary--------------------------------
-
-site        : local
-hostname    : workflow.isi.edu
-executable  : /usr/bin/pegasus-transfer
-arguments   :   --threads   2  
-exitcode    : 1
-working dir : /nfs/ccg3/ccg/home/pegtrainXX/tutorial/split/submit/pegtrainXX/pegasus/split/run0002
-
-------------------Task #1 - pegasus::transfer - None - stdout-------------------
-
-2016-05-11 16:08:19,488    INFO:  Reading URL pairs from stdin
-2016-05-11 16:08:19,490    INFO:  1 transfers loaded
-2016-05-11 16:08:19,490    INFO:  PATH=/usr/bin:/bin
-2016-05-11 16:08:19,490    INFO:  LD_LIBRARY_PATH=
-2016-05-11 16:08:19,536    INFO:  --------------------------------------------------------------------------------
-2016-05-11 16:08:19,536    INFO:  Starting transfers - attempt 1
-2016-05-11 16:08:21,539    INFO:  /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /nfs/ccg3/ccg/home/pegtrainXX/.ssh/workflow -p 22 pegtrainXX@workflow.isi.edu '/bin/mkdir -p /local-scratch/http/pegtrainXX/staging/pegtrainXX/pegasus/split/run0002'
-2016-05-11 16:08:21,705    INFO:  /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /nfs/ccg3/ccg/home/pegtrainXX/.ssh/workflow -P 22 '/nfs/ccg3/ccg/home/pegtrainXX/tutorial/split/input/pegasus.html' 'pegtrainXX@workflow.isi.edu:/local-scratch/http/pegtrainXX/staging/pegtrainXX/pegasus/split/run0002/pegasus.html'
-2016-05-11 16:08:21,920    INFO:  /nfs/ccg3/ccg/home/pegtrainXX/tutorial/split/input/pegasus.html: No such file or directory
-
-2016-05-11 16:08:21,920   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp ...
-2016-05-11 16:08:52,952    INFO:  --------------------------------------------------------------------------------
-2016-05-11 16:08:53,146    INFO:  Starting transfers - attempt 2
-2016-05-11 16:08:55,149    INFO:  /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /nfs/ccg3/ccg/home/pegtrainXX/.ssh/workflow -P 22 '/nfs/ccg3/ccg/home/pegtrainXX/tutorial/split/input/pegasus.html' 'pegtrainXX@workflow.isi.edu:/local-scratch/http/pegtrainXX/staging/pegtrainXX/pegasus/split/run0002/pegasus.html'
-2016-05-11 16:08:55,265    INFO:  /nfs/ccg3/ccg/home/pegtrainXX/tutorial/split/input/pegasus.html: No such file or directory
-
-2016-05-11 16:08:55,265   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp ...
-2016-05-11 16:11:20,366    INFO:  --------------------------------------------------------------------------------
-2016-05-11 16:11:20,366    INFO:  Starting transfers - attempt 3
-2016-05-11 16:11:22,370    INFO:  /usr/bin/scp -r -B -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /nfs/ccg3/ccg/home/pegtrainXX/.ssh/workflow -P 22 '/nfs/ccg3/ccg/home/pegtrainXX/tutorial/split/input/pegasus.html' 'pegtrainXX@workflow.isi.edu:/local-scratch/http/pegtrainXX/staging/pegtrainXX/pegasus/split/run0002/pegasus.html'
-2016-05-11 16:11:22,585    INFO:  /nfs/ccg3/ccg/home/pegtrainXX/tutorial/split/input/pegasus.html: No such file or directory
-
-2016-05-11 16:11:22,586   ERROR:  Command exited with non-zero exit code (1): /usr/bin/scp ...
-2016-05-11 16:11:22,586    INFO:  --------------------------------------------------------------------------------
-2016-05-11 16:11:22,587    INFO:  Stats: Total 3 transfers, 0.0 B transferred in 183 seconds. Rate: 0.0 B/s (0.0 b/s)
-2016-05-11 16:11:22,587    INFO:         Between sites local-&gt;isi_workflow : 3 transfers, 0.0 B transferred in 183 seconds. Rate: 0.0 B/s (0.0 b/s)
-2016-05-11 16:11:22,587 CRITICAL:  Some transfers failed! See above, and possibly stderr.
-</programlisting>
-
-      <para>The above listing indicates that it could not transfer
-      pegasus.html. Let's correct that error by restoring the pegasus.html
-      file:</para>
-
-      <programlisting>$ <emphasis role="bold">mv input/pegasus.html.bak input/pegasus.html</emphasis>
-      </programlisting>
-
-      <para>Now in order to start the workflow from where we left off, instead
-      of executing pegasus-plan we will use the command pegasus-run on the
-      directory from our previous failed workflow run:</para>
-
-      <programlisting>$  <emphasis role="bold">pegasus-run submit/pegtrainXX/pegasus/split/run0002</emphasis>
-Rescued ./submit/pegtrainXX/pegasus/split/run0002/split-0.log as ./submit/pegtrainXX/pegasus/split/run0002/split-0.log.000
-Submitting to condor split-0.dag.condor.sub
-Submitting job(s).
-1 job(s) submitted to cluster 8515.
-
-Your workflow has been started and is running in the base directory:
-
-  submit/pegtrainXX/pegasus/split/run0002
-
-*** To monitor the workflow you can run ***
-
-  pegasus-status -l submit/pegtrainXX/pegasus/split/run0002
-
-*** To remove your workflow run ***
-
-  pegasus-remove submit/pegtrainXX/pegasus/split/run0002
-</programlisting>
-
-      <para>The workflow will now run to completion and succeed.</para>
-
-      <programlisting><emphasis role="bold">$ pegasus-status -l </emphasis><emphasis
-          role="bold">submit/pegtrainXX/pegasus/split/run0002</emphasis>
-(no matching jobs found in Condor Q)
-UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME                                 
-    0     0     0     0     0    11     0 100.0 Success *split-0.dag                            
-Summary: 1 DAG total (Success:1)
-                     
-</programlisting>
-    </section>
   </section>
 
   <section id="tutorial_clustering">
@@ -1915,19 +1731,23 @@ Summary: 1 DAG total (Success:1)
         to create. We usually do it by setting a profile in the site
         catalog.</para>
 
-        <programlisting>&lt;site handle="osg" arch="x86_64" os="linux"&gt;
+        <programlisting>   &lt;site handle="condorpool" arch="x86_64" os="LINUX"&gt;
+        &lt;!-- These profiles tell Pegasus that the site is a plain Condor pool --&gt;
+        &lt;profile namespace="pegasus" key="style"&gt;condor&lt;/profile&gt;
+        &lt;profile namespace="condor" key="universe"&gt;vanilla&lt;/profile&gt;
 
-     &lt;profile namespace="pegasus" key="style" &gt;condor&lt;/profile&gt;
-     &lt;profile namespace="condor" key="universe" &gt;vanilla&lt;/profile&gt;
-     &lt;profile namespace="condor" key="requirements"&gt;OSGVO_OS_STRING == "RHEL 6" &amp;amp;&amp;amp; Arch == "X86_64" &amp;amp;&amp;amp;  HAS_MODULES == True&lt;/profile&gt;
-     &lt;profile namespace="condor" key="+ProjectName"&gt;"PegasusTraining"&lt;/profile&gt;
+       &lt;!-- This ensures that when a job runs enough memory and 
+             diskspace available to stage and run the container --&gt;
+        &lt;profile namespace="condor" key="request_memory" &gt;2  GB&lt;/profile&gt;
+        &lt;profile namespace="condor" key="request_disk" &gt;5 GB&lt;/profile&gt;
+ 
+       <emphasis role="bold">&lt;!-- This profile tells Pegasus to create two clustered jobs
+            per level of the workflow, when horizontal clustering is
+            enabled --&gt;</emphasis>
+       &lt;profile namespace="pegasus" key="clusters.num" &gt;2&lt;/profile&gt;
+    &lt;/site&gt;
 
-     <emphasis role="bold">&lt;!-- This profile tells Pegasus to create two clustered jobs
-          per level of the workflow, when horizontal clustering is
-          enabled --&gt;</emphasis>
-     &lt;profile namespace="pegasus" key="clusters.num" &gt;2&lt;/profile&gt;
-
-&lt;/site&gt;</programlisting>
+</programlisting>
       </listitem>
 
       <listitem>
@@ -1967,53 +1787,239 @@ pegasus-plan --conf pegasus.properties \
     <para><emphasis role="bold">Let us now plan and run the
     workflow.</emphasis></para>
 
-    <programlisting>$ <emphasis role="bold">./plan_cluster_dax.sh split.dax </emphasis>
-2016.03.17 19:00:26.835 PDT:    
-2016.03.17 19:00:26.841 PDT:   ----------------------------------------------------------------------- 
-2016.03.17 19:00:26.846 PDT:   File for submitting this DAG to Condor           : split-0.dag.condor.sub 
-2016.03.17 19:00:26.851 PDT:   Log of DAGMan debugging messages                 : split-0.dag.dagman.out 
-2016.03.17 19:00:26.857 PDT:   Log of Condor library output                     : split-0.dag.lib.out 
-2016.03.17 19:00:26.862 PDT:   Log of Condor library error messages             : split-0.dag.lib.err 
-2016.03.17 19:00:26.867 PDT:   Log of the life of condor_dagman itself          : split-0.dag.dagman.log 
-2016.03.17 19:00:26.873 PDT:    
-2016.03.17 19:00:26.888 PDT:   ----------------------------------------------------------------------- 
-2016.03.17 19:00:28.295 PDT:   Your database is compatible with Pegasus version: 4.6.1 
-2016.03.17 19:00:28.470 PDT:   Submitting to condor split-0.dag.condor.sub 
-2016.03.17 19:00:28.535 PDT:   Submitting job(s). 
-2016.03.17 19:00:28.540 PDT:   1 job(s) submitted to cluster 8523. 
-2016.03.17 19:00:28.545 PDT:    
-2016.03.17 19:00:28.551 PDT:   Your workflow has been started and is running in the base directory: 
-2016.03.17 19:00:28.556 PDT:    
-2016.03.17 19:00:28.561 PDT:     ./submit/trainXX/pegasus/split/run0003 
-2016.03.17 19:00:28.567 PDT:    
-2016.03.17 19:00:28.572 PDT:   *** To monitor the workflow you can run *** 
-2016.03.17 19:00:28.577 PDT:    
-2016.03.17 19:00:28.583 PDT:     pegasus-status -l ./submit/trainXX/pegasus/split/run0003 
-2016.03.17 19:00:28.588 PDT:    
-2016.03.17 19:00:28.593 PDT:   *** To remove your workflow run *** 
-2016.03.17 19:00:28.599 PDT:    
-2016.03.17 19:00:28.604 PDT:     pegasus-remove ./submit/trainXX/pegasus/split/run0003 
-2016.03.17 19:00:28.609 PDT:    
-2016.03.17 19:00:28.737 PDT:   Time taken to execute is 3.371 seconds 
-</programlisting>
+    <programlisting><emphasis role="bold">$  ./plan_cluster_dax.sh pop.dax </emphasis>
+2018.07.06 12:16:42.464 PDT:    
+2018.07.06 12:16:42.470 PDT:   ----------------------------------------------------------------------- 
+2018.07.06 12:16:42.475 PDT:   File for submitting this DAG to HTCondor           : population-0.dag.condor.sub 
+2018.07.06 12:16:42.480 PDT:   Log of DAGMan debugging messages                 : population-0.dag.dagman.out 
+2018.07.06 12:16:42.486 PDT:   Log of HTCondor library output                     : population-0.dag.lib.out 
+2018.07.06 12:16:42.491 PDT:   Log of HTCondor library error messages             : population-0.dag.lib.err 
+2018.07.06 12:16:42.496 PDT:   Log of the life of condor_dagman itself          : population-0.dag.dagman.log 
+2018.07.06 12:16:42.501 PDT:    
+2018.07.06 12:16:42.507 PDT:   -no_submit given, not submitting DAG to HTCondor.  You can do this with: 
+2018.07.06 12:16:42.517 PDT:   ----------------------------------------------------------------------- 
+2018.07.06 12:16:43.230 PDT:   Your database is compatible with Pegasus version: 4.8.3dev 
+2018.07.06 12:16:43.328 PDT:   Submitting to condor population-0.dag.condor.sub 
+2018.07.06 12:16:43.357 PDT:   Submitting job(s). 
+2018.07.06 12:16:43.362 PDT:   1 job(s) submitted to cluster 992488. 
+2018.07.06 12:16:43.367 PDT:    
+2018.07.06 12:16:43.373 PDT:   Your workflow has been started and is running in the base directory: 
+2018.07.06 12:16:43.378 PDT:    
+2018.07.06 12:16:43.383 PDT:     /scitech/home/pegtrain01/population/submit/pegtrain01/pegasus/population/run0003 
+2018.07.06 12:16:43.388 PDT:    
+2018.07.06 12:16:43.393 PDT:   *** To monitor the workflow you can run *** 
+2018.07.06 12:16:43.399 PDT:    
+2018.07.06 12:16:43.404 PDT:     pegasus-status -l /scitech/home/pegtrain01/population/submit/pegtrain01/pegasus/population/run0003 
+2018.07.06 12:16:43.409 PDT:    
+2018.07.06 12:16:43.414 PDT:   *** To remove your workflow run *** 
+2018.07.06 12:16:43.419 PDT:    
+2018.07.06 12:16:43.425 PDT:     pegasus-remove /scitech/home/pegtrain01/population/submit/pegtrain01/pegasus/population/run0003 </programlisting>
 
-    <para>This is what the diamond workflow looks like after Pegasus has
+    <para>This is what the population workflow looks like after Pegasus has
     finished planning the DAX:</para>
 
     <figure>
-      <title>Clustered Diamond DAG</title>
+      <title>Clustered Population DAG</title>
 
       <mediaobject>
         <imageobject>
           <imagedata contentwidth="70%"
-                     fileref="images/tutorial-split-clustered.png"/>
+                     fileref="images/tutorial-clustered-population-dag.jpg"/>
         </imageobject>
       </mediaobject>
     </figure>
 
-    <para>You can see that instead of 4 jobs for wc, we two merge_wc jobs.
-    Each of these jobs runs two wc invocations one after the other using tool
-    called pegasus-cluster.</para>
+    <para>You can see that instead of 4 jobs for county_population_raster, we
+    two merge_county_population_raster jobs. Each of these jobs runs two
+    county_population_raster invocations one after the other using tool called
+    pegasus-cluster. Similarly for the other jobs full_res_pop_raster and
+    raster_to_png jobs.</para>
+  </section>
+
+  <section id="tutorial_failure_recovery">
+    <title>Recovery from Failures</title>
+
+    <para>Executing workflows in a distributed environment can lead to
+    failures. Often, they are a result of the underlying infrastructure being
+    temporarily unavailable, or errors in workflow setup such as incorrect
+    executables specified, or input files being unavailable.</para>
+
+    <para>In case of transient infrastructure failures such as a node being
+    temporarily down in a cluster, Pegasus will automatically retry jobs in
+    case of failure. After a set number of retries (usually once), a hard
+    failure occurs, because of which workflow will eventually fail.</para>
+
+    <para>In most of the cases, these errors are correctable (either the
+    resource comes back online or application errors are fixed). Once the
+    errors are fixed, you may not want to start a new workflow but instead
+    start from the point of failure. In order to do this, you can submit the
+    rescue workflows automatically created in case of failures. A rescue
+    workflow contains only a description of only the work that remains to be
+    done.</para>
+
+    <section>
+      <title>Submitting Rescue Workflows</title>
+
+      <para>In this example, we will take our previously run workflow and
+      introduce errors such that workflow we just executed fails at
+      runtime.</para>
+
+      <para>First we will "hide" the input file to cause a failure by renaming
+      it:</para>
+
+      <programlisting><emphasis role="bold">$ mv scripts/geospatial.py scripts/geospatial.py.bak
+      </emphasis></programlisting>
+
+      <para>Now submit the workflow again:</para>
+
+      <programlisting><emphasis role="bold">$ </emphasis>.<emphasis
+          role="bold">/plan_dax.sh pop.dax </emphasis>
+2018.07.06 13:48:20.806 PDT:    
+2018.07.06 13:48:20.812 PDT:   ----------------------------------------------------------------------- 
+2018.07.06 13:48:20.817 PDT:   File for submitting this DAG to HTCondor           : population-0.dag.condor.sub 
+2018.07.06 13:48:20.822 PDT:   Log of DAGMan debugging messages                 : population-0.dag.dagman.out 
+2018.07.06 13:48:20.827 PDT:   Log of HTCondor library output                     : population-0.dag.lib.out 
+2018.07.06 13:48:20.832 PDT:   Log of HTCondor library error messages             : population-0.dag.lib.err 
+2018.07.06 13:48:20.838 PDT:   Log of the life of condor_dagman itself          : population-0.dag.dagman.log 
+2018.07.06 13:48:20.843 PDT:    
+2018.07.06 13:48:20.848 PDT:   -no_submit given, not submitting DAG to HTCondor.  You can do this with: 
+2018.07.06 13:48:20.858 PDT:   ----------------------------------------------------------------------- 
+2018.07.06 13:48:21.593 PDT:   Your database is compatible with Pegasus version: 4.8.3dev 
+2018.07.06 13:48:21.690 PDT:   Submitting to condor population-0.dag.condor.sub 
+2018.07.06 13:48:21.724 PDT:   Submitting job(s). 
+2018.07.06 13:48:21.729 PDT:   1 job(s) submitted to cluster 992607. 
+2018.07.06 13:48:21.734 PDT:    
+2018.07.06 13:48:21.740 PDT:   Your workflow has been started and is running in the base directory: 
+2018.07.06 13:48:21.745 PDT:    
+2018.07.06 13:48:21.750 PDT:     /scitech/home/pegtrain01/population/submit/pegtrain01/pegasus/population/run0004 
+2018.07.06 13:48:21.756 PDT:    
+2018.07.06 13:48:21.761 PDT:   *** To monitor the workflow you can run *** 
+2018.07.06 13:48:21.766 PDT:    
+2018.07.06 13:48:21.771 PDT:     pegasus-status -l /scitech/home/pegtrainXX/population/submit/pegtrain01/pegasus/population/run0004 
+2018.07.06 13:48:21.776 PDT:    
+2018.07.06 13:48:21.782 PDT:   *** To remove your workflow run *** 
+2018.07.06 13:48:21.787 PDT:    
+2018.07.06 13:48:21.792 PDT:     pegasus-remove /scitech/home/pegtrainXX/population/submit/pegtrain01/pegasus/population/run0004 
+2018.07.06 13:48:21.797 PDT:    
+2018.07.06 13:48:21.857 PDT:   Time taken to execute is 2.054 seconds </programlisting>
+
+      <para>We will now monitor the workflow using the pegasus-status command
+      till it fails. We will add -w option to pegasus-status to watch
+      automatically till the workflow finishes:</para>
+
+      <programlisting><emphasis role="bold">$ </emphasis><emphasis role="bold">pegasus-status -w submit/pegtrainXX/pegasus/population/run0004</emphasis>
+(no matching jobs found in Condor Q)
+UNREADY   READY     PRE  QUEUED    POST SUCCESS FAILURE %DONE
+     22       0       0       0       0       5       1  17.9
+Summary: 1 DAG total (Failure:1)
+[pegtrain01@workflow population]$ 
+</programlisting>
+
+      <para>Now we can use the pegasus-analyzer command to determine what went
+      wrong:</para>
+
+      <programlisting><emphasis role="bold">$ </emphasis> <emphasis
+          role="bold">pegasus-analyzer submit/pegtrainXX/pegasus/population/run0004</emphasis>
+
+
+************************************Summary*************************************
+
+ Submit Directory   : submit/pegtrain01/pegasus/population/run0004
+ Total jobs         :     28 (100.00%)
+ # jobs succeeded   :      5 (17.86%)
+ # jobs failed      :      1 (3.57%)
+ # jobs held        :      0 (0.00%)
+ # jobs unsubmitted :     22 (78.57%)
+
+******************************Failed jobs' details******************************
+
+===========================stage_in_remote_local_0_0============================
+
+ last state: POST_SCRIPT_FAILED
+       site: local
+submit file: 00/00/stage_in_remote_local_0_0.sub
+output file: 00/00/stage_in_remote_local_0_0.out.001
+ error file: 00/00/stage_in_remote_local_0_0.err.001
+
+-------------------------------Task #1 - Summary--------------------------------
+
+site        : local
+hostname    : workflow.isi.edu
+executable  : /local-scratch/vahi/software/install/pegasus/pegasus-4.8.3dev/bin/pegasus-transfer
+arguments   :   --threads   2  
+exitcode    : 1
+working dir : /local-scratch/home/pegtrain01/population/submit/pegtrain01/pegasus/population/run0004
+
+------------------Task #1 - pegasus::transfer - None - stdout-------------------
+
+2018-07-06 13:52:16,216    INFO:  Reading URL pairs from stdin
+2018-07-06 13:52:16,219    INFO:  10 transfers loaded
+2018-07-06 13:52:16,219    INFO:  PATH=/usr/bin:/bin
+2018-07-06 13:52:16,219    INFO:  LD_LIBRARY_PATH=
+2018-07-06 13:52:16,259    INFO:  --------------------------------------------------------------------------------
+2018-07-06 13:52:16,259    INFO:  Starting transfers - attempt 1
+2018-07-06 13:52:18,270    INFO:  /bin/cp -f -R -L '/local-scratch/home/pegtrain01/population/scripts/config/county_cohort_pop_config.ini' '/local-scratch/home/pegtrain01/population/scratch/pegtrain01/pegasus/population/run0004/./county_cohort_pop_config.ini'
+2018-07-06 13:52:18,280    INFO:  /bin/cp -f -R -L '/local-scratch/home/pegtrain01/population/scripts/county_population_raster.py' '/local-scratch/home/pegtrain01/population/scratch/pegtrain01/pegasus/population/run0004/./county_population_raster'
+2018-07-06 13:52:18,289   ERROR:  Expected local file does not exist: /local-scratch/home/pegtrain01/population/scripts/geospatial.py
+2018-07-06 13:52:18,289    INFO:  /bin/cp -f -R -L '/scitech/home/pegtrain01/population/input/SouthSudan_CountyPopulation.cpg' '/local-scratch/home/pegtrain01/population/scratch/pegtrain01/pegasus/population/run0004/./SouthSudan_CountyPopulation.cpg'
+2018-07-06 13:52:18,298    INFO:  /bin/cp -f -R -L '/scitech/home/pegtrain01/population/input/SouthSudan_CountyPopulation.dbf' '/local-scratch/home/pegtrain01/population/scratch/pegtrain01/pegasus/population/run0004/./SouthSudan_CountyPopulation.dbf'
+2018-07-06 13:52:18,331    INFO:  /bin/cp -f -R -L '/scitech/home/pegtrain01/population/input/SouthSudan_CountyPopulation.sbn' '/local-scratch/home/pegtrain01/population/scratch/pegtrain01/pegasus/population/run0004/./SouthSudan_CountyPopulation.sbn'
+2018-07-06 13:52:18,340    INFO:  /bin/cp -f -R -L '/scitech/home/pegtrain01/population/input/SouthSudan_CountyPopulation.sbx' '/local-scratch/home/pegtrain01/population/scratch/pegtrain01/pegasus/population/run0004/./SouthSudan_CountyPopulation.sbx'
+2018-07-06 13:52:18,349    INFO:  /bin/cp -f -R -L '/scitech/home/pegtrain01/population/input/SouthSudan_CountyPopulation.shp' '/local-scratch/home/pegtrain01/population/scratch/pegtrain01/pegasus/population/run0004/./SouthSudan_CountyPopulation.shp'
+2018-07-06 13:52:18,365    INFO:  /bin/cp -f -R -L '/scitech/home/pegtrain01/population/input/SouthSudan_CountyPopulation.shx' '/local-scratch/home/pegtrain01/population/scratch/pegtrain01/pegasus/population/run0004/./SouthSudan_CountyPopulation.shx'
+2018-07-06 13:52:18,373    INFO:  /bin/cp -f -R -L '/scitech/home/pegtrain01/population/input/SouthSudan_CountyPopulation.prj' '/local-scratch/home/pegtrain01/population/scratch/pegtrain01/pegasus/population/run0004/./SouthSudan_CountyPopulation.prj'
+2018-07-06 13:53:00,296    INFO:  --------------------------------------------------------------------------------
+2018-07-06 13:53:00,296    INFO:  Starting transfers - attempt 2
+2018-07-06 13:53:02,306   ERROR: <emphasis role="bold"> Expected local file does not exist: /local-scratch/home/pegtrain01/population/scripts/geospatial.py</emphasis>
+2018-07-06 13:55:24,342    INFO:  --------------------------------------------------------------------------------
+2018-07-06 13:55:24,342    INFO:  Starting transfers - attempt 3
+2018-07-06 13:55:26,353   ERROR:  E<emphasis role="bold">xpected local file does not exist: /local-scratch/home/pegtrain01/population/scripts/geospatial.py</emphasis>
+2018-07-06 13:55:26,353    INFO:  --------------------------------------------------------------------------------
+2018-07-06 13:55:26,353    INFO:  Stats: Total 12 transfers, 309.2 KB transferred in 190 seconds. Rate: 1.6 KB/s (13.0 Kb/s)
+2018-07-06 13:55:26,353    INFO:         Between sites local-&gt;local : 12 transfers, 309.2 KB transferred in 190 seconds. Rate: 1.6 KB/s (13.0 Kb/s)
+2018-07-06 13:55:26,353 CRITICAL:  Some transfers failed! See above, and possibly stderr.
+</programlisting>
+
+      <para>The above listing indicates that it could not transfer
+      geospatial.py. Let's correct that error by restoring the pegasus.html
+      file:</para>
+
+      <programlisting><emphasis role="bold">$ mv scripts/geospatial.py.bak scripts/geospatial.py
+      </emphasis></programlisting>
+
+      <para>Now in order to start the workflow from where we left off, instead
+      of executing pegasus-plan we will use the command pegasus-run on the
+      directory from our previous failed workflow run:</para>
+
+      <programlisting>$  <emphasis role="bold">pegasus-run submit/pegtrainXX/pegasus/population/run00024</emphasis>
+Rescued /scitech/home/pegtrain01/population/submit/pegtrain01/pegasus/population/run0004/population-0.log as /scitech/home/pegtrain01/population/submit/pegtrain01/pegasus/population/run0004/population-0.log.000
+Submitting to condor population-0.dag.condor.sub
+Submitting job(s).
+1 job(s) submitted to cluster 992625.
+
+Your workflow has been started and is running in the base directory:
+
+  submit/pegtrain01/pegasus/population/run0004
+
+*** To monitor the workflow you can run ***
+
+  pegasus-status -l submit/pegtrain01/pegasus/population/run0004
+
+*** To remove your workflow run ***
+
+  pegasus-remove submit/pegtrain01/pegasus/population/run0004</programlisting>
+
+      <para>The workflow will now run to completion and succeed.</para>
+
+      <programlisting><emphasis role="bold">$ pegasus-status -l </emphasis><emphasis
+          role="bold">submit/pegtrainXX/pegasus/population/run00024</emphasis>
+UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME                                 
+    0     0     0     0     0    28     0 100.0 Success *population-0.dag   
+[pegtrainXX@workflow population]$ 
+
+                     
+</programlisting>
+    </section>
   </section>
 
   <section id="tutorial_conclusion">
