@@ -986,17 +986,18 @@ Generated dax pop.dax</programlisting>
 
       <programlisting>$ <emphasis role="bold">more sites.xml</emphasis>
 ...
-    <emphasis role="bold">&lt;!-- The local site contains information about the submit host --&gt;</emphasis>
-    &lt;site handle="local"&gt;
+    <emphasis role="bold">&lt;!-- The local site contains information about the submit host --&gt;</emphasis> 
+    &lt;site handle="local" arch="x86_64" os="LINUX"&gt;
         <emphasis role="bold">&lt;!-- This is where intermediate data will be stored --&gt;</emphasis>
-        &lt;directory type="shared-scratch" path="/nfs/ccg3/ccg/home/pegtrainXX/tutorial/population/scratch"&gt;
-            &lt;file-server operation="all" url="file:///nfs/ccg3/ccg/home/pegtrainXX/tutorial/population/scratch"/&gt;
+        &lt;directory type="shared-scratch" path="/local-scratch/home/pegtrainXX/population/scratch"&gt;
+            &lt;file-server operation="all" url="file:///local-scratch/home/pegtrainXX/population/scratch"/&gt;
         &lt;/directory&gt;
         <emphasis role="bold">&lt;!-- This is where output data will be stored --&gt;</emphasis>
-        &lt;directory type="shared-storage" path="/nfs/ccg3/ccg/home/pegtrainXX/tutorial/population/output"&gt;
-            &lt;file-server operation="all" url="file:///nfs/ccg3/ccg/home/pegtrainXX/tutorial/population/output"/&gt;
+        &lt;directory type="shared-storage" path="/local-scratch/home/pegtrainXX/population/output"&gt;
+            &lt;file-server operation="all" url="file:///local-scratch/home/pegtrainXX/population/output"/&gt;
         &lt;/directory&gt;
     &lt;/site&gt;
+
 
    <emphasis role="bold"> &lt;!-- The condorpool is a local Condor based computational site setup at ISI --&gt;</emphasis>
     &lt;site handle="condorpool" arch="x86_64" os="LINUX"&gt;
