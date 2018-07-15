@@ -2,7 +2,7 @@
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
 "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
 <chapter id="tutorial">
-  <title>Pegasus Scientific Workflows with Containers</title>
+  <title>Tutorial</title>
 
   <section id="tutorial_introduction">
     <title>Introduction</title>
@@ -444,7 +444,7 @@ Generated dax pop.dax
 
       <mediaobject>
         <imageobject>
-          <imagedata contentwidth="70%" fileref="images/tutorial-pop-dag.jpg"/>
+          <imagedata contentwidth="100%" fileref="images/tutorial-pop-dag.jpg"/>
         </imageobject>
       </mediaobject>
     </figure>
@@ -516,7 +516,7 @@ Generated dax pop.dax
 
       <mediaobject>
         <imageobject>
-          <imagedata contentwidth="70%" fileref="images/dashboard_home.png"
+          <imagedata contentwidth="100%" fileref="images/dashboard_home.png"
                      width="100%"/>
         </imageobject>
       </mediaobject>
@@ -541,7 +541,7 @@ Generated dax pop.dax
 
       <mediaobject>
         <imageobject>
-          <imagedata contentwidth="70%"
+          <imagedata contentwidth="100%"
                      fileref="images/dashboard_workflow_details.png"
                      width="100%"/>
         </imageobject>
@@ -567,7 +567,7 @@ Generated dax pop.dax
 
       <mediaobject>
         <imageobject>
-          <imagedata contentwidth="70%"
+          <imagedata contentwidth="100%"
                      fileref="images/dashboard_job_details.png" width="100%"/>
         </imageobject>
       </mediaobject>
@@ -582,7 +582,7 @@ Generated dax pop.dax
 
       <mediaobject>
         <imageobject>
-          <imagedata contentwidth="70%"
+          <imagedata contentwidth="100%"
                      fileref="images/dashboard_invocation_details.png"
                      width="100%"/>
         </imageobject>
@@ -614,7 +614,7 @@ Generated dax pop.dax
 
       <mediaobject>
         <imageobject>
-          <imagedata contentwidth="70%"
+          <imagedata contentwidth="100%"
                      fileref="images/dashboard_statistics.png" width="100%"/>
         </imageobject>
       </mediaobject>
@@ -846,7 +846,7 @@ ImportError: No module named 'pandas'
 
       <mediaobject>
         <imageobject>
-          <imagedata align="center" contentwidth="70%"
+          <imagedata align="center" contentwidth="100%"
                      fileref="images/tutorial-pop-wf.jpg"/>
         </imageobject>
       </mediaobject>
@@ -1864,7 +1864,7 @@ pegasus-plan --conf pegasus.properties \
 
       <mediaobject>
         <imageobject>
-          <imagedata contentwidth="70%"
+          <imagedata contentwidth="100%"
                      fileref="images/tutorial-clustered-population-dag.jpg"/>
         </imageobject>
       </mediaobject>
