@@ -2,7 +2,7 @@
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
 "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
 <chapter id="tutorial">
-  <title>Tutorial</title>
+  <title>Pegasus Scientific Workflows with Containers</title>
 
   <section id="tutorial_introduction">
     <title>Introduction</title>
@@ -2068,7 +2068,7 @@ UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME
 
     <para>This brings you to the end of the Pegasus tutorial. The tutorial
     should have given you an overview of how to compose a simple workflow
-    using Pegasus and running it on the Open Science Grid. The tutorial
+    using Pegasus and running it on a local HTCondor pool. The tutorial
     examples, should provide a good starting point for you to port your
     application to a Pegasus workflow. If you need help in porting your
     application to Pegasus contact us on the following support channels</para>
