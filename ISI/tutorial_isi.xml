@@ -293,7 +293,7 @@ Enter pegtrainXX@workflow.isi.edu password
     tutorial we will be using a complex workflow that does population
     modelling, which can be created like this:</para>
 
-    <programlisting>$ <emphasis role="bold">cd ~/tutorial
+    <programlisting>$ <emphasis role="bold">cd ~/
 </emphasis>$ <emphasis role="bold">pwd
 $ </emphasis>/nfs/ccg3/ccg/home/pegtrainXX/
 $  <emphasis role="bold">pegasus-init population</emphasis>
