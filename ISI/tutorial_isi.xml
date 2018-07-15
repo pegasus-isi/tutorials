@@ -293,8 +293,9 @@ Enter pegtrainXX@workflow.isi.edu password
     tutorial we will be using a complex workflow that does population
     modelling, which can be created like this:</para>
 
-    <programlisting>$ <emphasis role="bold">mkdir ~/tutorial
-</emphasis>$ <emphasis role="bold">cd </emphasis>/nfs/ccg3/ccg/home/pegtrainXX/tutorial
+    <programlisting>$ <emphasis role="bold">cd ~/tutorial
+</emphasis>$ <emphasis role="bold">pwd
+$ </emphasis>/nfs/ccg3/ccg/home/pegtrainXX/
 $  <emphasis role="bold">pegasus-init population</emphasis>
 Do you want to generate a tutorial workflow? (y/n) [n]: y
 1: Local Machine
