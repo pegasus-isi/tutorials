@@ -1,0 +1,15 @@
+digraph dag {
+    ratio=fill
+    node [style=filled,color="#444444",fillcolor="#ffed6f"]
+    edge [arrowhead=normal,arrowsize=1.0]
+
+    "create_dir_diamond_0_wrangler" [shape=ellipse,color="#000000",fillcolor="#1b9e77",label="create_dir_diamond_0_wrangler"]
+    "merge_cluster-1" [shape=ellipse,color="#000000",fillcolor="#d95f02",label="merge_cluster-1"]
+    "cleanup_diamond_0_wrangler" [shape=ellipse,color="#000000",fillcolor="#7570b3",label="cleanup_diamond_0_wrangler"]
+    "stage_out_local_wrangler_0_0" [shape=ellipse,color="#000000",fillcolor="#e7298a",label="stage_out_local_wrangler_0_0"]
+    "stage_in_local_wrangler_0_0" [shape=ellipse,color="#000000",fillcolor="#66a61e",label="stage_in_local_wrangler_0_0"]
+    "create_dir_diamond_0_wrangler" -> "stage_in_local_wrangler_0_0" [color="#000000"]
+    "merge_cluster-1" -> "stage_out_local_wrangler_0_0" [color="#000000"]
+    "stage_out_local_wrangler_0_0" -> "cleanup_diamond_0_wrangler" [color="#000000"]
+    "stage_in_local_wrangler_0_0" -> "merge_cluster-1" [color="#000000"]
+}

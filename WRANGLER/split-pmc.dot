@@ -1,0 +1,19 @@
+digraph E {
+size="8.0,10.0"
+ratio=fill
+node [shape=ellipse]
+edge [arrowhead=normal, arrowsize=1.0]
+	"create_dir_split_0_usc-hpcc" [color=darkturquoise,style=filled,label="create_dir_split_0_usc-hpcc"]
+	"merge_p1" [color=blueviolet,style=filled,label="merge_p1"]
+	"cleanup_split_0_usc-hpcc" [color=deepskyblue,style=filled,label="cleanup_split_0_usc-hpcc"]
+	"stage_out_local_usc-hpcc_0_0" [color=goldenrod,style=filled,label="stage_out_local_usc-hpcc_0_0"]
+	"stage_in_local_usc-hpcc_0_0" [color=gold,style=filled,label="stage_in_local_usc-hpcc_0_0"]
+	"stage_out_local_usc-hpcc_0_1" [color=goldenrod,style=filled,label="stage_out_local_usc-hpcc_0_1"]
+
+	"create_dir_split_0_usc-hpcc" -> "stage_in_local_usc-hpcc_0_0"
+	"merge_p1" -> "stage_out_local_usc-hpcc_0_0"
+	"merge_p1" -> "stage_out_local_usc-hpcc_0_1"
+	"stage_out_local_usc-hpcc_0_0" -> "cleanup_split_0_usc-hpcc"
+	"stage_in_local_usc-hpcc_0_0" -> "merge_p1"
+	"stage_out_local_usc-hpcc_0_1" -> "cleanup_split_0_usc-hpcc"
+}
