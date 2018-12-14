@@ -5,7 +5,7 @@
   <title>Tutorial</title>
 
   <section id="tutorial_introduction">
-    <title>Introduction</title>
+    <title>Getting Started</title>
 
     <para>This tutorial will take you through the steps of running simple
     workflows using Pegasus Workflow Management System. Pegasus allows
@@ -100,28 +100,8 @@ you get this</programlisting>
     or anything else related to Pegasus, you can contact the Pegasus Users
     mailing list at <email>pegasus-users@isi.edu</email> to get help.
     </emphasis></para>
-  </section>
-
-  <section id="tutorial_started">
-    <title>Getting Started</title>
-
-    <para>All of the steps in this tutorial are performed on the command-line.
-    The convention we will use for command-line input and output is to put
-    things that you should type in bold, monospace font, and to put the output
-    you should get in a normal weight, monospace font, like this:</para>
-
-    <programlisting>[user@workflow]$ <emphasis role="bold">you type this</emphasis>
-you get this</programlisting>
-
-    <para>Where <literal>[user@host dir]$</literal> is the terminal prompt,
-    the text you should type is “<literal>you type this</literal>”, and the
-    output you should get is "<literal>you get this</literal>". The terminal
-    prompt will be abbreviated as <literal>$</literal>. Because some of the
-    outputs are long, we don’t always include everything. Where the output is
-    truncated we will add an ellipsis '...' to indicate the omitted
-    output.</para>
-
-    <para>Login to the workflow.isi.edu submit node</para>
+    
+    <para>Login to the wrangler.tacc.utexas.edu submit node</para>
 
     <programlisting><emphasis role="bold">$ </emphasis><emphasis role="bold">ssh userXX@wrangler.tacc.utexas.edu</emphasis>
 
@@ -149,16 +129,6 @@ Tip 161   (See "module help tacc_tips" for features or how to disable)
 
 </programlisting>
 
-    <note>
-      <para>For the purpose of this tutorial replace any instance of
-      pegtrainXX with your workflow.isi.edu username.</para>
-    </note>
-
-    <para><emphasis role="bold">If you are having trouble with this tutorial,
-    or anything else related to Pegasus, you can contact the Pegasus Users
-    mailing list at <email>pegasus-users@isi.edu</email> to get
-    help.</emphasis></para>
-
     <para>The tutorial should be done in the bash shell. Lets make sure that
     you are in the right shell.</para>
 
@@ -167,13 +137,7 @@ Tip 161   (See "module help tacc_tips" for features or how to disable)
 /bin/bash
 </programlisting>
 
-    <note>
-      <para>For the purpose of this tutorial replace any instance of
-      pegtrainXX with the user name assigned to you. To request access to a
-      training account send email to &lt;pegasus-support@isi.edu&gt;</para>
-    </note>
-
-    <para>Lets now setup the tutorial and Pegasus in your environment</para>
+    <para>Let us now setup the tutorial and Pegasus in your environment</para>
 
     <programlisting><emphasis role="bold">[userXX@login1.wrangler]$ source ~vahik/SOFTWARE/setup.sh</emphasis>
 <emphasis role="bold">[userXX@login1.wrangler]$ pegasus-version</emphasis>
@@ -186,7 +150,7 @@ Tip 161   (See "module help tacc_tips" for features or how to disable)
   </section>
 
   <section id="tutorial_scientific_workflows">
-    <title>What are Scientific Workflows</title>
+    <title>What are Scientific Workflows?</title>
 
     <para>Scientific workflows allow users to easily express multi-step
     computational tasks, for example retrieve data from an instrument or a
@@ -214,7 +178,7 @@ Tip 161   (See "module help tacc_tips" for features or how to disable)
 
       <mediaobject>
         <imageobject>
-          <imagedata align="center" contentdepth="50%"
+          <imagedata align="center" contentwidth="20%"
                      fileref="images/tutorial-single-job-wf.jpg"/>
         </imageobject>
       </mediaobject>
@@ -230,7 +194,7 @@ Tip 161   (See "module help tacc_tips" for features or how to disable)
 
         <mediaobject>
           <imageobject>
-            <imagedata align="center" contentdepth="70%"
+            <imagedata align="center" contentwidth="25%"
                        fileref="images/tutorial-pipeline-tasks-wf.jpg"/>
           </imageobject>
         </mediaobject>
@@ -293,25 +257,25 @@ Tip 161   (See "module help tacc_tips" for features or how to disable)
   </section>
 
   <section id="tutorial_submitting_wf">
-    <title>Submitting an Example Workflow</title>
+    <title>Submitting Our First Workflow</title>
 
     <para>All of the example workflows described in the previous section can
     be generated with the <literal>pegasus-init</literal> command. For this
     tutorial we will be using the split workflow, which can be created like
     this:</para>
 
-    <programlisting>$ <emphasis role="bold">mkdir ~/tutorial
-</emphasis>$ <emphasis role="bold">cd </emphasis>~/tutorial
+    <programlisting>$ <emphasis role="bold">mkdir $WORK/tutorial</emphasis>
+$ <emphasis role="bold">cd $WORK/tutorial</emphasis>
 $ <emphasis role="bold">pegasus-init diamond</emphasis> 
-Do you want to generate a tutorial workflow? (y/n) [n]: y
+Do you want to generate a tutorial workflow? (y/n) [n]: <emphasis role="bold">y</emphasis>
 1: Local Machine Condor Pool
 2: USC HPCC Cluster
 3: OSG from ISI submit node
 4: XSEDE, with Bosco
 5: Bluewaters, with Glite
 6: TACC Wrangler with Glite
-What environment is tutorial to be setup for? (1-6) [1]: 6
-What project your jobs should run under. For example on TACC there are like : TG-DDM160003 ?: TG-DDM160003
+What environment is tutorial to be setup for? (1-6) [1]: <emphasis role="bold">6</emphasis>
+What project your jobs should run under. For example on TACC there are like : TG-XXXXXX ?: <emphasis role="bold">TG-XXXXX</emphasis>
 1: Process
 2: Pipeline
 3: Split
@@ -320,10 +284,8 @@ What project your jobs should run under. For example on TACC there are like : TG
 6: Population Modeling using Containers
 7: Diamond
 8: MPI Hello World
-What tutorial workflow do you want? (1-8) [1]: 7
-Pegasus Tutorial setup for example workflow - diamond for execution on wrangler-glite in directory <emphasis
-        role="bold">~/tutorial/diamond
-</emphasis>
+What tutorial workflow do you want? (1-8) [1]: <emphasis role="bold">7</emphasis>
+Pegasus Tutorial setup for example workflow - diamond for execution on wrangler-glite in directory <emphasis role="bold">$WORK/tutorial/diamond </emphasis>
 $ <emphasis role="bold">cd diamond</emphasis>
 $ <emphasis role="bold">ls</emphasis>
 bin  daxgen.py  generate_dax.sh  input  output  pegasus.properties  plan_cluster_dax.sh 
@@ -396,16 +358,10 @@ Generated dax diamond.dax
     our example, the workflow will run on a site named "wrangler" in the
     sites.xml file.</para>
 
-    <note>
-      <para>If there are multiple compute sites specified in your sites.xml,
-      and you want to choose a specific site, use the --sites option to
-      pegasus-plan</para>
-    </note>
-
     <para>To plan the split workflow invoke the pegasus-plan command using the
     <filename>plan_dax.sh</filename> wrapper script as follows:</para>
 
-    <programlisting>$ <emphasis role="bold">./plan_dax.sh black.dax</emphasis>
+    <programlisting>$ <emphasis role="bold">./plan_dax.sh diamond.dax</emphasis>
 2018.12.13 18:22:16.269 CST:    
 2018.12.13 18:22:16.275 CST:   ----------------------------------------------------------------------- 
 2018.12.13 18:22:16.280 CST:   File for submitting this DAG to HTCondor           : diamond-0.dag.condor.sub 
@@ -839,8 +795,8 @@ Generated dax split.dax</programlisting>
 
     &lt;site handle="wrangler" arch="x86_64" os="LINUX"&gt;
          <emphasis role="bold">&lt;!-- Scratch directory on the cluster --&gt;</emphasis>
-        &lt;directory type="shared-scratch" path="/home/00340/userXX/tutorial/diamond/wrangler/scratch"&gt;
-            &lt;file-server operation="all" url="file:///home/00340/userXX/tutorial/diamond/wrangler/scratch"/&gt;
+        &lt;directory type="shared-scratch" path="/work/00340/userXX/tutorial/diamond/wrangler/scratch"&gt;
+            &lt;file-server operation="all" url="file:///work/00340/userXX/tutorial/diamond/wrangler/scratch"/&gt;
         &lt;/directory&gt;
 
         &lt;profile namespace="pegasus" key="style"&gt;glite&lt;/profile&gt;
@@ -892,7 +848,8 @@ Generated dax split.dax</programlisting>
         <listitem>
           <para>The <emphasis role="bold">wrangler</emphasis> site is also
           configured with a "scratch" file system. This file system is where
-          the working directory will be created. When we plan the workflow we
+          the working directory will be created and is automatically picked up
+          from the $WORK environment variable. When we plan the workflow we
           will tell Pegasus that the execution site is "wrangler".</para>
         </listitem>
       </orderedlist>
@@ -1016,7 +973,7 @@ pegasus.catalog.transformation=Text
 pegasus.catalog.transformation.file=tc.txt
 
 # Use condor to transfer workflow data
-pegasus.data.configuration=condorio
+pegasus.data.configuration=sharedfs
 
 # This is the name of the application for analytics
 pegasus.metrics.app=pegasus-tutorial
@@ -1054,7 +1011,7 @@ pegasus.metrics.app=pegasus-tutorial
       <para>First we will "hide" the input file to cause a failure by renaming
       it:</para>
 
-      <programlisting>$ <emphasis role="bold">mv input/pegasus.html input/pegasus.html.bak</emphasis>
+  <programlisting>$ <emphasis role="bold">mv input/f.a input/f.a.bak</emphasis>
       </programlisting>
 
       <para>Now submit the workflow again:</para>
@@ -1096,8 +1053,7 @@ pegasus.metrics.app=pegasus-tutorial
       till it fails. We will add -w option to pegasus-status to watch
       automatically till the workflow finishes:</para>
 
-      <programlisting><emphasis role="bold">$ </emphasis>pegasus-status -w <emphasis
-          role="bold">submit/userXX/pegasus/diamond/run0002 </emphasis>
+      <programlisting>$ <emphasis role="bold">pegasus-status -w submit/userXX/pegasus/diamond/run0002 </emphasis>
 (no matching jobs found in Condor Q)
 UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME                                 
     6     0     0     0     0     1     1  12.5 Failure *diamond-0.dag                          
@@ -1207,18 +1163,19 @@ UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME
   </section>
 
   <section id="tutorial_pmc">
-    <title>Executing the whole workflow as an MPI job</title>
+    <title>High Throughput Tasks as MPI Master/Worker Cluster Jobs</title>
 
     <para>Often, users have lots of short running single processor jobs in
     their workflow, that if submitted individually to the underlying SLURM
     cluster take a long time to execute, as each job sits in the SLURM queue.
     For example in our previous example, each job in the blackdiamond workflow
-    actually runs for a minute each. However, since each job is submitted as a
-    separate job to SLURM, each job sits in the cluster SLURM queue before it
-    is executed. In order to alleviate this, it makes sense to cluster the
-    short running jobs together. Pegasus allows users to cluster tasks in
-    their workflow into larger chunks, and then execute them using a MPI based
-    master worker tool called <emphasis><emphasis
+    actually runs for a minute each, and using only one core on a whole node.
+    Additionally, since each job is submitted as a separate job to
+    SLURM, each job sits in the cluster SLURM queue before it is
+    executed. In order to alleviate this, it makes sense to cluster the
+    short running jobs together. Pegasus allows users to cluster tasks
+    in their workflow into larger chunks, and then execute them using a
+    MPI based master worker tool called <emphasis><emphasis
     role="bold">pegasus-mpi-cluster</emphasis></emphasis> .</para>
 
     <para>In this example, we take the same blackdiamond workflow that we ran
@@ -1232,7 +1189,7 @@ UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME
         by annotating the DAX with a special pegasus profile called label. In
         the DAX generator daxgen.py you will see the following</para>
 
-        <programlisting>       preprocess = Job(name="preprocess")
+        <programlisting>preprocess = Job(name="preprocess")
 a = File("f.a")
 b1 = File("f.b1")
 b2 = File("f.b2")
@@ -1257,7 +1214,7 @@ diamond.addJob(preprocess)
         <itemizedlist>
           <listitem>
             <para>In pegasus.properties file specify the property <emphasis
-            role="bold">pegasus.job.aggregator mpiexec</emphasis></para>
+            role="bold">pegasus.job.aggregator=mpiexec</emphasis></para>
           </listitem>
 
           <listitem>
@@ -1386,7 +1343,7 @@ pegasus-plan --conf pegasus.properties \
 
       <mediaobject>
         <imageobject>
-          <imagedata align="center" contentwidth="70%"
+          <imagedata align="center" contentwidth="50%"
                      fileref="images/diamond-pmc-dag.png"/>
         </imageobject>
       </mediaobject>
@@ -1395,14 +1352,20 @@ pegasus-plan --conf pegasus.properties \
     <para>You can see that instead of 4 jobs making up the diamond have been
     replaced by a single merge_cluster-1 job, that is executed as a MPI
     job.</para>
+
+    <para>stdout/stderr of the jobs now appears as a set of outputs in the
+        merged job output. This can be found in the 00/00/merge_cluster-1.out.000
+        file in the submit directory.
+    </para>
+
   </section>
 
   <section id="tutorial_mpi_workflows">
-    <title>Submitting a MPI workflow</title>
+    <title>MPI Jobs</title>
 
     <para>This exercise walks through running a simple workflow with an MPI
     job. This example executes a workflow consisting of a single MPI job that
-    executes on Bluewaters. The MPI executable is a simple hello world MPI
+    executes on Wrangler. The MPI executable is a simple hello world MPI
     executable that is shipped with the example and needs to be compiled by
     each user. This example is a canonical example, that highlights the data
     management capabilities of Pegasus, whereby as part of the workflow
@@ -1411,22 +1374,22 @@ pegasus-plan --conf pegasus.properties \
     data out to local directory/remote location, and cleanup the scratch space
     automatically as the workflow progresses.</para>
 
-    <programlisting><emphasis role="bold">$ cd ~/tutoria</emphasis>l
+    <programlisting><emphasis role="bold">$ cd $WORK/tutorial</emphasis>
 </programlisting>
 
     <para>We now use pegasus-init to setup up this workflow. This time around
     we select choice 8 as the workflow to setup</para>
 
     <programlisting><emphasis role="bold">$</emphasis> <emphasis role="bold">pegasus-init mpi</emphasis>
-Do you want to generate a tutorial workflow? (y/n) [n]: y
+Do you want to generate a tutorial workflow? (y/n) [n]: <emphasis role="bold">y</emphasis>
 1: Local Machine Condor Pool
 2: USC HPCC Cluster
 3: OSG from ISI submit node
 4: XSEDE, with Bosco
 5: Bluewaters, with Glite
 <emphasis role="bold">6: TACC Wrangler with Glite</emphasis>
-What environment is tutorial to be setup for? (1-6) [1]: 6
-What project your jobs should run under. For example on TACC there are like : TG-DDM160003 ?: TG-DDM160003
+What environment is tutorial to be setup for? (1-6) [1]: <emphasis role="bold">6</emphasis>
+What project your jobs should run under. For example on TACC there are like : TG-DDM160003 ?: <emphasis role="bold">TG-XXXXXX</emphasis>
 1: Process
 2: Pipeline
 3: Split
@@ -1435,12 +1398,12 @@ What project your jobs should run under. For example on TACC there are like : TG
 6: Population Modeling using Containers
 7: Diamond
 <emphasis role="bold">8: MPI Hello World</emphasis>
-What tutorial workflow do you want? (1-8) [1]: 8
+What tutorial workflow do you want? (1-8) [1]: <emphasis role="bold">8</emphasis>
 Pegasus Tutorial setup for example workflow - mpi-hw for execution on wrangler-glite in directory ~/tutorial/mpi</programlisting>
 
     <para>Now lets first compile the hello world program and set it up</para>
 
-    <programlisting><emphasis role="bold">$ cd ~/tutorial/mpi
+    <programlisting><emphasis role="bold">$ cd $WORK/tutorial/mpi
 </emphasis>
 <emphasis role="bold">$  make clean install</emphasis>
 rm -f pegasus-mpi-hw.o core core.* 
@@ -1600,11 +1563,11 @@ UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME
     porting your application to Pegasus contact us on the following support
     channels</para>
 
-    <para>public mailman list : pegasus-users@isi.edu</para>
+    <para>Public mailman list: pegasus-users@isi.edu (subscribe <ulink url="https://mailman.isi.edu/mailman/listinfo/pegasus-users">here</ulink>)</para>
 
-    <para>private support list: pegasus-support@isi.edu</para>
+    <para>Private support list: pegasus-support@isi.edu</para>
 
     <para>Detailed Pegasus Documentation can be found <ulink
-    url="http://pegasus.isi.edu/wms/docs/latest/">here</ulink>.</para>
+    url="https://pegasus.isi.edu/documentation/">here</ulink>.</para>
   </section>
 </chapter>
