@@ -1207,7 +1207,7 @@ UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME
   </section>
 
   <section id="tutorial_pmc">
-    <title>aRunning the whole workflow as an MPI job</title>
+    <title>Executing the whole workflow as an MPI job</title>
 
     <para>Often, users have lots of short running single processor jobs in
     their workflow, that if submitted individually to the underlying SLURM
