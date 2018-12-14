@@ -1,7 +1,7 @@
 PEGASUS_HOME=$(shell cd ../.. && pwd)
 VERSION=$(shell ../../release-tools/getversion)
 
-XML  = tutorial_usc.xml
+XML  = tutorial_wrangler.xml
 
 TARGETS = html 
 
