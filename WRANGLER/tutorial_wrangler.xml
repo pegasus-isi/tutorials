@@ -322,7 +322,7 @@ What project your jobs should run under. For example on TACC there are like : TG
 8: MPI Hello World
 What tutorial workflow do you want? (1-8) [1]: 7
 Pegasus Tutorial setup for example workflow - diamond for execution on wrangler-glite in directory <emphasis
-        role="bold">/home/00340/vahik/tutorial/diamond
+        role="bold">~/tutorial/diamond
 </emphasis>
 $ <emphasis role="bold">cd diamond</emphasis>
 $ <emphasis role="bold">ls</emphasis>
@@ -393,7 +393,7 @@ Generated dax diamond.dax
 
     <para>By default, the workflow is setup to run on the compute sites (i.e
     sites with handle other than "local") defined in the sites.xml file. In
-    our example, the workflow will run on a site named "usc-hpcc" in the
+    our example, the workflow will run on a site named "wrangler" in the
     sites.xml file.</para>
 
     <note>
@@ -423,15 +423,15 @@ Generated dax diamond.dax
 2018.12.13 18:22:17.229 CST:    
 2018.12.13 18:22:17.235 CST:   Your workflow has been started and is running in the base directory: 
 2018.12.13 18:22:17.240 CST:    
-2018.12.13 18:22:17.245 CST:     /home/00340/vahik/tutorial/diamond/submit/vahik/pegasus/diamond/run0001 
+2018.12.13 18:22:17.245 CST:     ~/tutorial/diamond/submit/vahik/pegasus/diamond/run0001 
 2018.12.13 18:22:17.250 CST:    
 2018.12.13 18:22:17.256 CST:   *** To monitor the workflow you can run *** 
 2018.12.13 18:22:17.261 CST:    
-2018.12.13 18:22:17.266 CST:     pegasus-status -l /home/00340/vahik/tutorial/diamond/submit/vahik/pegasus/diamond/run0001 
+2018.12.13 18:22:17.266 CST:     pegasus-status -l ~/tutorial/diamond/submit/vahik/pegasus/diamond/run0001 
 2018.12.13 18:22:17.271 CST:    
 2018.12.13 18:22:17.277 CST:   *** To remove your workflow run *** 
 2018.12.13 18:22:17.282 CST:    
-2018.12.13 18:22:17.287 CST:     pegasus-remove /home/00340/vahik/tutorial/diamond/submit/vahik/pegasus/diamond/run0001 
+2018.12.13 18:22:17.287 CST:     pegasus-remove ~/tutorial/diamond/submit/vahik/pegasus/diamond/run0001 
 2018.12.13 18:22:17.292 CST:    
 2018.12.13 18:22:18.717 CST:   Time taken to execute is 1.789 seconds 
 </programlisting>
@@ -494,7 +494,7 @@ Generated dax diamond.dax
       <programlisting><emphasis role="bold">$  </emphasis><emphasis
           role="bold">pegasus-status -l ~/tutorial/diamond/submit/vahik/pegasus/diamond/run0001 </emphasis>
 (STAT  IN_STATE  JOB                                                                                  
-Run      01:06  diamond-0 ( /home/00340/vahik/tutorial/diamond/submit/vahik/pegasus/diamond/run0001 )
+Run      01:06  diamond-0 ( ~/tutorial/diamond/submit/vahik/pegasus/diamond/run0001 )
 Idle     00:32   ┗━preprocess_ID0000001                                                              
 Summary: 2 Condor jobs total (I:1 R:1)
 
@@ -1077,15 +1077,15 @@ pegasus.metrics.app=pegasus-tutorial
 2018.12.13 18:55:19.963 CST:    
 2018.12.13 18:55:19.968 CST:   Your workflow has been started and is running in the base directory: 
 2018.12.13 18:55:19.974 CST:    
-2018.12.13 18:55:19.979 CST:     /home/00340/vahik/tutorial/diamond/submit/vahik/pegasus/diamond/run0002 
+2018.12.13 18:55:19.979 CST:     ~/tutorial/diamond/submit/vahik/pegasus/diamond/run0002 
 2018.12.13 18:55:19.984 CST:    
 2018.12.13 18:55:19.990 CST:   *** To monitor the workflow you can run *** 
 2018.12.13 18:55:19.995 CST:    
-2018.12.13 18:55:20.001 CST:     pegasus-status -l /home/00340/vahik/tutorial/diamond/submit/vahik/pegasus/diamond/run0002 
+2018.12.13 18:55:20.001 CST:     pegasus-status -l ~/tutorial/diamond/submit/vahik/pegasus/diamond/run0002 
 2018.12.13 18:55:20.006 CST:    
 2018.12.13 18:55:20.011 CST:   *** To remove your workflow run *** 
 2018.12.13 18:55:20.017 CST:    
-2018.12.13 18:55:20.022 CST:     pegasus-remove /home/00340/vahik/tutorial/diamond/submit/vahik/pegasus/diamond/run0002 
+2018.12.13 18:55:20.022 CST:     pegasus-remove ~/tutorial/diamond/submit/vahik/pegasus/diamond/run0002 
 2018.12.13 18:55:20.027 CST:    
 2018.12.13 18:55:25.047 CST:   Time taken to execute is 1.714 seconds 
 
@@ -1134,7 +1134,7 @@ hostname    : login1.wrangler.tacc.utexas.edu
 executable  : /home/00340/vahik/SOFTWARE/install/pegasus/pegasus-4.9.1dev/bin/pegasus-transfer
 arguments   :   --threads   2  
 exitcode    : 1
-working dir : /home/00340/vahik/tutorial/diamond/submit/vahik/pegasus/diamond/run0002
+working dir : ~/tutorial/diamond/submit/vahik/pegasus/diamond/run0002
 
 ------------------Task #1 - pegasus::transfer - None - stdout-------------------
 
@@ -1144,13 +1144,13 @@ working dir : /home/00340/vahik/tutorial/diamond/submit/vahik/pegasus/diamond/ru
 2018-12-13 19:03:05,595    INFO:  LD_LIBRARY_PATH=
 2018-12-13 19:03:05,644    INFO:  --------------------------------------------------------------------------------
 2018-12-13 19:03:05,644    INFO:  Starting transfers - attempt 1
-2018-12-13 19:03:07,647   ERROR:  Expected local file does not exist: /home/00340/vahik/tutorial/diamond/input/f.a
+2018-12-13 19:03:07,647   ERROR:  Expected local file does not exist: ~/tutorial/diamond/input/f.a
 2018-12-13 19:05:22,649    INFO:  --------------------------------------------------------------------------------
 2018-12-13 19:05:22,650    INFO:  Starting transfers - attempt 2
-2018-12-13 19:05:24,653   ERROR:  Expected local file does not exist: /home/00340/vahik/tutorial/diamond/input/f.a
+2018-12-13 19:05:24,653   ERROR:  Expected local file does not exist: ~/tutorial/diamond/input/f.a
 2018-12-13 19:10:24,721    INFO:  --------------------------------------------------------------------------------
 2018-12-13 19:10:24,721    INFO:  Starting transfers - attempt 3
-2018-12-13 19:10:26,724   ERROR:  Expected local file does not exist: /home/00340/vahik/tutorial/diamond/input/f.a
+2018-12-13 19:10:26,724   ERROR:  Expected local file does not exist: ~/tutorial/diamond/input/f.a
 2018-12-13 19:10:26,724    INFO:  --------------------------------------------------------------------------------
 2018-12-13 19:10:26,725    INFO:  Stats: Total 3 transfers, 0.0 B transferred in 441 seconds. Rate: 0.0 B/s (0.0 b/s)
 2018-12-13 19:10:26,725    INFO:         Between sites local-&gt;wrangler : 3 transfers, 0.0 B transferred in 441 seconds. Rate: 0.0 B/s (0.0 b/s)
@@ -1173,8 +1173,8 @@ working dir : /home/00340/vahik/tutorial/diamond/submit/vahik/pegasus/diamond/ru
       directory from our previous failed workflow run:</para>
 
       <programlisting><emphasis role="bold">$  pegasus-run submit/vahik/pegasus/diamond/run0002</emphasis>
-Rescued /home/00340/vahik/tutorial/diamond/submit/vahik/pegasus/diamond/run0002/diamond-0.log as\
-/home/00340/vahik/tutorial/diamond/submit/vahik/pegasus/diamond/run0002/diamond-0.log.000
+Rescued ~/tutorial/diamond/submit/vahik/pegasus/diamond/run0002/diamond-0.log as\
+~/tutorial/diamond/submit/vahik/pegasus/diamond/run0002/diamond-0.log.000
 Submitting to condor diamond-0.dag.condor.sub
 Submitting job(s).
 1 job(s) submitted to cluster 1190.
@@ -1364,15 +1364,15 @@ pegasus-plan --conf pegasus.properties \
 2018.12.14 09:37:45.263 CST:    
 2018.12.14 09:37:45.268 CST:   Your workflow has been started and is running in the base directory: 
 2018.12.14 09:37:45.273 CST:    
-2018.12.14 09:37:45.279 CST:     /home/00340/vahik/tutorial/diamond/submit/vahik/pegasus/diamond/run0003 
+2018.12.14 09:37:45.279 CST:     ~/tutorial/diamond/submit/vahik/pegasus/diamond/run0003 
 2018.12.14 09:37:45.284 CST:    
 2018.12.14 09:37:45.289 CST:   *** To monitor the workflow you can run *** 
 2018.12.14 09:37:45.294 CST:    
-2018.12.14 09:37:45.300 CST:     pegasus-status -l /home/00340/vahik/tutorial/diamond/submit/vahik/pegasus/diamond/run0003 
+2018.12.14 09:37:45.300 CST:     pegasus-status -l ~/tutorial/diamond/submit/vahik/pegasus/diamond/run0003 
 2018.12.14 09:37:45.305 CST:    
 2018.12.14 09:37:45.310 CST:   *** To remove your workflow run *** 
 2018.12.14 09:37:45.316 CST:    
-2018.12.14 09:37:45.321 CST:     pegasus-remove /home/00340/vahik/tutorial/diamond/submit/vahik/pegasus/diamond/run0003 
+2018.12.14 09:37:45.321 CST:     pegasus-remove ~/tutorial/diamond/submit/vahik/pegasus/diamond/run0003 
 2018.12.14 09:37:45.326 CST:    
 2018.12.14 09:37:45.980 CST:   Time taken to execute is 1.699 seconds <emphasis
         role="bold">
@@ -1436,7 +1436,7 @@ What project your jobs should run under. For example on TACC there are like : TG
 7: Diamond
 <emphasis role="bold">8: MPI Hello World</emphasis>
 What tutorial workflow do you want? (1-8) [1]: 8
-Pegasus Tutorial setup for example workflow - mpi-hw for execution on wrangler-glite in directory /home/00340/vahik/tutorial/mpi</programlisting>
+Pegasus Tutorial setup for example workflow - mpi-hw for execution on wrangler-glite in directory ~/tutorial/mpi</programlisting>
 
     <para>Now lets first compile the hello world program and set it up</para>
 
@@ -1531,15 +1531,15 @@ world"&gt;
 2018.12.14 10:05:10.223 CST:    
 2018.12.14 10:05:10.229 CST:   Your workflow has been started and is running in the base directory: 
 2018.12.14 10:05:10.234 CST:    
-2018.12.14 10:05:10.240 CST:     /home/00340/vahik/tutorial/mpi/submit/vahik/pegasus/mpi-hello-world/run0001 
+2018.12.14 10:05:10.240 CST:     ~/tutorial/mpi/submit/vahik/pegasus/mpi-hello-world/run0001 
 2018.12.14 10:05:10.245 CST:    
 2018.12.14 10:05:10.250 CST:   *** To monitor the workflow you can run *** 
 2018.12.14 10:05:10.256 CST:    
-2018.12.14 10:05:10.261 CST:     pegasus-status -l /home/00340/vahik/tutorial/mpi/submit/vahik/pegasus/mpi-hello-world/run0001 
+2018.12.14 10:05:10.261 CST:     pegasus-status -l ~/tutorial/mpi/submit/vahik/pegasus/mpi-hello-world/run0001 
 2018.12.14 10:05:10.266 CST:    
 2018.12.14 10:05:10.272 CST:   *** To remove your workflow run *** 
 2018.12.14 10:05:10.277 CST:    
-2018.12.14 10:05:10.282 CST:     pegasus-remove /home/00340/vahik/tutorial/mpi/submit/vahik/pegasus/mpi-hello-world/run0001 
+2018.12.14 10:05:10.282 CST:     pegasus-remove ~/tutorial/mpi/submit/vahik/pegasus/mpi-hello-world/run0001 
 2018.12.14 10:05:10.287 CST:    
 2018.12.14 10:05:10.994 CST:   Time taken to execute is 1.651 seconds 
 </programlisting>
