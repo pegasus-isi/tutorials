@@ -1451,7 +1451,7 @@ cont gis {
 
     # URL to image in a docker|singularity hub OR
     # URL to an existing docker image exported as a tar file or singularity image
-    image "shub://pegasus-isi/darpa_population_modeling"
+    image "shub://singularity-hub.org/pegasus-isi/darpa_population_modeling"
 }
 
 tr county_population_raster {
@@ -1479,7 +1479,7 @@ tr county_population_raster {
           docker|singularity hub or URL to an existing docker image exported
           as a tar file or singularity image. Example of a docker hub URL is
           docker:///rynge/montage:latest, while for singularity
-          shub://pegasus-isi/fedora-montage</para>
+          shub://singularity-hub.org/pegasus-isi/fedora-montage</para>
         </listitem>
       </orderedlist>
 
