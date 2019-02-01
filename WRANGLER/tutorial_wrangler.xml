@@ -100,10 +100,10 @@ you get this</programlisting>
     or anything else related to Pegasus, you can contact the Pegasus Users
     mailing list at <email>pegasus-users@isi.edu</email> to get help.
     </emphasis></para>
-    
+
     <para>Login to the wrangler.tacc.utexas.edu submit node</para>
 
-    <programlisting><emphasis role="bold">$ </emphasis><emphasis role="bold">ssh userXX@wrangler.tacc.utexas.edu</emphasis>
+    <programlisting><emphasis role="bold">$ </emphasis><emphasis role="bold">ssh trainXX@wrangler.tacc.utexas.edu</emphasis>
 
 To access the system:
 
@@ -132,15 +132,15 @@ Tip 161   (See "module help tacc_tips" for features or how to disable)
     <para>The tutorial should be done in the bash shell. Lets make sure that
     you are in the right shell.</para>
 
-    <programlisting>[userXX@login1.wrangler]$  bash
-[userXX@login1.wrangler]$ echo $SHELL
+    <programlisting>[trainXX@login1.wrangler]$  bash
+[trainXX@login1.wrangler]$ echo $SHELL
 /bin/bash
 </programlisting>
 
     <para>Let us now setup the tutorial and Pegasus in your environment</para>
 
-    <programlisting><emphasis role="bold">[userXX@login1.wrangler]$ source ~vahik/SOFTWARE/setup.sh</emphasis>
-<emphasis role="bold">[userXX@login1.wrangler]$ pegasus-version</emphasis>
+    <programlisting><emphasis role="bold">[trainXX@login1.wrangler]$ source ~vahik/SOFTWARE/setup.sh</emphasis>
+<emphasis role="bold">[trainXX@login1.wrangler]$ pegasus-version</emphasis>
 4.9.1dev
 </programlisting>
 
@@ -275,7 +275,8 @@ Do you want to generate a tutorial workflow? (y/n) [n]: <emphasis role="bold">y<
 5: Bluewaters, with Glite
 6: TACC Wrangler with Glite
 What environment is tutorial to be setup for? (1-6) [1]: <emphasis role="bold">6</emphasis>
-What project your jobs should run under. For example on TACC there are like : TG-XXXXXX ?: <emphasis role="bold">TG-XXXXX</emphasis>
+What project your jobs should run under. For example on TACC there are like : TG-XXXXXX ?: <emphasis
+        role="bold">TG-XXXXX</emphasis>
 1: Process
 2: Pipeline
 3: Split
@@ -285,7 +286,8 @@ What project your jobs should run under. For example on TACC there are like : TG
 7: Diamond
 8: MPI Hello World
 What tutorial workflow do you want? (1-8) [1]: <emphasis role="bold">7</emphasis>
-Pegasus Tutorial setup for example workflow - diamond for execution on wrangler-glite in directory <emphasis role="bold">$WORK/tutorial/diamond </emphasis>
+Pegasus Tutorial setup for example workflow - diamond for execution on wrangler-glite in directory <emphasis
+        role="bold">$WORK/tutorial/diamond </emphasis>
 $ <emphasis role="bold">cd diamond</emphasis>
 $ <emphasis role="bold">ls</emphasis>
 bin  daxgen.py  generate_dax.sh  input  output  pegasus.properties  plan_cluster_dax.sh 
@@ -379,15 +381,15 @@ Generated dax diamond.dax
 2018.12.13 18:22:17.229 CST:    
 2018.12.13 18:22:17.235 CST:   Your workflow has been started and is running in the base directory: 
 2018.12.13 18:22:17.240 CST:    
-2018.12.13 18:22:17.245 CST:     ~/tutorial/diamond/submit/userXX/pegasus/diamond/run0001 
+2018.12.13 18:22:17.245 CST:     ~/tutorial/diamond/submit/trainXX/pegasus/diamond/run0001 
 2018.12.13 18:22:17.250 CST:    
 2018.12.13 18:22:17.256 CST:   *** To monitor the workflow you can run *** 
 2018.12.13 18:22:17.261 CST:    
-2018.12.13 18:22:17.266 CST:     pegasus-status -l ~/tutorial/diamond/submit/userXX/pegasus/diamond/run0001 
+2018.12.13 18:22:17.266 CST:     pegasus-status -l ~/tutorial/diamond/submit/trainXX/pegasus/diamond/run0001 
 2018.12.13 18:22:17.271 CST:    
 2018.12.13 18:22:17.277 CST:   *** To remove your workflow run *** 
 2018.12.13 18:22:17.282 CST:    
-2018.12.13 18:22:17.287 CST:     pegasus-remove ~/tutorial/diamond/submit/userXX/pegasus/diamond/run0001 
+2018.12.13 18:22:17.287 CST:     pegasus-remove ~/tutorial/diamond/submit/trainXX/pegasus/diamond/run0001 
 2018.12.13 18:22:17.292 CST:    
 2018.12.13 18:22:18.717 CST:   Time taken to execute is 1.789 seconds 
 </programlisting>
@@ -448,9 +450,9 @@ Generated dax diamond.dax
       <literal>pegasus-status</literal> command:</para>
 
       <programlisting><emphasis role="bold">$  </emphasis><emphasis
-          role="bold">pegasus-status -l ~/tutorial/diamond/submit/userXX/pegasus/diamond/run0001 </emphasis>
+          role="bold">pegasus-status -l ~/tutorial/diamond/submit/trainXX/pegasus/diamond/run0001 </emphasis>
 (STAT  IN_STATE  JOB                                                                                  
-Run      01:06  diamond-0 ( ~/tutorial/diamond/submit/userXX/pegasus/diamond/run0001 )
+Run      01:06  diamond-0 ( ~/tutorial/diamond/submit/trainXX/pegasus/diamond/run0001 )
 Idle     00:32   ┗━preprocess_ID0000001                                                              
 Summary: 2 Condor jobs total (I:1 R:1)
 
@@ -467,7 +469,7 @@ UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME
       <para>Use the <literal>watch</literal> option to continuously monitor
       the workflow:</para>
 
-      <programlisting>$ <emphasis role="bold">pegasus-status -w ~/tutorial/diamond/submit/userXX/pegasus/diamond/run0001 </emphasis>
+      <programlisting>$ <emphasis role="bold">pegasus-status -w ~/tutorial/diamond/submit/trainXX/pegasus/diamond/run0001 </emphasis>
 ...</programlisting>
 
       <programlisting>(no matching jobs found in Condor Q)
@@ -784,19 +786,19 @@ Generated dax split.dax</programlisting>
     &lt;!-- The local site contains information about the submit host --&gt;
     &lt;site handle="local" arch="x86_64" os="LINUX"&gt;
         &lt;!-- This is where intermediate data will be stored in nonsharedfs modes--&gt;
-        &lt;directory type="shared-scratch" path="/home/00340/userXX/tutorial/diamond/scratch"&gt;
-            &lt;file-server operation="all" url="file:///home/00340/userXX/tutorial/diamond/scratch"/&gt;
+        &lt;directory type="shared-scratch" path="/home/00340/trainXX/tutorial/diamond/scratch"&gt;
+            &lt;file-server operation="all" url="file:///home/00340/trainXX/tutorial/diamond/scratch"/&gt;
         &lt;/directory&gt;
         <emphasis role="bold">&lt;!-- This is where output data will be stored --&gt;</emphasis>
-        &lt;directory type="shared-storage" path="/home/00340/userXX/tutorial/diamond/output"&gt;
-            &lt;file-server operation="all" url="file:///home/00340/userXX/tutorial/diamond/output"/&gt;
+        &lt;directory type="shared-storage" path="/home/00340/trainXX/tutorial/diamond/output"&gt;
+            &lt;file-server operation="all" url="file:///home/00340/trainXX/tutorial/diamond/output"/&gt;
         &lt;/directory&gt;
     &lt;/site&gt;
 
     &lt;site handle="wrangler" arch="x86_64" os="LINUX"&gt;
          <emphasis role="bold">&lt;!-- Scratch directory on the cluster --&gt;</emphasis>
-        &lt;directory type="shared-scratch" path="/work/00340/userXX/tutorial/diamond/wrangler/scratch"&gt;
-            &lt;file-server operation="all" url="file:///work/00340/userXX/tutorial/diamond/wrangler/scratch"/&gt;
+        &lt;directory type="shared-scratch" path="/work/00340/trainXX/tutorial/diamond/wrangler/scratch"&gt;
+            &lt;file-server operation="all" url="file:///work/00340/trainXX/tutorial/diamond/wrangler/scratch"/&gt;
         &lt;/directory&gt;
 
         &lt;profile namespace="pegasus" key="style"&gt;glite&lt;/profile&gt;
@@ -812,7 +814,7 @@ Generated dax split.dax</programlisting>
 
         <emphasis role="bold">	&lt;!-- This profile tells Pegasus where the worker package is installed on the site --&gt;
         &lt;!-- Without this, Pegasus will automatically stage a worker package to the site --&gt;</emphasis>
-        &lt;profile namespace="env"  key="PEGASUS_HOME"&gt;/home/00340/userXX/SOFTWARE/install/pegasus/default&lt;/profile&gt;
+        &lt;profile namespace="env"  key="PEGASUS_HOME"&gt;/home/00340/trainXX/SOFTWARE/install/pegasus/default&lt;/profile&gt;
         &lt;profile namespace="pegasus" key="runtime"&gt;14400&lt;/profile&gt;
         <emphasis role="bold">&lt;profile namespace="pegasus" key="project"&gt;TG-DDM160003&lt;/profile&gt;
         </emphasis>&lt;profile namespace="pegasus" key="job.aggregator"&gt;mpiexec&lt;/profile&gt;
@@ -874,7 +876,7 @@ Generated dax split.dax</programlisting>
 
 tr preprocess {
     site wrangler {
-        pfn "/home/00340/userXX/tutorial/diamond/bin/preprocess"
+        pfn "/home/00340/trainXX/tutorial/diamond/bin/preprocess"
         arch "x86_64"
         os "LINUX"
         type "INSTALLED"
@@ -933,7 +935,7 @@ tr preprocess {
 #data.txt  file:///tmp/data.txt         site="local"
 #data.txt  http://example.org/data.txt  site="example"
 
-f.a file:///home/00340/userXX/tutorial/diamond/input/f.a   site="local"</programlisting>
+f.a file:///home/00340/trainXX/tutorial/diamond/input/f.a   site="local"</programlisting>
 
       <note>
         <para>By default (unless specified in properties), Pegasus picks ups
@@ -1011,7 +1013,7 @@ pegasus.metrics.app=pegasus-tutorial
       <para>First we will "hide" the input file to cause a failure by renaming
       it:</para>
 
-  <programlisting>$ <emphasis role="bold">mv input/f.a input/f.a.bak</emphasis>
+      <programlisting>$ <emphasis role="bold">mv input/f.a input/f.a.bak</emphasis>
       </programlisting>
 
       <para>Now submit the workflow again:</para>
@@ -1034,15 +1036,15 @@ pegasus.metrics.app=pegasus-tutorial
 2018.12.13 18:55:19.963 CST:    
 2018.12.13 18:55:19.968 CST:   Your workflow has been started and is running in the base directory: 
 2018.12.13 18:55:19.974 CST:    
-2018.12.13 18:55:19.979 CST:     ~/tutorial/diamond/submit/userXX/pegasus/diamond/run0002 
+2018.12.13 18:55:19.979 CST:     ~/tutorial/diamond/submit/trainXX/pegasus/diamond/run0002 
 2018.12.13 18:55:19.984 CST:    
 2018.12.13 18:55:19.990 CST:   *** To monitor the workflow you can run *** 
 2018.12.13 18:55:19.995 CST:    
-2018.12.13 18:55:20.001 CST:     pegasus-status -l ~/tutorial/diamond/submit/userXX/pegasus/diamond/run0002 
+2018.12.13 18:55:20.001 CST:     pegasus-status -l ~/tutorial/diamond/submit/trainXX/pegasus/diamond/run0002 
 2018.12.13 18:55:20.006 CST:    
 2018.12.13 18:55:20.011 CST:   *** To remove your workflow run *** 
 2018.12.13 18:55:20.017 CST:    
-2018.12.13 18:55:20.022 CST:     pegasus-remove ~/tutorial/diamond/submit/userXX/pegasus/diamond/run0002 
+2018.12.13 18:55:20.022 CST:     pegasus-remove ~/tutorial/diamond/submit/trainXX/pegasus/diamond/run0002 
 2018.12.13 18:55:20.027 CST:    
 2018.12.13 18:55:25.047 CST:   Time taken to execute is 1.714 seconds 
 
@@ -1053,7 +1055,7 @@ pegasus.metrics.app=pegasus-tutorial
       till it fails. We will add -w option to pegasus-status to watch
       automatically till the workflow finishes:</para>
 
-      <programlisting>$ <emphasis role="bold">pegasus-status -w submit/userXX/pegasus/diamond/run0002 </emphasis>
+      <programlisting>$ <emphasis role="bold">pegasus-status -w submit/trainXX/pegasus/diamond/run0002 </emphasis>
 (no matching jobs found in Condor Q)
 UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME                                 
     6     0     0     0     0     1     1  12.5 Failure *diamond-0.dag                          
@@ -1062,11 +1064,11 @@ Summary: 1 DAG total (Failure:1)</programlisting>
       <para>Now we can use the pegasus-analyzer command to determine what went
       wrong:</para>
 
-      <programlisting>$ <emphasis role="bold"> pegasus-analyzer submit/userXX/pegasus/diamond/run0002</emphasis>
+      <programlisting>$ <emphasis role="bold"> pegasus-analyzer submit/trainXX/pegasus/diamond/run0002</emphasis>
 
 ************************************Summary*************************************
 
- Submit Directory   : submit/userXX/pegasus/diamond/run0002
+ Submit Directory   : submit/trainXX/pegasus/diamond/run0002
  Total jobs         :      8 (100.00%)
  # jobs succeeded   :      1 (12.50%)
  # jobs failed      :      1 (12.50%)
@@ -1087,10 +1089,10 @@ output file: 00/00/stage_in_local_wrangler_0_0.out.001
 
 site        : local
 hostname    : login1.wrangler.tacc.utexas.edu
-executable  : /home/00340/userXX/SOFTWARE/install/pegasus/pegasus-4.9.1dev/bin/pegasus-transfer
+executable  : /home/00340/trainXX/SOFTWARE/install/pegasus/pegasus-4.9.1dev/bin/pegasus-transfer
 arguments   :   --threads   2  
 exitcode    : 1
-working dir : ~/tutorial/diamond/submit/userXX/pegasus/diamond/run0002
+working dir : ~/tutorial/diamond/submit/trainXX/pegasus/diamond/run0002
 
 ------------------Task #1 - pegasus::transfer - None - stdout-------------------
 
@@ -1128,31 +1130,31 @@ working dir : ~/tutorial/diamond/submit/userXX/pegasus/diamond/run0002
       of executing pegasus-plan we will use the command pegasus-run on the
       directory from our previous failed workflow run:</para>
 
-      <programlisting><emphasis role="bold">$  pegasus-run submit/userXX/pegasus/diamond/run0002</emphasis>
-Rescued ~/tutorial/diamond/submit/userXX/pegasus/diamond/run0002/diamond-0.log as\
-~/tutorial/diamond/submit/userXX/pegasus/diamond/run0002/diamond-0.log.000
+      <programlisting><emphasis role="bold">$  pegasus-run submit/trainXX/pegasus/diamond/run0002</emphasis>
+Rescued ~/tutorial/diamond/submit/trainXX/pegasus/diamond/run0002/diamond-0.log as\
+~/tutorial/diamond/submit/trainXX/pegasus/diamond/run0002/diamond-0.log.000
 Submitting to condor diamond-0.dag.condor.sub
 Submitting job(s).
 1 job(s) submitted to cluster 1190.
 
 Your workflow has been started and is running in the base directory:
 
-  submit/userXX/pegasus/diamond/run0002
+  submit/trainXX/pegasus/diamond/run0002
 
 *** To monitor the workflow you can run ***
 
-  pegasus-status -l submit/userXX/pegasus/diamond/run0002
+  pegasus-status -l submit/trainXX/pegasus/diamond/run0002
 
 *** To remove your workflow run ***
 
-  pegasus-remove submit/userXX/pegasus/diamond/run0002
+  pegasus-remove submit/trainXX/pegasus/diamond/run0002
 
 </programlisting>
 
       <para>The workflow will now run to completion and succeed.</para>
 
       <programlisting><emphasis role="bold">$ pegasus-status -l </emphasis><emphasis
-          role="bold"/><emphasis role="bold">submit/userXX/pegasus/diamond/run0002</emphasis>
+          role="bold"/><emphasis role="bold">submit/trainXX/pegasus/diamond/run0002</emphasis>
 
 (no matching jobs found in Condor Q)
 UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME                                 
@@ -1170,13 +1172,13 @@ UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME
     cluster take a long time to execute, as each job sits in the SLURM queue.
     For example in our previous example, each job in the blackdiamond workflow
     actually runs for a minute each, and using only one core on a whole node.
-    Additionally, since each job is submitted as a separate job to
-    SLURM, each job sits in the cluster SLURM queue before it is
-    executed. In order to alleviate this, it makes sense to cluster the
-    short running jobs together. Pegasus allows users to cluster tasks
-    in their workflow into larger chunks, and then execute them using a
-    MPI based master worker tool called <emphasis><emphasis
-    role="bold">pegasus-mpi-cluster</emphasis></emphasis> .</para>
+    Additionally, since each job is submitted as a separate job to SLURM, each
+    job sits in the cluster SLURM queue before it is executed. In order to
+    alleviate this, it makes sense to cluster the short running jobs together.
+    Pegasus allows users to cluster tasks in their workflow into larger
+    chunks, and then execute them using a MPI based master worker tool called
+    <emphasis><emphasis role="bold">pegasus-mpi-cluster</emphasis></emphasis>
+    .</para>
 
     <para>In this example, we take the same blackdiamond workflow that we ran
     previously and now run it using PMC where the whole workflow is clustered
@@ -1231,7 +1233,7 @@ tr pegasus::mpiexec {
     profile pegasus "nodes" "1"
     profile pegasus "runtime" "43200"
     profile pegasus "change.dir" "true"
-    pfn "/home/00340/userXX/tutorial/diamond/bin/pmc-wrapper"
+    pfn "/home/00340/trainXX/tutorial/diamond/bin/pmc-wrapper"
     type "INSTALLED"
   }
 }
@@ -1321,15 +1323,15 @@ pegasus-plan --conf pegasus.properties \
 2018.12.14 09:37:45.263 CST:    
 2018.12.14 09:37:45.268 CST:   Your workflow has been started and is running in the base directory: 
 2018.12.14 09:37:45.273 CST:    
-2018.12.14 09:37:45.279 CST:     ~/tutorial/diamond/submit/userXX/pegasus/diamond/run0003 
+2018.12.14 09:37:45.279 CST:     ~/tutorial/diamond/submit/trainXX/pegasus/diamond/run0003 
 2018.12.14 09:37:45.284 CST:    
 2018.12.14 09:37:45.289 CST:   *** To monitor the workflow you can run *** 
 2018.12.14 09:37:45.294 CST:    
-2018.12.14 09:37:45.300 CST:     pegasus-status -l ~/tutorial/diamond/submit/userXX/pegasus/diamond/run0003 
+2018.12.14 09:37:45.300 CST:     pegasus-status -l ~/tutorial/diamond/submit/trainXX/pegasus/diamond/run0003 
 2018.12.14 09:37:45.305 CST:    
 2018.12.14 09:37:45.310 CST:   *** To remove your workflow run *** 
 2018.12.14 09:37:45.316 CST:    
-2018.12.14 09:37:45.321 CST:     pegasus-remove ~/tutorial/diamond/submit/userXX/pegasus/diamond/run0003 
+2018.12.14 09:37:45.321 CST:     pegasus-remove ~/tutorial/diamond/submit/trainXX/pegasus/diamond/run0003 
 2018.12.14 09:37:45.326 CST:    
 2018.12.14 09:37:45.980 CST:   Time taken to execute is 1.699 seconds <emphasis
         role="bold">
@@ -1354,10 +1356,8 @@ pegasus-plan --conf pegasus.properties \
     job.</para>
 
     <para>stdout/stderr of the jobs now appears as a set of outputs in the
-        merged job output. This can be found in the 00/00/merge_cluster-1.out.000
-        file in the submit directory.
-    </para>
-
+    merged job output. This can be found in the 00/00/merge_cluster-1.out.000
+    file in the submit directory.</para>
   </section>
 
   <section id="tutorial_mpi_workflows">
@@ -1389,7 +1389,8 @@ Do you want to generate a tutorial workflow? (y/n) [n]: <emphasis role="bold">y<
 5: Bluewaters, with Glite
 <emphasis role="bold">6: TACC Wrangler with Glite</emphasis>
 What environment is tutorial to be setup for? (1-6) [1]: <emphasis role="bold">6</emphasis>
-What project your jobs should run under. For example on TACC there are like : TG-DDM160003 ?: <emphasis role="bold">TG-XXXXXX</emphasis>
+What project your jobs should run under. For example on TACC there are like : TG-DDM160003 ?: <emphasis
+        role="bold">TG-XXXXXX</emphasis>
 1: Process
 2: Pipeline
 3: Split
@@ -1494,21 +1495,21 @@ world"&gt;
 2018.12.14 10:05:10.223 CST:    
 2018.12.14 10:05:10.229 CST:   Your workflow has been started and is running in the base directory: 
 2018.12.14 10:05:10.234 CST:    
-2018.12.14 10:05:10.240 CST:     ~/tutorial/mpi/submit/userXX/pegasus/mpi-hello-world/run0001 
+2018.12.14 10:05:10.240 CST:     ~/tutorial/mpi/submit/trainXX/pegasus/mpi-hello-world/run0001 
 2018.12.14 10:05:10.245 CST:    
 2018.12.14 10:05:10.250 CST:   *** To monitor the workflow you can run *** 
 2018.12.14 10:05:10.256 CST:    
-2018.12.14 10:05:10.261 CST:     pegasus-status -l ~/tutorial/mpi/submit/userXX/pegasus/mpi-hello-world/run0001 
+2018.12.14 10:05:10.261 CST:     pegasus-status -l ~/tutorial/mpi/submit/trainXX/pegasus/mpi-hello-world/run0001 
 2018.12.14 10:05:10.266 CST:    
 2018.12.14 10:05:10.272 CST:   *** To remove your workflow run *** 
 2018.12.14 10:05:10.277 CST:    
-2018.12.14 10:05:10.282 CST:     pegasus-remove ~/tutorial/mpi/submit/userXX/pegasus/mpi-hello-world/run0001 
+2018.12.14 10:05:10.282 CST:     pegasus-remove ~/tutorial/mpi/submit/trainXX/pegasus/mpi-hello-world/run0001 
 2018.12.14 10:05:10.287 CST:    
 2018.12.14 10:05:10.994 CST:   Time taken to execute is 1.651 seconds 
 </programlisting>
 
     <para>We monitor the workflow and let it complete<programlisting><emphasis
-          role="bold">$ pegasus-status -l -w ./submit/userXX/pegasus/mpi-hello-world/run0001 </emphasis>
+          role="bold">$ pegasus-status -l -w ./submit/trainXX/pegasus/mpi-hello-world/run0001 </emphasis>
 
 (no matching jobs found in Condor Q)
 UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME                                 
@@ -1563,7 +1564,8 @@ UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME
     porting your application to Pegasus contact us on the following support
     channels</para>
 
-    <para>Public mailman list: pegasus-users@isi.edu (subscribe <ulink url="https://mailman.isi.edu/mailman/listinfo/pegasus-users">here</ulink>)</para>
+    <para>Public mailman list: pegasus-users@isi.edu (subscribe <ulink
+    url="https://mailman.isi.edu/mailman/listinfo/pegasus-users">here</ulink>)</para>
 
     <para>Private support list: pegasus-support@isi.edu</para>
 
