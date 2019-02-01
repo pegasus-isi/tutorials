@@ -276,7 +276,7 @@ Do you want to generate a tutorial workflow? (y/n) [n]: <emphasis role="bold">y<
 6: TACC Wrangler with Glite
 What environment is tutorial to be setup for? (1-6) [1]: <emphasis role="bold">6</emphasis>
 What project your jobs should run under. For example on TACC there are like : TG-XXXXXX ?: <emphasis
-        role="bold">TG-XXXXX</emphasis>
+        role="bold">TRAINING-OPEN</emphasis>
 1: Process
 2: Pipeline
 3: Split
