@@ -381,15 +381,15 @@ Generated dax diamond.dax
 2018.12.13 18:22:17.229 CST:    
 2018.12.13 18:22:17.235 CST:   Your workflow has been started and is running in the base directory: 
 2018.12.13 18:22:17.240 CST:    
-2018.12.13 18:22:17.245 CST:     ~/tutorial/diamond/submit/trainXX/pegasus/diamond/run0001 
+2018.12.13 18:22:17.245 CST:     $WORK/tutorial/diamond/submit/trainXX/pegasus/diamond/run0001 
 2018.12.13 18:22:17.250 CST:    
 2018.12.13 18:22:17.256 CST:   *** To monitor the workflow you can run *** 
 2018.12.13 18:22:17.261 CST:    
-2018.12.13 18:22:17.266 CST:     pegasus-status -l ~/tutorial/diamond/submit/trainXX/pegasus/diamond/run0001 
+2018.12.13 18:22:17.266 CST:     pegasus-status -l $WORK/tutorial/diamond/submit/trainXX/pegasus/diamond/run0001 
 2018.12.13 18:22:17.271 CST:    
 2018.12.13 18:22:17.277 CST:   *** To remove your workflow run *** 
 2018.12.13 18:22:17.282 CST:    
-2018.12.13 18:22:17.287 CST:     pegasus-remove ~/tutorial/diamond/submit/trainXX/pegasus/diamond/run0001 
+2018.12.13 18:22:17.287 CST:     pegasus-remove $WORK/tutorial/diamond/submit/trainXX/pegasus/diamond/run0001 
 2018.12.13 18:22:17.292 CST:    
 2018.12.13 18:22:18.717 CST:   Time taken to execute is 1.789 seconds 
 </programlisting>
@@ -450,9 +450,9 @@ Generated dax diamond.dax
       <literal>pegasus-status</literal> command:</para>
 
       <programlisting><emphasis role="bold">$  </emphasis><emphasis
-          role="bold">pegasus-status -l ~/tutorial/diamond/submit/trainXX/pegasus/diamond/run0001 </emphasis>
+          role="bold">pegasus-status -l $WORK/tutorial/diamond/submit/trainXX/pegasus/diamond/run0001 </emphasis>
 (STAT  IN_STATE  JOB                                                                                  
-Run      01:06  diamond-0 ( ~/tutorial/diamond/submit/trainXX/pegasus/diamond/run0001 )
+Run      01:06  diamond-0 ( $WORK/tutorial/diamond/submit/trainXX/pegasus/diamond/run0001 )
 Idle     00:32   ┗━preprocess_ID0000001                                                              
 Summary: 2 Condor jobs total (I:1 R:1)
 
@@ -469,7 +469,7 @@ UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME
       <para>Use the <literal>watch</literal> option to continuously monitor
       the workflow:</para>
 
-      <programlisting>$ <emphasis role="bold">pegasus-status -w ~/tutorial/diamond/submit/trainXX/pegasus/diamond/run0001 </emphasis>
+      <programlisting>$ <emphasis role="bold">pegasus-status -w $WORK/tutorial/diamond/submit/trainXX/pegasus/diamond/run0001 </emphasis>
 ...</programlisting>
 
       <programlisting>(no matching jobs found in Condor Q)
@@ -787,11 +787,11 @@ Generated dax split.dax</programlisting>
     &lt;site handle="local" arch="x86_64" os="LINUX"&gt;
         &lt;!-- This is where intermediate data will be stored in nonsharedfs modes--&gt;
         &lt;directory type="shared-scratch" path="/home/00340/trainXX/tutorial/diamond/scratch"&gt;
-            &lt;file-server operation="all" url="file:///home/00340/trainXX/tutorial/diamond/scratch"/&gt;
+            &lt;file-server operation="all" url="file:///work/0003/trainXX/tutorial/diamond/scratch"/&gt;
         &lt;/directory&gt;
         <emphasis role="bold">&lt;!-- This is where output data will be stored --&gt;</emphasis>
-        &lt;directory type="shared-storage" path="/home/00340/trainXX/tutorial/diamond/output"&gt;
-            &lt;file-server operation="all" url="file:///home/00340/trainXX/tutorial/diamond/output"/&gt;
+        &lt;directory type="shared-storage" path="/work/0003/trainXX/tutorial/diamond/output"&gt;
+            &lt;file-server operation="all" url="file:///work/0003/trainXX/tutorial/diamond/output"/&gt;
         &lt;/directory&gt;
     &lt;/site&gt;
 
@@ -814,7 +814,7 @@ Generated dax split.dax</programlisting>
 
         <emphasis role="bold">	&lt;!-- This profile tells Pegasus where the worker package is installed on the site --&gt;
         &lt;!-- Without this, Pegasus will automatically stage a worker package to the site --&gt;</emphasis>
-        &lt;profile namespace="env"  key="PEGASUS_HOME"&gt;/home/00340/trainXX/SOFTWARE/install/pegasus/default&lt;/profile&gt;
+        &lt;profile namespace="env"  key="PEGASUS_HOME"&gt;/home/00340/vahik/SOFTWARE/install/pegasus/default&lt;/profile&gt;
         &lt;profile namespace="pegasus" key="runtime"&gt;14400&lt;/profile&gt;
         <emphasis role="bold">&lt;profile namespace="pegasus" key="project"&gt;TG-DDM160003&lt;/profile&gt;
         </emphasis>&lt;profile namespace="pegasus" key="job.aggregator"&gt;mpiexec&lt;/profile&gt;
@@ -876,7 +876,7 @@ Generated dax split.dax</programlisting>
 
 tr preprocess {
     site wrangler {
-        pfn "/home/00340/trainXX/tutorial/diamond/bin/preprocess"
+        pfn "/work/0003/trainXX/tutorial/diamond/bin/preprocess"
         arch "x86_64"
         os "LINUX"
         type "INSTALLED"
@@ -935,7 +935,7 @@ tr preprocess {
 #data.txt  file:///tmp/data.txt         site="local"
 #data.txt  http://example.org/data.txt  site="example"
 
-f.a file:///home/00340/trainXX/tutorial/diamond/input/f.a   site="local"</programlisting>
+f.a file:///work/0003/trainXX/tutorial/diamond/input/f.a   site="local"</programlisting>
 
       <note>
         <para>By default (unless specified in properties), Pegasus picks ups
@@ -1036,15 +1036,15 @@ pegasus.metrics.app=pegasus-tutorial
 2018.12.13 18:55:19.963 CST:    
 2018.12.13 18:55:19.968 CST:   Your workflow has been started and is running in the base directory: 
 2018.12.13 18:55:19.974 CST:    
-2018.12.13 18:55:19.979 CST:     ~/tutorial/diamond/submit/trainXX/pegasus/diamond/run0002 
+2018.12.13 18:55:19.979 CST:     $WORK/tutorial/diamond/submit/trainXX/pegasus/diamond/run0002 
 2018.12.13 18:55:19.984 CST:    
 2018.12.13 18:55:19.990 CST:   *** To monitor the workflow you can run *** 
 2018.12.13 18:55:19.995 CST:    
-2018.12.13 18:55:20.001 CST:     pegasus-status -l ~/tutorial/diamond/submit/trainXX/pegasus/diamond/run0002 
+2018.12.13 18:55:20.001 CST:     pegasus-status -l $WORK/tutorial/diamond/submit/trainXX/pegasus/diamond/run0002 
 2018.12.13 18:55:20.006 CST:    
 2018.12.13 18:55:20.011 CST:   *** To remove your workflow run *** 
 2018.12.13 18:55:20.017 CST:    
-2018.12.13 18:55:20.022 CST:     pegasus-remove ~/tutorial/diamond/submit/trainXX/pegasus/diamond/run0002 
+2018.12.13 18:55:20.022 CST:     pegasus-remove $WORK/tutorial/diamond/submit/trainXX/pegasus/diamond/run0002 
 2018.12.13 18:55:20.027 CST:    
 2018.12.13 18:55:25.047 CST:   Time taken to execute is 1.714 seconds 
 
@@ -1089,10 +1089,10 @@ output file: 00/00/stage_in_local_wrangler_0_0.out.001
 
 site        : local
 hostname    : login1.wrangler.tacc.utexas.edu
-executable  : /home/00340/trainXX/SOFTWARE/install/pegasus/pegasus-4.9.1dev/bin/pegasus-transfer
+executable  : /work/0003/trainXX/SOFTWARE/install/pegasus/pegasus-4.9.1dev/bin/pegasus-transfer
 arguments   :   --threads   2  
 exitcode    : 1
-working dir : ~/tutorial/diamond/submit/trainXX/pegasus/diamond/run0002
+working dir : $WORK/tutorial/diamond/submit/trainXX/pegasus/diamond/run0002
 
 ------------------Task #1 - pegasus::transfer - None - stdout-------------------
 
@@ -1102,13 +1102,13 @@ working dir : ~/tutorial/diamond/submit/trainXX/pegasus/diamond/run0002
 2018-12-13 19:03:05,595    INFO:  LD_LIBRARY_PATH=
 2018-12-13 19:03:05,644    INFO:  --------------------------------------------------------------------------------
 2018-12-13 19:03:05,644    INFO:  Starting transfers - attempt 1
-2018-12-13 19:03:07,647   ERROR:  Expected local file does not exist: ~/tutorial/diamond/input/f.a
+2018-12-13 19:03:07,647   ERROR:  Expected local file does not exist: $WORK/tutorial/diamond/input/f.a
 2018-12-13 19:05:22,649    INFO:  --------------------------------------------------------------------------------
 2018-12-13 19:05:22,650    INFO:  Starting transfers - attempt 2
-2018-12-13 19:05:24,653   ERROR:  Expected local file does not exist: ~/tutorial/diamond/input/f.a
+2018-12-13 19:05:24,653   ERROR:  Expected local file does not exist: $WORK/tutorial/diamond/input/f.a
 2018-12-13 19:10:24,721    INFO:  --------------------------------------------------------------------------------
 2018-12-13 19:10:24,721    INFO:  Starting transfers - attempt 3
-2018-12-13 19:10:26,724   ERROR:  Expected local file does not exist: ~/tutorial/diamond/input/f.a
+2018-12-13 19:10:26,724   ERROR:  Expected local file does not exist: $WORK/tutorial/diamond/input/f.a
 2018-12-13 19:10:26,724    INFO:  --------------------------------------------------------------------------------
 2018-12-13 19:10:26,725    INFO:  Stats: Total 3 transfers, 0.0 B transferred in 441 seconds. Rate: 0.0 B/s (0.0 b/s)
 2018-12-13 19:10:26,725    INFO:         Between sites local-&gt;wrangler : 3 transfers, 0.0 B transferred in 441 seconds. Rate: 0.0 B/s (0.0 b/s)
@@ -1131,8 +1131,8 @@ working dir : ~/tutorial/diamond/submit/trainXX/pegasus/diamond/run0002
       directory from our previous failed workflow run:</para>
 
       <programlisting><emphasis role="bold">$  pegasus-run submit/trainXX/pegasus/diamond/run0002</emphasis>
-Rescued ~/tutorial/diamond/submit/trainXX/pegasus/diamond/run0002/diamond-0.log as\
-~/tutorial/diamond/submit/trainXX/pegasus/diamond/run0002/diamond-0.log.000
+Rescued $WORK/tutorial/diamond/submit/trainXX/pegasus/diamond/run0002/diamond-0.log as\
+$WORK/tutorial/diamond/submit/trainXX/pegasus/diamond/run0002/diamond-0.log.000
 Submitting to condor diamond-0.dag.condor.sub
 Submitting job(s).
 1 job(s) submitted to cluster 1190.
@@ -1233,7 +1233,7 @@ tr pegasus::mpiexec {
     profile pegasus "nodes" "1"
     profile pegasus "runtime" "43200"
     profile pegasus "change.dir" "true"
-    pfn "/home/00340/trainXX/tutorial/diamond/bin/pmc-wrapper"
+    pfn "/work/0003/trainXX/tutorial/diamond/bin/pmc-wrapper"
     type "INSTALLED"
   }
 }
@@ -1258,7 +1258,7 @@ export LD_LIBRARY_PATH=/opt/apps/intel15/mvapich2/2.1/lib:/opt/apps/intel15/mvap
 /opt/apps/intel/15/composer_xe_2015.3.187/tbb/lib/intel64/gcc4.4:\
 /opt/apps/intel/15/composer_xe_2015.3.187/compiler/lib/intel64:/opt/apps/gcc/4.9.1/lib:/opt/apps/gcc/4.9.1/lib64
 
-ibrun /home/00340/vahik/SOFTWARE/install/pegasus/default/pegasus-mpi-cluster "$@
+ibrun /work/0003/vahik/SOFTWARE/install/pegasus/default/pegasus-mpi-cluster "$@
 
 </programlisting>
           </listitem>
@@ -1323,15 +1323,15 @@ pegasus-plan --conf pegasus.properties \
 2018.12.14 09:37:45.263 CST:    
 2018.12.14 09:37:45.268 CST:   Your workflow has been started and is running in the base directory: 
 2018.12.14 09:37:45.273 CST:    
-2018.12.14 09:37:45.279 CST:     ~/tutorial/diamond/submit/trainXX/pegasus/diamond/run0003 
+2018.12.14 09:37:45.279 CST:     $WORK/tutorial/diamond/submit/trainXX/pegasus/diamond/run0003 
 2018.12.14 09:37:45.284 CST:    
 2018.12.14 09:37:45.289 CST:   *** To monitor the workflow you can run *** 
 2018.12.14 09:37:45.294 CST:    
-2018.12.14 09:37:45.300 CST:     pegasus-status -l ~/tutorial/diamond/submit/trainXX/pegasus/diamond/run0003 
+2018.12.14 09:37:45.300 CST:     pegasus-status -l $WORK/tutorial/diamond/submit/trainXX/pegasus/diamond/run0003 
 2018.12.14 09:37:45.305 CST:    
 2018.12.14 09:37:45.310 CST:   *** To remove your workflow run *** 
 2018.12.14 09:37:45.316 CST:    
-2018.12.14 09:37:45.321 CST:     pegasus-remove ~/tutorial/diamond/submit/trainXX/pegasus/diamond/run0003 
+2018.12.14 09:37:45.321 CST:     pegasus-remove $WORK/tutorial/diamond/submit/trainXX/pegasus/diamond/run0003 
 2018.12.14 09:37:45.326 CST:    
 2018.12.14 09:37:45.980 CST:   Time taken to execute is 1.699 seconds <emphasis
         role="bold">
@@ -1400,7 +1400,7 @@ What project your jobs should run under. For example on TACC there are like : TG
 7: Diamond
 <emphasis role="bold">8: MPI Hello World</emphasis>
 What tutorial workflow do you want? (1-8) [1]: <emphasis role="bold">8</emphasis>
-Pegasus Tutorial setup for example workflow - mpi-hw for execution on wrangler-glite in directory ~/tutorial/mpi</programlisting>
+Pegasus Tutorial setup for example workflow - mpi-hw for execution on wrangler-glite in directory $WORK/tutorial/mpi</programlisting>
 
     <para>Now lets first compile the hello world program and set it up</para>
 
@@ -1434,7 +1434,7 @@ export LD_LIBRARY_PATH=/opt/apps/intel15/mvapich2/2.1/lib:/opt/apps/intel15/mvap
 /opt/apps/intel/15/composer_xe_2015.3.187/tbb/lib/intel64/gcc4.4:/opt/apps/intel/15/composer_xe_2015.3.187/compiler/lib/intel64:\
 /opt/apps/gcc/4.9.1/lib:/opt/apps/gcc/4.9.1/lib64
 
-ibrun  /home/00340/vahik/tutorial/mpi/bin/pegasus-mpi-hw  "$@"</programlisting>
+ibrun  /work/0003/trainXX/tutorial/mpi/bin/pegasus-mpi-hw  "$@"</programlisting>
 
     <para>We now generate the DAX</para>
 
@@ -1454,14 +1454,14 @@ ibrun  /home/00340/vahik/tutorial/mpi/bin/pegasus-mpi-hw  "$@"</programlisting>
     <programlisting><emphasis role="bold">$  more mpi.dax </emphasis>
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;!-- generated: 2018-12-14 09:58:37.756729 --&gt;
-&lt;!-- generated by: vahik --&gt;
+&lt;!-- generated by: trainXX --&gt;
 &lt;!-- generator: python --&gt;
 &lt;adag xmlns="http://pegasus.isi.edu/schema/DAX" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" \
 xsi:schemaLocation="http://pegasus.isi.edu/schema/DAX http://pegasus.isi.edu/schema/dax-3.6.xsd" version="3.6" name="mpi-hello-
 world"&gt;
   &lt;metadata key="created"&gt;Fri Dec 14 09:58:37 2018&lt;/metadata&gt;
   &lt;metadata key="dax.api"&gt;python&lt;/metadata&gt;
-  &lt;metadata key="creator"&gt;vahik@login1.wrangler.tacc.utexas.edu&lt;/metadata&gt;
+  &lt;metadata key="creator"&gt;trainXX@login1.wrangler.tacc.utexas.edu&lt;/metadata&gt;
   &lt;job id="ID0000001" namespace="pegasus" name="mpihw"&gt;
       &lt;argument&gt;-i  &lt;file name="f.in"/&gt; -o  &lt;file name="f.out"/&gt;&lt;/argument&gt;
       &lt;profile namespace="globus" key="jobtype"&gt;mpi&lt;/profile&gt;
@@ -1495,15 +1495,15 @@ world"&gt;
 2018.12.14 10:05:10.223 CST:    
 2018.12.14 10:05:10.229 CST:   Your workflow has been started and is running in the base directory: 
 2018.12.14 10:05:10.234 CST:    
-2018.12.14 10:05:10.240 CST:     ~/tutorial/mpi/submit/trainXX/pegasus/mpi-hello-world/run0001 
+2018.12.14 10:05:10.240 CST:     $WORK/tutorial/mpi/submit/trainXX/pegasus/mpi-hello-world/run0001 
 2018.12.14 10:05:10.245 CST:    
 2018.12.14 10:05:10.250 CST:   *** To monitor the workflow you can run *** 
 2018.12.14 10:05:10.256 CST:    
-2018.12.14 10:05:10.261 CST:     pegasus-status -l ~/tutorial/mpi/submit/trainXX/pegasus/mpi-hello-world/run0001 
+2018.12.14 10:05:10.261 CST:     pegasus-status -l $WORK/tutorial/mpi/submit/trainXX/pegasus/mpi-hello-world/run0001 
 2018.12.14 10:05:10.266 CST:    
 2018.12.14 10:05:10.272 CST:   *** To remove your workflow run *** 
 2018.12.14 10:05:10.277 CST:    
-2018.12.14 10:05:10.282 CST:     pegasus-remove ~/tutorial/mpi/submit/trainXX/pegasus/mpi-hello-world/run0001 
+2018.12.14 10:05:10.282 CST:     pegasus-remove $WORK/tutorial/mpi/submit/trainXX/pegasus/mpi-hello-world/run0001 
 2018.12.14 10:05:10.287 CST:    
 2018.12.14 10:05:10.994 CST:   Time taken to execute is 1.651 seconds 
 </programlisting>
