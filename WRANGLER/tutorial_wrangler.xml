@@ -1136,10 +1136,10 @@ diamond.addJob(preprocess)
           <listitem>
             <para>In the transformation catalog, specify the path to the
             clustering executable. In this case, it is a wrapper around PMC
-            that does mpiexec on pegasus-mpi-cluster. In conf/tc.dat you can
-            see the last entry as</para>
+            that does mpiexec on pegasus-mpi-cluster. In tc.txt you can see
+            the last entry as</para>
 
-            <programlisting>$ <emphasis role="bold">cat tc.dat</emphasis>
+            <programlisting>$ <emphasis role="bold">cat tc.txt</emphasis>
 
 tr pegasus::mpiexec {
   site wrangler {
