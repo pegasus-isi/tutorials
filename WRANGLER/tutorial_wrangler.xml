@@ -488,10 +488,10 @@ Summary: 1 DAG total (Success:1)
       <literal>pegasus-status</literal> command above will have a non-zero
       value in the <literal>FAILURE</literal> column.</para>
 
-      <programlisting><emphasis role="bold">$  pegasus-status -l /scitech/home/pegtrainXX/population/submit/pegtrainXX/pegasus/population/run0001 </emphasis>
-(no matching jobs found in Condor Q)
+      <programlisting>$<emphasis role="bold"> pegasus-status -l $WORK/tutorial/diamond/submit/trainXX/pegasus/diamond/run0002
+</emphasis>(no matching jobs found in Condor Q)
 UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME                                 
-   16     0     0     0     0     5     3  20.8 Failure *population-0.dag                       
+    6     0     0     0     0     1     1  12.5 Failure *diamond-0.dag                          
 Summary: 1 DAG total (Failure:1)
 </programlisting>
 
@@ -499,141 +499,55 @@ Summary: 1 DAG total (Failure:1)
       <literal>pegasus-analyzer</literal> command. This command will identify
       the jobs that failed and show their output.</para>
 
-      <programlisting><emphasis role="bold">$ pegasus-analyzer /scitech/home/pegtrainXX/population/submit/pegtrainXX/pegasus/population/run0001</emphasis>
-
+      <programlisting><emphasis role="bold">$ </emphasis><emphasis role="bold">pegasus-analyzer submit/trainXX/pegasus/diamond/run0002
+</emphasis>
 ************************************Summary*************************************
 
- Submit Directory   : /scitech/home/pegtrainXX/population/submit/pegtrainXX/pegasus/population/run0001
- Total jobs         :     24 (100.00%)
- # jobs succeeded   :      5 (20.83%)
- # jobs failed      :      3 (12.50%)
- # jobs held        :      3 (12.50%)
- # jobs unsubmitted :     16 (66.67%)
-
-*******************************Held jobs' details*******************************
-
-=======================county_population_raster_ID0000008=======================
-
-submit file            : county_population_raster_ID0000008.sub
-last_job_instance_id   : 9
-reason                 :  Error from slot1@compute-6.isi.edu: STARTER at 128.9.35.234 failed to send file(s) to &lt;128.9.44.53:9618&gt;: error reading from /var/lib/condor/execute/dir_4209/county_level_pop_2019.tif: (errno 2) No such file or directory; SHADOW failed to receive file(s) from &lt;128.9.35.234:42630&gt;
-
-=======================county_population_raster_ID0000005=======================
-
-submit file            : county_population_raster_ID0000005.sub
-last_job_instance_id   : 10
-reason                 :  Error from slot1@compute-6.isi.edu: STARTER at 128.9.35.234 failed to send file(s) to &lt;128.9.44.53:9618&gt;: error reading from /var/lib/condor/execute/dir_4383/county_level_pop_2018.tif: (errno 2) No such file or directory; SHADOW failed to receive file(s) from &lt;128.9.35.234:40000&gt;
-
-=======================county_population_raster_ID0000002=======================
-
-submit file            : county_population_raster_ID0000002.sub
-last_job_instance_id   : 11
-reason                 :  Error from slot1@compute-6.isi.edu: STARTER at 128.9.35.234 failed to send file(s) to &lt;128.9.44.53:9618&gt;: error reading from /var/lib/condor/execute/dir_4598/county_level_pop_2017.tif: (errno 2) No such file or directory; SHADOW failed to receive file(s) from &lt;128.9.35.234:47008&gt;
+ Submit Directory   : submit/train301/pegasus/diamond/run0002
+ Total jobs         :      8 (100.00%)
+ # jobs succeeded   :      1 (12.50%)
+ # jobs failed      :      1 (12.50%)
+ # jobs held        :      0 (0.00%)
+ # jobs unsubmitted :      6 (75.00%)
 
 ******************************Failed jobs' details******************************
 
-=======================county_population_raster_ID0000008=======================
+==========================stage_in_local_wrangler_0_0===========================
 
  last state: POST_SCRIPT_FAILED
-       site: condorpool
-submit file: 00/00/county_population_raster_ID0000008.sub
-output file: 00/00/county_population_raster_ID0000008.out.001
- error file: 00/00/county_population_raster_ID0000008.err.001
+       site: local
+submit file: 00/00/stage_in_local_wrangler_0_0.sub
+output file: 00/00/stage_in_local_wrangler_0_0.out.001
+ error file: 00/00/stage_in_local_wrangler_0_0.err.001
 
 -------------------------------Task #1 - Summary--------------------------------
 
-site        : condorpool
-hostname    : compute-6.isi.edu
-executable  : /var/lib/condor/execute/dir_4209/county_population_raster
-arguments   :   --config   county_cohort_pop_config.ini   --shapefile   SouthSudan_CountyPopulation.shp   --year   2019   --outfile   county_level_pop_2019.tif  
+site        : local
+hostname    : login1.wrangler.tacc.utexas.edu
+executable  : /home/00340/vahik/SOFTWARE/install/pegasus/pegasus-4.9.1dev/bin/pegasus-transfer
+arguments   :   --threads   2   -m   1  
 exitcode    : 1
-working dir : /var/lib/condor/execute/dir_4209
+working dir : /work/0003/train301/wrangler/tutorial/diamond/submit/train301/pegasus/diamond/run0002
 
--------Task #1 - county_population_raster - ID0000008 - Kickstart stderr--------
+------------------Task #1 - pegasus::transfer - None - stdout-------------------
 
- Traceback (most recent call last):
-  File "./county_population_raster", line 5, in &lt;module&gt;
-    import pandas as pd
-ImportError: No module named 'pandas'
-
-
-=======================county_population_raster_ID0000005=======================
-
- last state: POST_SCRIPT_FAILED
-       site: condorpool
-submit file: 00/00/county_population_raster_ID0000005.sub
-output file: 00/00/county_population_raster_ID0000005.out.001
- error file: 00/00/county_population_raster_ID0000005.err.001
-
--------------------------------Task #1 - Summary--------------------------------
-
-site        : condorpool
-hostname    : compute-6.isi.edu
-executable  : /var/lib/condor/execute/dir_4383/county_population_raster
-arguments   :   --config   county_cohort_pop_config.ini   --shapefile   SouthSudan_CountyPopulation.shp   --year   2018   --outfile   county_level_pop_2018.tif  
-exitcode    : 1
-working dir : /var/lib/condor/execute/dir_4383
-
--------Task #1 - county_population_raster - ID0000005 - Kickstart stderr--------
-
- Traceback (most recent call last):
-  File "./county_population_raster", line 5, in &lt;module&gt;
-    import pandas as pd
-ImportError: No module named 'pandas'
-
-
-=======================county_population_raster_ID0000002=======================
-
- last state: POST_SCRIPT_FAILED
-       site: condorpool
-submit file: 00/00/county_population_raster_ID0000002.sub
-output file: 00/00/county_population_raster_ID0000002.out.001
- error file: 00/00/county_population_raster_ID0000002.err.001
-
--------------------------------Task #1 - Summary--------------------------------
-
-site        : condorpool
-hostname    : compute-6.isi.edu
-executable  : /var/lib/condor/execute/dir_4598/county_population_raster
-arguments   :   --config   county_cohort_pop_config.ini   --shapefile   SouthSudan_CountyPopulation.shp   --year   2017   --outfile   county_level_pop_2017.tif  
-exitcode    : 1
-working dir : /var/lib/condor/execute/dir_4598
-
--------Task #1 - county_population_raster - ID0000002 - Kickstart stderr--------
-
- Traceback (most recent call last):
-  File "./county_population_raster", line 5, in &lt;module&gt;
-    import pandas as pd
-ImportError: No module named 'pandas'
+2019-02-03 22:31:12,508    INFO:  Reading URL pairs from stdin
+2019-02-03 22:31:12,510    INFO:  1 transfers loaded
+2019-02-03 22:31:12,510    INFO:  PATH=/usr/bin:/bin
+2019-02-03 22:31:12,510    INFO:  LD_LIBRARY_PATH=
+2019-02-03 22:31:12,559    INFO:  --------------------------------------------------------------------------------
+2019-02-03 22:31:12,560    INFO:  Starting transfers - attempt 1
+2019-02-03 22:31:14,564   ERROR:  Expected local file does not exist: /work/0003/train301/wrangler/tutorial/diamond/input/f.a
+2019-02-03 22:31:14,565    INFO:  --------------------------------------------------------------------------------
+2019-02-03 22:31:14,565    INFO:  Stats: Total 1 transfers, 0.0 B transferred in 2 seconds. Rate: 0.0 B/s (0.0 b/s)
+2019-02-03 22:31:14,565    INFO:         Between sites local-&gt;wrangler : 1 transfers, 0.0 B transferred in 2 seconds. Rate: 0.0 B/s (0.0 b/s)
+2019-02-03 22:31:14,565 CRITICAL:  Some transfers failed! See above, and possibly stderr.
 
 </programlisting>
 
-      <para>The above output indicates that our county_population_raster jobs
-      failed while running on site condorpool and on a node compute-6.isi.edu
-      due to a missing python package pandas. This is a pretty common problem
-      in scientific workflows where scientific codes depend have software
-      dependencies that are often not fulfilled when running on shared or
-      remote resources. In fact the software, has a bunch of other
-      dependencies that can make it hard to get installed on remote resources
-      especially when we don't have administrative control over them.</para>
-
-      <para>Lets consider what options exist for us?</para>
-
-      <orderedlist>
-        <listitem>
-          <para>We can contact system administrators on the remote sites to
-          install these packages for us</para>
-        </listitem>
-
-        <listitem>
-          <para>We can install these packages in our user accounts ourselves
-          without root access</para>
-        </listitem>
-      </orderedlist>
-
-      <para>To see how you can specify this information to Pegasus we will
-      look into the information catalogs that Pegasus referred to while
-      planning your workflow a bit later</para>
+      <para>In this example, we removed one of the input files. We will cover
+      this in more detail in the recovery section. The output of
+      pegasus-analyzer indicates that f.a could not be found.</para>
     </section>
   </section>
 
@@ -743,9 +657,9 @@ diamond.addDependency(Dependency(parent=frr, child=analyze))</programlisting>
 
     <programlisting>$ <emphasis role="bold">./generate_dax.sh </emphasis><emphasis
         role="bold">diamond.dax</emphasis>
-Generated dax split.dax</programlisting>
+Generated dax diamond.dax</programlisting>
 
-    <para>The <filename>split.dax</filename> file should contain an XML
+    <para>The <filename>diamond.dax</filename> file should contain an XML
     representation of the split workflow. You can inspect it by typing:</para>
 
     <programlisting>$ <emphasis role="bold">more diamond.dax</emphasis>
