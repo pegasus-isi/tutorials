@@ -107,9 +107,7 @@ you get this</programlisting>
 
     <para><emphasis role="bold">If you are having trouble with this tutorial,
     or anything else related to Pegasus, you can contact the Pegasus Users
-    mailing list at <email>pegasus-users@isi.edu</email> to get help. You can
-    also contact us on our <ulink
-    url="https://pegasus.isi.edu/support">support chatroom</ulink> on HipChat.
+    mailing list at <email>pegasus-users@isi.edu</email> to get help.
     </emphasis></para>
   </section>
 
@@ -136,20 +134,21 @@ you get this</programlisting>
 
     <programlisting><emphasis role="bold">$ ssh trainXX@learn.chtc.wisc.edu</emphasis>
 Enter trainXX@learn.chtc.wisc.edu password
-#######################################################################
+Last login: Fri May 17 22:57:00 2019 from cpe-104-175-203-123.socal.res.rr.com
+_____________________________________________________________________
+ #####  #     # #######  #####  Issues?  Email chtc@cs.wisc.edu
+#     # #     #    #    #     # Unauthorized use prohibited by:
+#       #     #    #    #       WI Statutes: s. 947.0125
+#       #######    #    #       U.S. Code: 18 USC 1030
+#       #     #    #    #       U.S. Code: 18 USC 2510-2522
+#     # #     #    #    #     # U.S. Code: 18 USC 2701-2712
+ #####  #     #    #     #####  U.S. Code: 18 USC § 1831
+For off campus ssh access use https://www.doit.wisc.edu/network/vpn/
+____________________________________________________________________
 
-  This is a Science Automation Technologies group machine.
+              Guest on hypervisor0017.chtc.wisc.edu
 
-    * Please do not do any heavy I/O against those your Action home
-      directory. Use local filesystems or /nfs/ccg3
-
-    * Ganglia monitoring: http://mimir.isi.edu/ganglia/
-
-    * For support, contact Mats Rynge &lt;rynge@isi.edu&gt;
-
-  *** NO BACKUPS ARE MADE OF ANY DATA ***
-
-#######################################################################
+[trainXX@learn ~]$ 
 
 </programlisting>
 
@@ -166,8 +165,8 @@ Enter trainXX@learn.chtc.wisc.edu password
     <para>The tutorial should be done in the bash shell. Lets make sure that
     you are in the right shell.</para>
 
-    <programlisting>[userXX@workflow]$  bash
-[userXX@workflow ~]$ echo $SHELL
+    <programlisting>[trainXX@learn]$  bash
+[trainXX@learn ~]$ echo $SHELL
 /bin/bash
 </programlisting>
 
@@ -295,15 +294,20 @@ Enter trainXX@learn.chtc.wisc.edu password
 
     <programlisting>$ <emphasis role="bold">cd ~/
 </emphasis>$ <emphasis role="bold">pwd
-$ </emphasis>/nfs/ccg3/ccg/home/trainXX/
+$ </emphasis>/home/trainXX/
+$  <emphasis role="bold">mkdir tutorial
+</emphasis>$  cd tutorial
 $  <emphasis role="bold">pegasus-init population</emphasis>
+pegasus-init population
 Do you want to generate a tutorial workflow? (y/n) [n]: y
-1: Local Machine
+1: Local Machine Condor Pool
 2: USC HPCC Cluster
 3: OSG from ISI submit node
 4: XSEDE, with Bosco
 5: Bluewaters, with Glite
-What environment is tutorial to be setup for? (1-5) [1]: 1
+6: TACC Wrangler with Glite
+7: OLCF TITAN with Glite
+What environment is tutorial to be setup for? (1-7) [1]: 1
 1: Process
 2: Pipeline
 3: Split
@@ -312,8 +316,8 @@ What environment is tutorial to be setup for? (1-5) [1]: 1
 6: Population Modeling using Containers
 7: Diamond
 What tutorial workflow do you want? (1-7) [1]: 6
-Pegasus Tutorial setup for example workflow - population for execution on submit-host in directory <emphasis
-        role="bold">/local-scratch/home/trainXX/population</emphasis>
+Pegasus Tutorial setup for example workflow - population for execution on submit-host in directory /home/train00/tutorial/population
+
 
 $ <emphasis role="bold">cd population</emphasis>
 $ <emphasis role="bold">ls</emphasis>
@@ -399,35 +403,34 @@ Generated dax pop.dax
     follows:</para>
 
     <programlisting>$ <emphasis role="bold">./plan_dax.sh pop.dax</emphasis>
-2018.07.05 18:07:27.563 PDT:    
-2018.07.05 18:07:27.568 PDT:   ----------------------------------------------------------------------- 
-2018.07.05 18:07:27.574 PDT:   File for submitting this DAG to HTCondor           : population-0.dag.condor.sub 
-2018.07.05 18:07:27.579 PDT:   Log of DAGMan debugging messages                 : population-0.dag.dagman.out 
-2018.07.05 18:07:27.584 PDT:   Log of HTCondor library output                     : population-0.dag.lib.out 
-2018.07.05 18:07:27.589 PDT:   Log of HTCondor library error messages             : population-0.dag.lib.err 
-2018.07.05 18:07:27.595 PDT:   Log of the life of condor_dagman itself          : population-0.dag.dagman.log 
-2018.07.05 18:07:27.600 PDT:    
-2018.07.05 18:07:27.605 PDT:   -no_submit given, not submitting DAG to HTCondor.  You can do this with: 
-2018.07.05 18:07:27.615 PDT:   ----------------------------------------------------------------------- 
-2018.07.05 18:07:30.396 PDT:   Created Pegasus database in: sqlite:////scitech/home/trainXX/.pegasus/workflow.db 
-2018.07.05 18:07:30.402 PDT:   Your database is compatible with Pegasus version: 4.8.3dev 
-2018.07.05 18:07:30.554 PDT:   Submitting to condor population-0.dag.condor.sub 
-2018.07.05 18:07:30.582 PDT:   Submitting job(s). 
-2018.07.05 18:07:30.587 PDT:   1 job(s) submitted to cluster 992052. 
-2018.07.05 18:07:30.593 PDT:    
-2018.07.05 18:07:30.598 PDT:   Your workflow has been started and is running in the base directory: 
-2018.07.05 18:07:30.603 PDT:    
-2018.07.05 18:07:30.608 PDT:     /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0001 
-2018.07.05 18:07:30.613 PDT:    
-2018.07.05 18:07:30.619 PDT:   *** To monitor the workflow you can run *** 
-2018.07.05 18:07:30.624 PDT:    
-2018.07.05 18:07:30.629 PDT:     pegasus-status -l /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0001 
-2018.07.05 18:07:30.634 PDT:    
-2018.07.05 18:07:30.640 PDT:   *** To remove your workflow run *** 
-2018.07.05 18:07:30.645 PDT:    
-2018.07.05 18:07:30.650 PDT:     pegasus-remove /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0001 
-2018.07.05 18:07:30.655 PDT:    
-2018.07.05 18:07:30.706 PDT:   Time taken to execute is 4.281 seconds </programlisting>
+2019.05.18 12:15:32.736 CDT:    
+2019.05.18 12:15:32.741 CDT:   ----------------------------------------------------------------------- 
+2019.05.18 12:15:32.747 CDT:   File for submitting this DAG to HTCondor           : population-0.dag.condor.sub 
+2019.05.18 12:15:32.752 CDT:   Log of DAGMan debugging messages                 : population-0.dag.dagman.out 
+2019.05.18 12:15:32.757 CDT:   Log of HTCondor library output                     : population-0.dag.lib.out 
+2019.05.18 12:15:32.763 CDT:   Log of HTCondor library error messages             : population-0.dag.lib.err 
+2019.05.18 12:15:32.768 CDT:   Log of the life of condor_dagman itself          : population-0.dag.dagman.log 
+2019.05.18 12:15:32.773 CDT:    
+2019.05.18 12:15:32.778 CDT:   -no_submit given, not submitting DAG to HTCondor.  You can do this with: 
+2019.05.18 12:15:32.789 CDT:   ----------------------------------------------------------------------- 
+2019.05.18 12:15:33.569 CDT:   Your database is compatible with Pegasus version: 4.9.2dev 
+2019.05.18 12:15:33.663 CDT:   Submitting to condor population-0.dag.condor.sub 
+2019.05.18 12:15:33.705 CDT:   Submitting job(s). 
+2019.05.18 12:15:33.710 CDT:   1 job(s) submitted to cluster 89479. 
+2019.05.18 12:15:33.715 CDT:    
+2019.05.18 12:15:33.720 CDT:   Your workflow has been started and is running in the base directory: 
+2019.05.18 12:15:33.726 CDT:    
+2019.05.18 12:15:33.731 CDT:     /home/train00/tutorial/population/submit/train00/pegasus/population/run0001 
+2019.05.18 12:15:33.736 CDT:    
+2019.05.18 12:15:33.742 CDT:   *** To monitor the workflow you can run *** 
+2019.05.18 12:15:33.747 CDT:    
+2019.05.18 12:15:33.752 CDT:     pegasus-status -l /home/train00/tutorial/population/submit/train00/pegasus/population/run0001 
+2019.05.18 12:15:33.757 CDT:    
+2019.05.18 12:15:33.763 CDT:   *** To remove your workflow run *** 
+2019.05.18 12:15:33.768 CDT:    
+2019.05.18 12:15:33.773 CDT:     pegasus-remove /home/train00/tutorial/population/submit/train00/pegasus/population/run0001 
+2019.05.18 12:15:33.779 CDT:    
+2019.05.18 12:15:34.561 CDT:   Time taken to execute is 2.25 seconds </programlisting>
 
     <note>
       <para>The line in the output that starts with
@@ -646,11 +649,15 @@ Generated dax pop.dax
       <para>After the workflow has been submitted you can monitor it using the
       <literal>pegasus-status</literal> command:</para>
 
-      <programlisting><emphasis role="bold">$  pegasus-status -l /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0001 </emphasis>
-(no matching jobs found in Condor Q)
-UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME                                 
-   16     0     0     0     0     5     3  20.8 Failure *population-0.dag                       
-Summary: 1 DAG total (Failure:1)
+      <programlisting><emphasis role="bold">$  </emphasis><emphasis
+          role="bold">pegasus-status -l /home/train00/tutorial/population/submit/train00/pegasus/population/run0001 </emphasis>
+STAT  IN_STATE  JOB                                                                                         
+Run      00:55  population-0 ( /home/train00/tutorial/population/submit/train00/pegasus/population/run0001 )
+Idle     00:09   ┣━county_population_raster_ID0000008                                                       
+Idle     00:09   ┣━county_population_raster_ID0000005                                                       
+Idle     00:09   ┣━county_population_raster_ID0000002                                                       
+Idle     00:09   ┗━county_population_raster_ID0000011                                                       
+Summary: 5 Condor jobs total (I:4 R:1)
 </programlisting>
 
       <para>This command shows the workflow (population-0) and the running
@@ -664,9 +671,13 @@ Summary: 1 DAG total (Failure:1)
       <programlisting>$ <emphasis role="bold">pegasus-status -w submit/trainXX/pegasus/population/run0001</emphasis>
 ...</programlisting>
 
-      <programlisting>(no matching jobs found in Condor Q)
-UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME                                 
-    0     0     0     0     0    15     0 100.0 Success *population-0.dag      </programlisting>
+      <programlisting>STAT  IN_STATE  JOB                                                                                         
+Run      50:21  population-0 ( /home/train00/tutorial/population/submit/train00/pegasus/population/run0001 )
+Del      05:47   ┗━county_population_raster_ID0000005                                                       
+Summary: 2 Condor jobs total (R:1 X:1)
+
+UNREADY   READY     PRE  QUEUED    POST SUCCESS FAILURE %DONE
+     18       0       0       1       0       5       3  18.5      </programlisting>
 
       <para>That means the workflow is finished successfully.</para>
     </section>
