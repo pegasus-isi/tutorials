@@ -119,7 +119,7 @@ you get this</programlisting>
     things that you should type in bold, monospace font, and to put the output
     you should get in a normal weight, monospace font, like this:</para>
 
-    <programlisting>[user@workflow]$ <emphasis role="bold">you type this</emphasis>
+    <programlisting>[user@learn]$ <emphasis role="bold">you type this</emphasis>
 you get this</programlisting>
 
     <para>Where <literal>[user@host dir]$</literal> is the terminal prompt,
@@ -1949,6 +1949,95 @@ pegasus-plan --conf pegasus.properties \
     county_population_raster invocations one after the other using tool called
     pegasus-cluster. Similarly for the other jobs full_res_pop_raster and
     raster_to_png jobs.</para>
+
+    <para>After completion if we run pegasus-statistics, we will notice the
+    workflow run much faster</para>
+
+    <programlisting> <emphasis role="bold">pegasus-statistics -s all submit/trainXX/pegasus/population/run0003</emphasis>
+
+#
+# Pegasus Workflow Management System - http://pegasus.isi.edu
+#
+# Workflow summary:
+#   Summary of the workflow execution. It shows total
+#   tasks/jobs/sub workflows run, how many succeeded/failed etc.
+#   In case of hierarchical workflow the calculation shows the
+#   statistics across all the sub workflows.It shows the following
+#   statistics about tasks, jobs and sub workflows.
+#     * Succeeded - total count of succeeded tasks/jobs/sub workflows.
+#     * Failed - total count of failed tasks/jobs/sub workflows.
+#     * Incomplete - total count of tasks/jobs/sub workflows that are
+#       not in succeeded or failed state. This includes all the jobs
+#       that are not submitted, submitted but not completed etc. This
+#       is calculated as  difference between 'total' count and sum of
+#       'succeeded' and 'failed' count.
+#     * Total - total count of tasks/jobs/sub workflows.
+#     * Retries - total retry count of tasks/jobs/sub workflows.
+#     * Total+Retries - total count of tasks/jobs/sub workflows executed
+#       during workflow run. This is the cumulative of retries,
+#       succeeded and failed count.
+# Workflow wall time:
+#   The wall time from the start of the workflow execution to the end as
+#   reported by the DAGMAN.In case of rescue dag the value is the
+#   cumulative of all retries.
+# Cumulative job wall time:
+#   The sum of the wall time of all jobs as reported by kickstart.
+#   In case of job retries the value is the cumulative of all retries.
+#   For workflows having sub workflow jobs (i.e SUBDAG and SUBDAX jobs),
+#   the wall time value includes jobs from the sub workflows as well.
+# Cumulative job wall time as seen from submit side:
+#   The sum of the wall time of all jobs as reported by DAGMan.
+#   This is similar to the regular cumulative job wall time, but includes
+#   job management overhead and delays. In case of job retries the value
+#   is the cumulative of all retries. For workflows having sub workflow
+#   jobs (i.e SUBDAG and SUBDAX jobs), the wall time value includes jobs
+#   from the sub workflows as well.
+# Cumulative job badput wall time:
+#   The sum of the wall time of all failed jobs as reported by kickstart.
+#   In case of job retries the value is the cumulative of all retries.
+#   For workflows having sub workflow jobs (i.e SUBDAG and SUBDAX jobs),
+#   the wall time value includes jobs from the sub workflows as well.
+# Cumulative job badput wall time as seen from submit side:
+#   The sum of the wall time of all failed jobs as reported by DAGMan.
+#   This is similar to the regular cumulative job badput wall time, but includes
+#   job management overhead and delays. In case of job retries the value
+#   is the cumulative of all retries. For workflows having sub workflow
+#   jobs (i.e SUBDAG and SUBDAX jobs), the wall time value includes jobs
+#   from the sub workflows as well.
+------------------------------------------------------------------------------
+Type           Succeeded Failed  Incomplete  Total     Retries   Total+Retries
+Tasks          13        0       0           13        0         13           
+Jobs           22        0       0           22        0         22           
+Sub-Workflows  0         0       0           0         0         0            
+------------------------------------------------------------------------------
+
+Workflow wall time                                       : 5 mins, 7 secs
+Cumulative job wall time                                 : 1 min, 22 secs
+Cumulative job wall time as seen from submit side        : 2 mins, 9 secs
+Cumulative job badput wall time                          : 0.0 secs
+Cumulative job badput wall time as seen from submit side : 0.0 secs
+
+# Integrity Metrics
+# Number of files for which checksums were compared/computed along with total time spent doing it. 
+47 files checksums compared with total duration of 3.422 secs
+29 files checksums generated with total duration of 4.597 secs
+
+# Integrity Errors
+# Total:    
+#       Total number of integrity errors encountered across all job executions(including retries) of a workflow. 
+# Failures: 
+#       Number of failed jobs where the last job instance had integrity errors.
+Failures: 0 job failures had integrity errors
+
+Summary                       : submit/train00/pegasus/population/run0003/statistics/summary.txt
+Workflow execution statistics : submit/train00/pegasus/population/run0003/statistics/workflow.txt
+Job instance statistics       : submit/train00/pegasus/population/run0003/statistics/jobs.txt
+Transformation statistics     : submit/train00/pegasus/population/run0003/statistics/breakdown.txt
+Integrity statistics          : submit/train00/pegasus/population/run0003/statistics/integrity.txt
+Time statistics               : submit/train00/pegasus/population/run0003/statistics/time.txt
+</programlisting>
+
+    <para/>
   </section>
 
   <section id="tutorial_failure_recovery">
@@ -1989,34 +2078,35 @@ pegasus-plan --conf pegasus.properties \
 
       <programlisting><emphasis role="bold">$ </emphasis>.<emphasis
           role="bold">/plan_dax.sh pop.dax </emphasis>
-2018.07.06 13:48:20.806 PDT:    
-2018.07.06 13:48:20.812 PDT:   ----------------------------------------------------------------------- 
-2018.07.06 13:48:20.817 PDT:   File for submitting this DAG to HTCondor           : population-0.dag.condor.sub 
-2018.07.06 13:48:20.822 PDT:   Log of DAGMan debugging messages                 : population-0.dag.dagman.out 
-2018.07.06 13:48:20.827 PDT:   Log of HTCondor library output                     : population-0.dag.lib.out 
-2018.07.06 13:48:20.832 PDT:   Log of HTCondor library error messages             : population-0.dag.lib.err 
-2018.07.06 13:48:20.838 PDT:   Log of the life of condor_dagman itself          : population-0.dag.dagman.log 
-2018.07.06 13:48:20.843 PDT:    
-2018.07.06 13:48:20.848 PDT:   -no_submit given, not submitting DAG to HTCondor.  You can do this with: 
-2018.07.06 13:48:20.858 PDT:   ----------------------------------------------------------------------- 
-2018.07.06 13:48:21.593 PDT:   Your database is compatible with Pegasus version: 4.9.2dev 
-2018.07.06 13:48:21.690 PDT:   Submitting to condor population-0.dag.condor.sub 
-2018.07.06 13:48:21.724 PDT:   Submitting job(s). 
-2018.07.06 13:48:21.729 PDT:   1 job(s) submitted to cluster 992607. 
-2018.07.06 13:48:21.734 PDT:    
-2018.07.06 13:48:21.740 PDT:   Your workflow has been started and is running in the base directory: 
-2018.07.06 13:48:21.745 PDT:    
-2018.07.06 13:48:21.750 PDT:     /home/trainXX/tutorial/population/submit/trainXX/pegasus/population/run0004 
-2018.07.06 13:48:21.756 PDT:    
-2018.07.06 13:48:21.761 PDT:   *** To monitor the workflow you can run *** 
-2018.07.06 13:48:21.766 PDT:    
-2018.07.06 13:48:21.771 PDT:     pegasus-status -l /home/trainXX/tutorial/population/submit/trainXX/pegasus/population/run0004 
-2018.07.06 13:48:21.776 PDT:    
-2018.07.06 13:48:21.782 PDT:   *** To remove your workflow run *** 
-2018.07.06 13:48:21.787 PDT:    
-2018.07.06 13:48:21.792 PDT:     pegasus-remove /home/trainXX/tutorial/population/submit/trainXX/pegasus/population/run0004 
-2018.07.06 13:48:21.797 PDT:    
-2018.07.06 13:48:21.857 PDT:   Time taken to execute is 2.054 seconds </programlisting>
+2019.05.18 17:12:11.485 CDT:    
+2019.05.18 17:12:11.490 CDT:   ----------------------------------------------------------------------- 
+2019.05.18 17:12:11.496 CDT:   File for submitting this DAG to HTCondor           : population-0.dag.condor.sub 
+2019.05.18 17:12:11.501 CDT:   Log of DAGMan debugging messages                 : population-0.dag.dagman.out 
+2019.05.18 17:12:11.506 CDT:   Log of HTCondor library output                     : population-0.dag.lib.out 
+2019.05.18 17:12:11.511 CDT:   Log of HTCondor library error messages             : population-0.dag.lib.err 
+2019.05.18 17:12:11.517 CDT:   Log of the life of condor_dagman itself          : population-0.dag.dagman.log 
+2019.05.18 17:12:11.522 CDT:    
+2019.05.18 17:12:11.527 CDT:   -no_submit given, not submitting DAG to HTCondor.  You can do this with: 
+2019.05.18 17:12:11.538 CDT:   ----------------------------------------------------------------------- 
+2019.05.18 17:12:12.330 CDT:   Your database is compatible with Pegasus version: 4.9.2dev 
+2019.05.18 17:12:12.425 CDT:   Submitting to condor population-0.dag.condor.sub 
+2019.05.18 17:12:12.462 CDT:   Submitting job(s). 
+2019.05.18 17:12:12.468 CDT:   1 job(s) submitted to cluster 89546. 
+2019.05.18 17:12:12.473 CDT:    
+2019.05.18 17:12:12.478 CDT:   Your workflow has been started and is running in the base directory: 
+2019.05.18 17:12:12.484 CDT:    
+2019.05.18 17:12:12.489 CDT:     /home/train00/tutorial/population/submit/train00/pegasus/population/run0004 
+2019.05.18 17:12:12.494 CDT:    
+2019.05.18 17:12:12.500 CDT:   *** To monitor the workflow you can run *** 
+2019.05.18 17:12:12.505 CDT:    
+2019.05.18 17:12:12.510 CDT:     pegasus-status -l /home/train00/tutorial/population/submit/train00/pegasus/population/run0004 
+2019.05.18 17:12:12.516 CDT:    
+2019.05.18 17:12:12.521 CDT:   *** To remove your workflow run *** 
+2019.05.18 17:12:12.527 CDT:    
+2019.05.18 17:12:12.532 CDT:     pegasus-remove /home/train00/tutorial/population/submit/train00/pegasus/population/run0004 
+2019.05.18 17:12:12.537 CDT:    
+2019.05.18 17:12:14.095 CDT:   Time taken to execute is 2.277 seconds 
+</programlisting>
 
       <para>We will now monitor the workflow using the pegasus-status command
       till it fails. We will add -w option to pegasus-status to watch
@@ -2027,7 +2117,7 @@ pegasus-plan --conf pegasus.properties \
 UNREADY   READY     PRE  QUEUED    POST SUCCESS FAILURE %DONE
      22       0       0       0       0       5       1  17.9
 Summary: 1 DAG total (Failure:1)
-[trainXX@workflow population]$ 
+[trainXX@learn population]$ 
 </programlisting>
 
       <para>Now we can use the pegasus-analyzer command to determine what went
@@ -2036,10 +2126,9 @@ Summary: 1 DAG total (Failure:1)
       <programlisting><emphasis role="bold">$ </emphasis> <emphasis
           role="bold">pegasus-analyzer submit/trainXX/pegasus/population/run0004</emphasis>
 
-
 ************************************Summary*************************************
 
- Submit Directory   : submit/trainXX/pegasus/population/run0004
+ Submit Directory   : submit/train00/pegasus/population/run0004
  Total jobs         :     28 (100.00%)
  # jobs succeeded   :      5 (17.86%)
  # jobs failed      :      1 (3.57%)
@@ -2060,39 +2149,44 @@ output file: 00/00/stage_in_remote_local_0_0.out.001
 
 site        : local
 hostname    : learn.chtc.wisc.edu
-executable  : /local-scratch/vahi/software/install/pegasus/pegasus-4.9.2dev/bin/pegasus-transfer
-arguments   :   --threads   2  
+executable  : /home/nu_vahi/SOFTWARE/install/pegasus/pegasus-4.9.2dev/bin/pegasus-transfer
+arguments   :   --threads   2   -m   1  
 exitcode    : 1
-working dir : /local-scratch/home/trainXX/population/submit/trainXX/pegasus/population/run0004
+working dir : /home/train00/tutorial/population/submit/train00/pegasus/population/run0004
 
 ------------------Task #1 - pegasus::transfer - None - stdout-------------------
 
-2018-07-06 13:52:16,216    INFO:  Reading URL pairs from stdin
-2018-07-06 13:52:16,219    INFO:  10 transfers loaded
-2018-07-06 13:52:16,219    INFO:  PATH=/usr/bin:/bin
-2018-07-06 13:52:16,219    INFO:  LD_LIBRARY_PATH=
-2018-07-06 13:52:16,259    INFO:  --------------------------------------------------------------------------------
-2018-07-06 13:52:16,259    INFO:  Starting transfers - attempt 1
-2018-07-06 13:52:18,270    INFO:  /bin/cp -f -R -L '/local-scratch/home/trainXX/population/scripts/config/county_cohort_pop_config.ini' '/local-scratch/home/trainXX/population/scratch/trainXX/pegasus/population/run0004/./county_cohort_pop_config.ini'
-2018-07-06 13:52:18,280    INFO:  /bin/cp -f -R -L '/local-scratch/home/trainXX/population/scripts/county_population_raster.py' '/local-scratch/home/trainXX/population/scratch/trainXX/pegasus/population/run0004/./county_population_raster'
-2018-07-06 13:52:18,289   ERROR:  Expected local file does not exist: /local-scratch/home/trainXX/population/scripts/geospatial.py
-2018-07-06 13:52:18,289    INFO:  /bin/cp -f -R -L '/home/trainXX/tutorial/population/input/SouthSudan_CountyPopulation.cpg' '/local-scratch/home/trainXX/population/scratch/trainXX/pegasus/population/run0004/./SouthSudan_CountyPopulation.cpg'
-2018-07-06 13:52:18,298    INFO:  /bin/cp -f -R -L '/home/trainXX/tutorial/population/input/SouthSudan_CountyPopulation.dbf' '/local-scratch/home/trainXX/population/scratch/trainXX/pegasus/population/run0004/./SouthSudan_CountyPopulation.dbf'
-2018-07-06 13:52:18,331    INFO:  /bin/cp -f -R -L '/home/trainXX/tutorial/population/input/SouthSudan_CountyPopulation.sbn' '/local-scratch/home/trainXX/population/scratch/trainXX/pegasus/population/run0004/./SouthSudan_CountyPopulation.sbn'
-2018-07-06 13:52:18,340    INFO:  /bin/cp -f -R -L '/home/trainXX/tutorial/population/input/SouthSudan_CountyPopulation.sbx' '/local-scratch/home/trainXX/population/scratch/trainXX/pegasus/population/run0004/./SouthSudan_CountyPopulation.sbx'
-2018-07-06 13:52:18,349    INFO:  /bin/cp -f -R -L '/home/trainXX/tutorial/population/input/SouthSudan_CountyPopulation.shp' '/local-scratch/home/trainXX/population/scratch/trainXX/pegasus/population/run0004/./SouthSudan_CountyPopulation.shp'
-2018-07-06 13:52:18,365    INFO:  /bin/cp -f -R -L '/home/trainXX/tutorial/population/input/SouthSudan_CountyPopulation.shx' '/local-scratch/home/trainXX/population/scratch/trainXX/pegasus/population/run0004/./SouthSudan_CountyPopulation.shx'
-2018-07-06 13:52:18,373    INFO:  /bin/cp -f -R -L '/home/trainXX/tutorial/population/input/SouthSudan_CountyPopulation.prj' '/local-scratch/home/trainXX/population/scratch/trainXX/pegasus/population/run0004/./SouthSudan_CountyPopulation.prj'
-2018-07-06 13:53:00,296    INFO:  --------------------------------------------------------------------------------
-2018-07-06 13:53:00,296    INFO:  Starting transfers - attempt 2
-2018-07-06 13:53:02,306   ERROR: <emphasis role="bold"> Expected local file does not exist: /local-scratch/home/trainXX/population/scripts/geospatial.py</emphasis>
-2018-07-06 13:55:24,342    INFO:  --------------------------------------------------------------------------------
-2018-07-06 13:55:24,342    INFO:  Starting transfers - attempt 3
-2018-07-06 13:55:26,353   ERROR:  E<emphasis role="bold">xpected local file does not exist: /local-scratch/home/trainXX/population/scripts/geospatial.py</emphasis>
-2018-07-06 13:55:26,353    INFO:  --------------------------------------------------------------------------------
-2018-07-06 13:55:26,353    INFO:  Stats: Total 12 transfers, 309.2 KB transferred in 190 seconds. Rate: 1.6 KB/s (13.0 Kb/s)
-2018-07-06 13:55:26,353    INFO:         Between sites local-&gt;local : 12 transfers, 309.2 KB transferred in 190 seconds. Rate: 1.6 KB/s (13.0 Kb/s)
-2018-07-06 13:55:26,353 CRITICAL:  Some transfers failed! See above, and possibly stderr.
+2019-05-18 17:12:53,981    INFO:  Reading URL pairs from stdin
+2019-05-18 17:12:53,983    INFO:  10 transfers loaded
+2019-05-18 17:12:53,984    INFO:  PATH=/usr/bin:/bin
+2019-05-18 17:12:53,984    INFO:  LD_LIBRARY_PATH=
+2019-05-18 17:12:54,029    INFO:  --------------------------------------------------------------------------------
+2019-05-18 17:12:54,029    INFO:  Starting transfers - attempt 1
+2019-05-18 17:12:56,034    INFO:  Tool found: pegasus-integrity   Version: N/A   Path: /home/nu_vahi/SOFTWARE/install/pegasus/pegasus-4.9.2dev/bin/pegasus-integrity
+2019-05-18 17:12:56,034    INFO:  /home/nu_vahi/SOFTWARE/install/pegasus/pegasus-4.9.2dev/bin/pegasus-integrity --generate-fullstat-xml="SouthSudan_CountyPopulation.cpg=/home/train00/tutorial/population/input/SouthSudan_CountyPopulation.cpg"
+2019-05-18 17:12:56,150    INFO:  /bin/cp -f -R -L '/home/train00/tutorial/population/input/SouthSudan_CountyPopulation.cpg' '/home/train00/tutorial/population/scratch/train00/pegasus/population/run0004/./SouthSudan_CountyPopulation.cpg'
+2019-05-18 17:12:56,159    INFO:  /home/nu_vahi/SOFTWARE/install/pegasus/pegasus-4.9.2dev/bin/pegasus-integrity --generate-fullstat-xml="SouthSudan_CountyPopulation.dbf=/home/train00/tutorial/population/input/SouthSudan_CountyPopulation.dbf"
+2019-05-18 17:12:56,274    INFO:  /bin/cp -f -R -L '/home/train00/tutorial/population/input/SouthSudan_CountyPopulation.dbf' '/home/train00/tutorial/population/scratch/train00/pegasus/population/run0004/./SouthSudan_CountyPopulation.dbf'
+2019-05-18 17:12:56,283    INFO:  /home/nu_vahi/SOFTWARE/install/pegasus/pegasus-4.9.2dev/bin/pegasus-integrity --generate-fullstat-xml="SouthSudan_CountyPopulation.prj=/home/train00/tutorial/population/input/SouthSudan_CountyPopulation.prj"
+2019-05-18 17:12:56,398    INFO:  /bin/cp -f -R -L '/home/train00/tutorial/population/input/SouthSudan_CountyPopulation.prj' '/home/train00/tutorial/population/scratch/train00/pegasus/population/run0004/./SouthSudan_CountyPopulation.prj'
+2019-05-18 17:12:56,407    INFO:  /home/nu_vahi/SOFTWARE/install/pegasus/pegasus-4.9.2dev/bin/pegasus-integrity --generate-fullstat-xml="SouthSudan_CountyPopulation.sbn=/home/train00/tutorial/population/input/SouthSudan_CountyPopulation.sbn"
+2019-05-18 17:12:56,522    INFO:  /bin/cp -f -R -L '/home/train00/tutorial/population/input/SouthSudan_CountyPopulation.sbn' '/home/train00/tutorial/population/scratch/train00/pegasus/population/run0004/./SouthSudan_CountyPopulation.sbn'
+2019-05-18 17:12:56,531    INFO:  /home/nu_vahi/SOFTWARE/install/pegasus/pegasus-4.9.2dev/bin/pegasus-integrity --generate-fullstat-xml="SouthSudan_CountyPopulation.sbx=/home/train00/tutorial/population/input/SouthSudan_CountyPopulation.sbx"
+2019-05-18 17:12:56,648    INFO:  /bin/cp -f -R -L '/home/train00/tutorial/population/input/SouthSudan_CountyPopulation.sbx' '/home/train00/tutorial/population/scratch/train00/pegasus/population/run0004/./SouthSudan_CountyPopulation.sbx'
+2019-05-18 17:12:56,657    INFO:  /home/nu_vahi/SOFTWARE/install/pegasus/pegasus-4.9.2dev/bin/pegasus-integrity --generate-fullstat-xml="SouthSudan_CountyPopulation.shx=/home/train00/tutorial/population/input/SouthSudan_CountyPopulation.shx"
+2019-05-18 17:12:56,772    INFO:  /bin/cp -f -R -L '/home/train00/tutorial/population/input/SouthSudan_CountyPopulation.shx' '/home/train00/tutorial/population/scratch/train00/pegasus/population/run0004/./SouthSudan_CountyPopulation.shx'
+2019-05-18 17:12:56,781    INFO:  /home/nu_vahi/SOFTWARE/install/pegasus/pegasus-4.9.2dev/bin/pegasus-integrity --generate-fullstat-xml="county_cohort_pop_config.ini=/home/train00/tutorial/population/scripts/config/county_cohort_pop_config.ini"
+2019-05-18 17:12:56,896    INFO:  /bin/cp -f -R -L '/home/train00/tutorial/population/scripts/config/county_cohort_pop_config.ini' '/home/train00/tutorial/population/scratch/train00/pegasus/population/run0004/./county_cohort_pop_config.ini'
+2019-05-18 17:12:56,905    INFO:  /home/nu_vahi/SOFTWARE/install/pegasus/pegasus-4.9.2dev/bin/pegasus-integrity --generate-fullstat-xml="county_population_raster=/home/train00/tutorial/population/scripts/county_population_raster.py"
+2019-05-18 17:12:57,021    INFO:  /bin/cp -f -R -L '/home/train00/tutorial/population/scripts/county_population_raster.py' '/home/train00/tutorial/population/scratch/train00/pegasus/population/run0004/./county_population_raster'
+<emphasis role="bold">2019-05-18 17:12:57,030   ERROR:  Expected local file does not exist: /home/train00/tutorial/population/scripts/geospatial.py
+2</emphasis>019-05-18 17:12:57,030    INFO:  /home/nu_vahi/SOFTWARE/install/pegasus/pegasus-4.9.2dev/bin/pegasus-integrity --generate-fullstat-xml="SouthSudan_CountyPopulation.shp=/home/train00/tutorial/population/input/SouthSudan_CountyPopulation.shp"
+2019-05-18 17:12:57,147    INFO:  /bin/cp -f -R -L '/home/train00/tutorial/population/input/SouthSudan_CountyPopulation.shp' '/home/train00/tutorial/population/scratch/train00/pegasus/population/run0004/./SouthSudan_CountyPopulation.shp'
+2019-05-18 17:12:58,035    INFO:  --------------------------------------------------------------------------------
+2019-05-18 17:12:58,035    INFO:  Stats: Total 10 transfers, 309.2 KB transferred in 4 seconds. Rate: 76.3 KB/s (610.1 Kb/s)
+2019-05-18 17:12:58,035    INFO:         Between sites local-&gt;local : 10 transfers, 309.2 KB transferred in 4 seconds. Rate: 76.3 KB/s (610.1 Kb/s)
+2019-05-18 17:12:58,035 CRITICAL:  Some transfers failed! See above, and possibly stderr.
+
 </programlisting>
 
       <para>The above listing indicates that it could not transfer
@@ -2110,19 +2204,20 @@ working dir : /local-scratch/home/trainXX/population/submit/trainXX/pegasus/popu
 Rescued /home/trainXX/tutorial/population/submit/trainXX/pegasus/population/run0004/population-0.log as /home/trainXX/tutorial/population/submit/trainXX/pegasus/population/run0004/population-0.log.000
 Submitting to condor population-0.dag.condor.sub
 Submitting job(s).
-1 job(s) submitted to cluster 992625.
+1 job(s) submitted to cluster 89554.
 
 Your workflow has been started and is running in the base directory:
 
-  submit/trainXX/pegasus/population/run0004
+  submit/train00/pegasus/population/run0004
 
 *** To monitor the workflow you can run ***
 
-  pegasus-status -l submit/trainXX/pegasus/population/run0004
+  pegasus-status -l submit/train00/pegasus/population/run0004
 
 *** To remove your workflow run ***
 
-  pegasus-remove submit/trainXX/pegasus/population/run0004</programlisting>
+  pegasus-remove submit/train00/pegasus/population/run0004
+</programlisting>
 
       <para>The workflow will now run to completion and succeed.</para>
 
@@ -2130,7 +2225,7 @@ Your workflow has been started and is running in the base directory:
           role="bold">submit/trainXX/pegasus/population/run00024</emphasis>
 UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME                                 
     0     0     0     0     0    28     0 100.0 Success *population-0.dag   
-[trainXX@workflow population]$ 
+[trainXX@learn population]$ 
 
                      
 </programlisting>
