@@ -618,6 +618,20 @@ Generated dax pop.dax
         </imageobject>
       </mediaobject>
     </figure>
+
+    <para>The workflow dashboard also generates few relevant charts such as
+    Gantt. Below is a sample Gantt chart of a successful run</para>
+
+    <figure>
+      <title>Dashboard Gantt Chart Page</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/dashboard_plots_wf_gantt.png"
+                     width="100%"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
   </section>
 
   <section id="tutorial_monitoring_cmd_tools">
