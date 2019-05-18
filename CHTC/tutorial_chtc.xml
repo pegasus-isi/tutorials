@@ -132,10 +132,10 @@ you get this</programlisting>
     truncated we will add an ellipsis '...' to indicate the omitted
     output.</para>
 
-    <para>Login to the workflow.isi.edu submit node</para>
+    <para>Login to the learn.chtc.wisc.edu submit node</para>
 
-    <programlisting><emphasis role="bold">$ ssh pegtrainXX@workflow.isi.edu</emphasis>
-Enter pegtrainXX@workflow.isi.edu password
+    <programlisting><emphasis role="bold">$ ssh trainXX@learn.chtc.wisc.edu</emphasis>
+Enter trainXX@learn.chtc.wisc.edu password
 #######################################################################
 
   This is a Science Automation Technologies group machine.
@@ -154,8 +154,8 @@ Enter pegtrainXX@workflow.isi.edu password
 </programlisting>
 
     <note>
-      <para>For the purpose of this tutorial replace any instance of
-      pegtrainXX with your workflow.isi.edu username.</para>
+      <para>For the purpose of this tutorial replace any instance of trainXX
+      with your learn.chtc.wisc.edu username.</para>
     </note>
 
     <para><emphasis role="bold">If you are having trouble with this tutorial,
@@ -172,9 +172,9 @@ Enter pegtrainXX@workflow.isi.edu password
 </programlisting>
 
     <note>
-      <para>For the purpose of this tutorial replace any instance of
-      pegtrainXX with the user name assigned to you. To request access to a
-      training account send email to &lt;pegasus-support@isi.edu&gt;</para>
+      <para>For the purpose of this tutorial replace any instance of trainXX
+      with the user name assigned to you. To request access to a training
+      account send email to &lt;pegasus-support@isi.edu&gt;</para>
     </note>
   </section>
 
@@ -295,7 +295,7 @@ Enter pegtrainXX@workflow.isi.edu password
 
     <programlisting>$ <emphasis role="bold">cd ~/
 </emphasis>$ <emphasis role="bold">pwd
-$ </emphasis>/nfs/ccg3/ccg/home/pegtrainXX/
+$ </emphasis>/nfs/ccg3/ccg/home/trainXX/
 $  <emphasis role="bold">pegasus-init population</emphasis>
 Do you want to generate a tutorial workflow? (y/n) [n]: y
 1: Local Machine
@@ -313,7 +313,7 @@ What environment is tutorial to be setup for? (1-5) [1]: 1
 7: Diamond
 What tutorial workflow do you want? (1-7) [1]: 6
 Pegasus Tutorial setup for example workflow - population for execution on submit-host in directory <emphasis
-        role="bold">/local-scratch/home/pegtrainXX/population</emphasis>
+        role="bold">/local-scratch/home/trainXX/population</emphasis>
 
 $ <emphasis role="bold">cd population</emphasis>
 $ <emphasis role="bold">ls</emphasis>
@@ -409,7 +409,7 @@ Generated dax pop.dax
 2018.07.05 18:07:27.600 PDT:    
 2018.07.05 18:07:27.605 PDT:   -no_submit given, not submitting DAG to HTCondor.  You can do this with: 
 2018.07.05 18:07:27.615 PDT:   ----------------------------------------------------------------------- 
-2018.07.05 18:07:30.396 PDT:   Created Pegasus database in: sqlite:////scitech/home/pegtrainXX/.pegasus/workflow.db 
+2018.07.05 18:07:30.396 PDT:   Created Pegasus database in: sqlite:////scitech/home/trainXX/.pegasus/workflow.db 
 2018.07.05 18:07:30.402 PDT:   Your database is compatible with Pegasus version: 4.8.3dev 
 2018.07.05 18:07:30.554 PDT:   Submitting to condor population-0.dag.condor.sub 
 2018.07.05 18:07:30.582 PDT:   Submitting job(s). 
@@ -417,15 +417,15 @@ Generated dax pop.dax
 2018.07.05 18:07:30.593 PDT:    
 2018.07.05 18:07:30.598 PDT:   Your workflow has been started and is running in the base directory: 
 2018.07.05 18:07:30.603 PDT:    
-2018.07.05 18:07:30.608 PDT:     /scitech/home/pegtrainXX/population/submit/pegtrainXX/pegasus/population/run0001 
+2018.07.05 18:07:30.608 PDT:     /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0001 
 2018.07.05 18:07:30.613 PDT:    
 2018.07.05 18:07:30.619 PDT:   *** To monitor the workflow you can run *** 
 2018.07.05 18:07:30.624 PDT:    
-2018.07.05 18:07:30.629 PDT:     pegasus-status -l /scitech/home/pegtrainXX/population/submit/pegtrainXX/pegasus/population/run0001 
+2018.07.05 18:07:30.629 PDT:     pegasus-status -l /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0001 
 2018.07.05 18:07:30.634 PDT:    
 2018.07.05 18:07:30.640 PDT:   *** To remove your workflow run *** 
 2018.07.05 18:07:30.645 PDT:    
-2018.07.05 18:07:30.650 PDT:     pegasus-remove /scitech/home/pegtrainXX/population/submit/pegtrainXX/pegasus/population/run0001 
+2018.07.05 18:07:30.650 PDT:     pegasus-remove /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0001 
 2018.07.05 18:07:30.655 PDT:    
 2018.07.05 18:07:30.706 PDT:   Time taken to execute is 4.281 seconds </programlisting>
 
@@ -465,18 +465,18 @@ Generated dax pop.dax
 
     <para>By default, the dashboard server can only monitor workflows run by
     the current user i.e. the user who is running the pegasus-service. On
-    workflow.isi.edu, it is running in a multiuser mode. Before accessing the
-    dashboard, you need to give world read permissions to the workflow
+    learn.chtc.wisc.edu, it is running in a multiuser mode. Before accessing
+    the dashboard, you need to give world read permissions to the workflow
     database in your home directory.</para>
 
     <programlisting>$ <emphasis role="bold">chmod +r ~/.pegasus/workflow.db</emphasis></programlisting>
 
     <para>Access the dashboard by navigating your browser to <emphasis
-    role="bold">https://workflow.isi.edu:8443/u/pegtrainXX/</emphasis>.</para>
+    role="bold">https://learn.chtc.wisc.edu/pegasus/u/trainXX</emphasis>/.</para>
 
     <para>When the webpage loads up, it will ask you for a username and a
     password. It is your UNIX username and password corresponding to the user
-    you used to log in to workflow.isi.edu .</para>
+    you used to log in to learn.chtc.wisc.edu .</para>
 
     <para>The Dashboard's home page lists all workflows, which have been run
     by the current-user. The home page shows the status of each workflow i.e.
@@ -509,7 +509,7 @@ Generated dax pop.dax
     <note>
       <para>On tutorial machine pegasus-service is running through apache.
       Users can also start the dashboard as their own user using
-      pegasus-service command on the command line e.g. <programlisting>$ pegasus-service -H workflow.isi.edu -p 5001 -v</programlisting></para>
+      pegasus-service command on the command line e.g. <programlisting>$ pegasus-service -H learn.chtc.wisc.edu -p 5001 -v</programlisting></para>
     </note>
 
     <figure>
@@ -646,7 +646,7 @@ Generated dax pop.dax
       <para>After the workflow has been submitted you can monitor it using the
       <literal>pegasus-status</literal> command:</para>
 
-      <programlisting><emphasis role="bold">$  pegasus-status -l /scitech/home/pegtrainXX/population/submit/pegtrainXX/pegasus/population/run0001 </emphasis>
+      <programlisting><emphasis role="bold">$  pegasus-status -l /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0001 </emphasis>
 (no matching jobs found in Condor Q)
 UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME                                 
    16     0     0     0     0     5     3  20.8 Failure *population-0.dag                       
@@ -661,7 +661,7 @@ Summary: 1 DAG total (Failure:1)
       <para>Use the <literal>watch</literal> option to continuously monitor
       the workflow:</para>
 
-      <programlisting>$ <emphasis role="bold">pegasus-status -w submit/pegtrainXX/pegasus/population/run0001</emphasis>
+      <programlisting>$ <emphasis role="bold">pegasus-status -w submit/trainXX/pegasus/population/run0001</emphasis>
 ...</programlisting>
 
       <programlisting>(no matching jobs found in Condor Q)
@@ -678,7 +678,7 @@ UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME
       <literal>pegasus-status</literal> command above will have a non-zero
       value in the <literal>FAILURE</literal> column.</para>
 
-      <programlisting><emphasis role="bold">$  pegasus-status -l /scitech/home/pegtrainXX/population/submit/pegtrainXX/pegasus/population/run0001 </emphasis>
+      <programlisting><emphasis role="bold">$  pegasus-status -l /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0001 </emphasis>
 (no matching jobs found in Condor Q)
 UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME                                 
    16     0     0     0     0     5     3  20.8 Failure *population-0.dag                       
@@ -689,11 +689,11 @@ Summary: 1 DAG total (Failure:1)
       <literal>pegasus-analyzer</literal> command. This command will identify
       the jobs that failed and show their output.</para>
 
-      <programlisting><emphasis role="bold">$ pegasus-analyzer /scitech/home/pegtrainXX/population/submit/pegtrainXX/pegasus/population/run0001</emphasis>
+      <programlisting><emphasis role="bold">$ pegasus-analyzer /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0001</emphasis>
 
 ************************************Summary*************************************
 
- Submit Directory   : /scitech/home/pegtrainXX/population/submit/pegtrainXX/pegasus/population/run0001
+ Submit Directory   : /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0001
  Total jobs         :     24 (100.00%)
  # jobs succeeded   :      5 (20.83%)
  # jobs failed      :      3 (12.50%)
@@ -989,12 +989,12 @@ Generated dax pop.dax</programlisting>
     <emphasis role="bold">&lt;!-- The local site contains information about the submit host --&gt;</emphasis> 
     &lt;site handle="local" arch="x86_64" os="LINUX"&gt;
         <emphasis role="bold">&lt;!-- This is where intermediate data will be stored --&gt;</emphasis>
-        &lt;directory type="shared-scratch" path="/local-scratch/home/pegtrainXX/population/scratch"&gt;
-            &lt;file-server operation="all" url="file:///local-scratch/home/pegtrainXX/population/scratch"/&gt;
+        &lt;directory type="shared-scratch" path="/local-scratch/home/trainXX/population/scratch"&gt;
+            &lt;file-server operation="all" url="file:///local-scratch/home/trainXX/population/scratch"/&gt;
         &lt;/directory&gt;
         <emphasis role="bold">&lt;!-- This is where output data will be stored --&gt;</emphasis>
-        &lt;directory type="shared-storage" path="/local-scratch/home/pegtrainXX/population/output"&gt;
-            &lt;file-server operation="all" url="file:///local-scratch/home/pegtrainXX/population/output"/&gt;
+        &lt;directory type="shared-storage" path="/local-scratch/home/trainXX/population/output"&gt;
+            &lt;file-server operation="all" url="file:///local-scratch/home/trainXX/population/output"/&gt;
         &lt;/directory&gt;
     &lt;/site&gt;
 
@@ -1020,8 +1020,8 @@ Generated dax pop.dax</programlisting>
     &lt;site  handle="isi_workflow" arch="x86_64" os="LINUX"&gt;
         <emphasis role="bold">&lt;!-- if we want to use non sharedfs mode for running this workflow --&gt; </emphasis> 
         &lt;directory type="shared-scratch" path="/local-scratch/http/${USER}/staging"&gt;
-            &lt;file-server operation="get"  url="http://workflow.isi.edu/scratch/${USER}/staging"/&gt;
-            &lt;file-server operation="put"   url="scp://${USER}@workflow.isi.edu/local-scratch/http/${USER}/staging"/&gt;
+            &lt;file-server operation="get"  url="http://learn.chtc.wisc.edu/scratch/${USER}/staging"/&gt;
+            &lt;file-server operation="put"   url="scp://${USER}@learn.chtc.wisc.edu/local-scratch/http/${USER}/staging"/&gt;
         &lt;/directory&gt;
         &lt;profile namespace="pegasus"  key="SSH_PRIVATE_KEY"&gt;${HOME}/.ssh/workflow&lt;/profile&gt;
     &lt;/site&gt;
@@ -1049,8 +1049,9 @@ Generated dax pop.dax</programlisting>
 
         <listitem>
           <para>The <emphasis role="bold">condorpool</emphasis> site is the
-          Condor pool configured on your submit machine. On workflow.isi.edu
-          it is hooked up to the local Condor pool at ISI.</para>
+          Condor pool configured on your submit machine. On
+          learn.chtc.wisc.edu it is hooked up to the local Condor pool at
+          ISI.</para>
         </listitem>
 
         <listitem>
@@ -1153,7 +1154,7 @@ tr county_population_raster {
         type "STAGEABLE"
         arch "x86_64"
         os "LINUX"
-        pfn "file:///local-scratch/home/pegtrainXX/population/scripts/county_population_raster.py"
+        pfn "file:///local-scratch/home/trainXX/population/scripts/county_population_raster.py"
     }
 }
 ...</programlisting>
@@ -1216,8 +1217,8 @@ tr county_population_raster {
       <programlisting>$ <emphasis role="bold">more rc.txt</emphasis>
 # file-based replica catalog: 2018-07-06T14:20:38.300-07:00
 
-county_cohort_pop_config.ini file:///local-scratch/home/pegtrainXX/population/scripts/config/county_cohort_pop_config.ini site="local"
-geospatial.py file:///local-scratch/home/pegtrainXX/population/scripts/geospatial.py site="local"
+county_cohort_pop_config.ini file:///local-scratch/home/trainXX/population/scripts/config/county_cohort_pop_config.ini site="local"
+geospatial.py file:///local-scratch/home/trainXX/population/scripts/geospatial.py site="local"
 </programlisting>
 
       <note>
@@ -1231,7 +1232,7 @@ geospatial.py file:///local-scratch/home/pegtrainXX/population/scripts/geospatia
       <para>This replica catalog contains couple of files for the population
       workflow. One of the entries is with a LFN of
       "county_cohort_pop_config.ini" and PFN as
-      "ile:///local-scratch/home/pegtrainXX/population/scripts/config/county_cohort_pop_config.inl"
+      "ile:///local-scratch/home/trainXX/population/scripts/config/county_cohort_pop_config.inl"
       and the file is stored on the local site, which implies that it will
       need to be transferred to the condorpool site when the workflow
       runs.</para>
@@ -1277,7 +1278,7 @@ pegasus.metrics.app=pegasus-tutorial
     workflow failed because there was no pandas python package
     installed.</para>
 
-    <programlisting><emphasis role="bold">$ pegasus-analyzer /scitech/home/pegtrainXX/population/submit/pegtrainXX/pegasus/population/run0001</emphasis>
+    <programlisting><emphasis role="bold">$ pegasus-analyzer /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0001</emphasis>
 
 ....
 =======================county_population_raster_ID0000005=======================
@@ -1460,7 +1461,7 @@ tr county_population_raster {
         container "gis"
         arch "x86_64"
         os "LINUX"
-        pfn "file:///local-scratch/home/pegtrainXX/population/scripts/county_population_raster.py"
+        pfn "file:///local-scratch/home/trainXX/population/scripts/county_population_raster.py"
     }
 }
 </programlisting>
@@ -1519,15 +1520,15 @@ tr county_population_raster {
 2018.07.06 11:10:36.182 PDT:    
 2018.07.06 11:10:36.187 PDT:   Your workflow has been started and is running in the base directory: 
 2018.07.06 11:10:36.192 PDT:    
-2018.07.06 11:10:36.198 PDT:     /scitech/home/pegtrainXX/population/submit/pegtrainXX/pegasus/population/run0002 
+2018.07.06 11:10:36.198 PDT:     /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0002 
 2018.07.06 11:10:36.203 PDT:    
 2018.07.06 11:10:36.208 PDT:   *** To monitor the workflow you can run *** 
 2018.07.06 11:10:36.213 PDT:    
-2018.07.06 11:10:36.218 PDT:     pegasus-status -l /scitech/home/pegtrainXX/population/submit/pegtrainXX/pegasus/population/run0002 
+2018.07.06 11:10:36.218 PDT:     pegasus-status -l /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0002 
 2018.07.06 11:10:36.224 PDT:    
 2018.07.06 11:10:36.229 PDT:   *** To remove your workflow run *** 
 2018.07.06 11:10:36.234 PDT:    
-2018.07.06 11:10:36.239 PDT:     pegasus-remove /scitech/home/pegtrainXX/population/submit/pegtrainXX/pegasus/population/run0002 
+2018.07.06 11:10:36.239 PDT:     pegasus-remove /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0002 
 2018.07.06 11:10:36.245 PDT:    
 2018.07.06 11:10:36.345 PDT:   Time taken to execute is 5.797 seconds </programlisting>
 
@@ -1535,9 +1536,9 @@ tr county_population_raster {
     till it fails. We will add -w option to pegasus-status to watch
     automatically till the workflow finishes:</para>
 
-    <programlisting><emphasis role="bold">$ </emphasis><emphasis role="bold">pegasus-status -w submit/pegtrainXX/pegasus/population/run0002</emphasis>
+    <programlisting><emphasis role="bold">$ </emphasis><emphasis role="bold">pegasus-status -w submit/trainXX/pegasus/population/run0002</emphasis>
 STAT  IN_STATE  JOB                                                                                                    
-Run      03:00  population-0 ( /local-scratch/home/pegtrainXX/population/submit/pegtrainXX/pegasus/population/run0002 )
+Run      03:00  population-0 ( /local-scratch/home/trainXX/population/submit/trainXX/pegasus/population/run0002 )
 Summary: 1 Condor job total (R:1)
 
 UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME                                 
@@ -1548,25 +1549,25 @@ UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME
 
     <programlisting><emphasis role="bold">$ ls -lht output/</emphasis>
 total 50M
--rw-r--r-- 1 pegtrainXX ccg-external 1.3M Jul  6 13:29 animation.gif
--rw-r--r-- 1 pegtrainXX ccg-external 795K Jul  6 13:29 pop_dist_2019.png
--rw-r--r-- 1 pegtrainXX ccg-external 801K Jul  6 13:29 pop_dist_2020.png
--rw-r--r-- 1 pegtrainXX ccg-external 785K Jul  6 13:29 pop_dist_2018.png
--rw-r--r-- 1 pegtrainXX ccg-external 778K Jul  6 13:29 pop_dist_2017.png
--rw-r--r-- 1 pegtrainXX ccg-external 5.8M Jul  6 13:28 pop_dist_2019.tif
--rw-r--r-- 1 pegtrainXX ccg-external 5.8M Jul  6 13:28 pop_dist_2020.tif
--rw-r--r-- 1 pegtrainXX ccg-external 5.8M Jul  6 13:28 pop_dist_2018.tif
--rw-r--r-- 1 pegtrainXX ccg-external 5.8M Jul  6 13:28 pop_dist_2017.tif
--rw-r--r-- 1 pegtrainXX ccg-external 5.8M Jul  6 13:28 county_level_pop_2019.tif
--rw-r--r-- 1 pegtrainXX ccg-external 5.8M Jul  6 13:28 county_level_pop_2020.tif
--rw-r--r-- 1 pegtrainXX ccg-external 5.8M Jul  6 13:28 county_level_pop_2018.tif
--rw-r--r-- 1 pegtrainXX ccg-external 5.8M Jul  6 13:28 county_level_pop_2017.tif</programlisting>
+-rw-r--r-- 1 trainXX ccg-external 1.3M Jul  6 13:29 animation.gif
+-rw-r--r-- 1 trainXX ccg-external 795K Jul  6 13:29 pop_dist_2019.png
+-rw-r--r-- 1 trainXX ccg-external 801K Jul  6 13:29 pop_dist_2020.png
+-rw-r--r-- 1 trainXX ccg-external 785K Jul  6 13:29 pop_dist_2018.png
+-rw-r--r-- 1 trainXX ccg-external 778K Jul  6 13:29 pop_dist_2017.png
+-rw-r--r-- 1 trainXX ccg-external 5.8M Jul  6 13:28 pop_dist_2019.tif
+-rw-r--r-- 1 trainXX ccg-external 5.8M Jul  6 13:28 pop_dist_2020.tif
+-rw-r--r-- 1 trainXX ccg-external 5.8M Jul  6 13:28 pop_dist_2018.tif
+-rw-r--r-- 1 trainXX ccg-external 5.8M Jul  6 13:28 pop_dist_2017.tif
+-rw-r--r-- 1 trainXX ccg-external 5.8M Jul  6 13:28 county_level_pop_2019.tif
+-rw-r--r-- 1 trainXX ccg-external 5.8M Jul  6 13:28 county_level_pop_2020.tif
+-rw-r--r-- 1 trainXX ccg-external 5.8M Jul  6 13:28 county_level_pop_2018.tif
+-rw-r--r-- 1 trainXX ccg-external 5.8M Jul  6 13:28 county_level_pop_2017.tif</programlisting>
 
     <para>To see how Pegasus handled the container in this case, let’s look at
     some plumbing for one of the mProject job. The HTCondor submit file can be
     seen with:</para>
 
-    <programlisting><emphasis role="bold">$ cd submit/pegtrainXX/pegasus/population/run0002
+    <programlisting><emphasis role="bold">$ cd submit/trainXX/pegasus/population/run0002
 $  cat `find . -name county_population_raster_ID0000002.sub`</emphasis></programlisting>
 
     <para>Look at the transfer_input_files attribute line, and specifically
@@ -1602,7 +1603,7 @@ singularity exec --pwd /srv --home $PWD:/srv gis.simg ./county_population_raster
     statistics it knows how to calculate:</para>
 
     <programlisting><emphasis role="bold">$  cd ~/population
-$  pegasus-statistics -s all submit/pegtrainXX/pegasus/population/run0002</emphasis>
+$  pegasus-statistics -s all submit/trainXX/pegasus/population/run0002</emphasis>
 
 #
 # Pegasus Workflow Management System - http://pegasus.isi.edu
@@ -1668,11 +1669,11 @@ Cumulative job badput wall time as seen from submit side :
 
 
 
-Summary                       : submit/pegtrainXX/pegasus/population/run0002/statistics/summary.txt
-Workflow execution statistics : submit/pegtrainXX/pegasus/population/run0002/statistics/workflow.txt
-Job instance statistics       : submit/pegtrainXX/pegasus/population/run0002/statistics/jobs.txt
-Transformation statistics     : submit/pegtrainXX/pegasus/population/run0002/statistics/breakdown.txt
-Time statistics               : submit/pegtrainXX/pegasus/population/run0002/statistics/time.txt</programlisting>
+Summary                       : submit/trainXX/pegasus/population/run0002/statistics/summary.txt
+Workflow execution statistics : submit/trainXX/pegasus/population/run0002/statistics/workflow.txt
+Job instance statistics       : submit/trainXX/pegasus/population/run0002/statistics/jobs.txt
+Transformation statistics     : submit/trainXX/pegasus/population/run0002/statistics/breakdown.txt
+Time statistics               : submit/trainXX/pegasus/population/run0002/statistics/time.txt</programlisting>
 
     <para>The output of <literal>pegasus-statistics</literal> contains many
     definitions to help users understand what all of the values reported mean.
@@ -1685,14 +1686,14 @@ Time statistics               : submit/pegtrainXX/pegasus/population/run0002/sta
     several reports in the <filename>statistics</filename> subdirectory of the
     workflow submit directory:</para>
 
-    <programlisting>$ <emphasis role="bold">ls submit/pegtrainXX/pegasus/population/run0002/statistics/</emphasis>
+    <programlisting>$ <emphasis role="bold">ls submit/trainXX/pegasus/population/run0002/statistics/</emphasis>
 jobs.txt          summary.txt         time.txt          breakdown.txt          workflow.txt</programlisting>
 
     <para>The file <filename>breakdown.txt</filename>, for example, has min,
     max, and mean runtimes for each transformation:</para>
 
     <programlisting>$ <emphasis role="bold">more </emphasis> <emphasis
-        role="bold">submit/pegtrainXX/pegasus/population/run0001/statistics/breakdown.txt 
+        role="bold">submit/trainXX/pegasus/population/run0001/statistics/breakdown.txt 
 </emphasis>
 # Transformation - name of the transformation.
 # Count          - the number of times the invocations corresponding to
@@ -1841,15 +1842,15 @@ pegasus-plan --conf pegasus.properties \
 2018.07.06 12:16:43.367 PDT:    
 2018.07.06 12:16:43.373 PDT:   Your workflow has been started and is running in the base directory: 
 2018.07.06 12:16:43.378 PDT:    
-2018.07.06 12:16:43.383 PDT:     /scitech/home/pegtrainXX/population/submit/pegtrainXX/pegasus/population/run0003 
+2018.07.06 12:16:43.383 PDT:     /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0003 
 2018.07.06 12:16:43.388 PDT:    
 2018.07.06 12:16:43.393 PDT:   *** To monitor the workflow you can run *** 
 2018.07.06 12:16:43.399 PDT:    
-2018.07.06 12:16:43.404 PDT:     pegasus-status -l /scitech/home/pegtrainXX/population/submit/pegtrainXX/pegasus/population/run0003 
+2018.07.06 12:16:43.404 PDT:     pegasus-status -l /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0003 
 2018.07.06 12:16:43.409 PDT:    
 2018.07.06 12:16:43.414 PDT:   *** To remove your workflow run *** 
 2018.07.06 12:16:43.419 PDT:    
-2018.07.06 12:16:43.425 PDT:     pegasus-remove /scitech/home/pegtrainXX/population/submit/pegtrainXX/pegasus/population/run0003 </programlisting>
+2018.07.06 12:16:43.425 PDT:     pegasus-remove /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0003 </programlisting>
 
     <para>This is what the population workflow looks like after Pegasus has
     finished planning the DAX:</para>
@@ -1926,15 +1927,15 @@ pegasus-plan --conf pegasus.properties \
 2018.07.06 13:48:21.734 PDT:    
 2018.07.06 13:48:21.740 PDT:   Your workflow has been started and is running in the base directory: 
 2018.07.06 13:48:21.745 PDT:    
-2018.07.06 13:48:21.750 PDT:     /scitech/home/pegtrainXX/population/submit/pegtrainXX/pegasus/population/run0004 
+2018.07.06 13:48:21.750 PDT:     /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0004 
 2018.07.06 13:48:21.756 PDT:    
 2018.07.06 13:48:21.761 PDT:   *** To monitor the workflow you can run *** 
 2018.07.06 13:48:21.766 PDT:    
-2018.07.06 13:48:21.771 PDT:     pegasus-status -l /scitech/home/pegtrainXX/population/submit/pegtrainXX/pegasus/population/run0004 
+2018.07.06 13:48:21.771 PDT:     pegasus-status -l /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0004 
 2018.07.06 13:48:21.776 PDT:    
 2018.07.06 13:48:21.782 PDT:   *** To remove your workflow run *** 
 2018.07.06 13:48:21.787 PDT:    
-2018.07.06 13:48:21.792 PDT:     pegasus-remove /scitech/home/pegtrainXX/population/submit/pegtrainXX/pegasus/population/run0004 
+2018.07.06 13:48:21.792 PDT:     pegasus-remove /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0004 
 2018.07.06 13:48:21.797 PDT:    
 2018.07.06 13:48:21.857 PDT:   Time taken to execute is 2.054 seconds </programlisting>
 
@@ -1942,24 +1943,24 @@ pegasus-plan --conf pegasus.properties \
       till it fails. We will add -w option to pegasus-status to watch
       automatically till the workflow finishes:</para>
 
-      <programlisting><emphasis role="bold">$ </emphasis><emphasis role="bold">pegasus-status -w submit/pegtrainXX/pegasus/population/run0004</emphasis>
+      <programlisting><emphasis role="bold">$ </emphasis><emphasis role="bold">pegasus-status -w submit/trainXX/pegasus/population/run0004</emphasis>
 (no matching jobs found in Condor Q)
 UNREADY   READY     PRE  QUEUED    POST SUCCESS FAILURE %DONE
      22       0       0       0       0       5       1  17.9
 Summary: 1 DAG total (Failure:1)
-[pegtrainXX@workflow population]$ 
+[trainXX@workflow population]$ 
 </programlisting>
 
       <para>Now we can use the pegasus-analyzer command to determine what went
       wrong:</para>
 
       <programlisting><emphasis role="bold">$ </emphasis> <emphasis
-          role="bold">pegasus-analyzer submit/pegtrainXX/pegasus/population/run0004</emphasis>
+          role="bold">pegasus-analyzer submit/trainXX/pegasus/population/run0004</emphasis>
 
 
 ************************************Summary*************************************
 
- Submit Directory   : submit/pegtrainXX/pegasus/population/run0004
+ Submit Directory   : submit/trainXX/pegasus/population/run0004
  Total jobs         :     28 (100.00%)
  # jobs succeeded   :      5 (17.86%)
  # jobs failed      :      1 (3.57%)
@@ -1979,11 +1980,11 @@ output file: 00/00/stage_in_remote_local_0_0.out.001
 -------------------------------Task #1 - Summary--------------------------------
 
 site        : local
-hostname    : workflow.isi.edu
+hostname    : learn.chtc.wisc.edu
 executable  : /local-scratch/vahi/software/install/pegasus/pegasus-4.8.3dev/bin/pegasus-transfer
 arguments   :   --threads   2  
 exitcode    : 1
-working dir : /local-scratch/home/pegtrainXX/population/submit/pegtrainXX/pegasus/population/run0004
+working dir : /local-scratch/home/trainXX/population/submit/trainXX/pegasus/population/run0004
 
 ------------------Task #1 - pegasus::transfer - None - stdout-------------------
 
@@ -1993,22 +1994,22 @@ working dir : /local-scratch/home/pegtrainXX/population/submit/pegtrainXX/pegasu
 2018-07-06 13:52:16,219    INFO:  LD_LIBRARY_PATH=
 2018-07-06 13:52:16,259    INFO:  --------------------------------------------------------------------------------
 2018-07-06 13:52:16,259    INFO:  Starting transfers - attempt 1
-2018-07-06 13:52:18,270    INFO:  /bin/cp -f -R -L '/local-scratch/home/pegtrainXX/population/scripts/config/county_cohort_pop_config.ini' '/local-scratch/home/pegtrainXX/population/scratch/pegtrainXX/pegasus/population/run0004/./county_cohort_pop_config.ini'
-2018-07-06 13:52:18,280    INFO:  /bin/cp -f -R -L '/local-scratch/home/pegtrainXX/population/scripts/county_population_raster.py' '/local-scratch/home/pegtrainXX/population/scratch/pegtrainXX/pegasus/population/run0004/./county_population_raster'
-2018-07-06 13:52:18,289   ERROR:  Expected local file does not exist: /local-scratch/home/pegtrainXX/population/scripts/geospatial.py
-2018-07-06 13:52:18,289    INFO:  /bin/cp -f -R -L '/scitech/home/pegtrainXX/population/input/SouthSudan_CountyPopulation.cpg' '/local-scratch/home/pegtrainXX/population/scratch/pegtrainXX/pegasus/population/run0004/./SouthSudan_CountyPopulation.cpg'
-2018-07-06 13:52:18,298    INFO:  /bin/cp -f -R -L '/scitech/home/pegtrainXX/population/input/SouthSudan_CountyPopulation.dbf' '/local-scratch/home/pegtrainXX/population/scratch/pegtrainXX/pegasus/population/run0004/./SouthSudan_CountyPopulation.dbf'
-2018-07-06 13:52:18,331    INFO:  /bin/cp -f -R -L '/scitech/home/pegtrainXX/population/input/SouthSudan_CountyPopulation.sbn' '/local-scratch/home/pegtrainXX/population/scratch/pegtrainXX/pegasus/population/run0004/./SouthSudan_CountyPopulation.sbn'
-2018-07-06 13:52:18,340    INFO:  /bin/cp -f -R -L '/scitech/home/pegtrainXX/population/input/SouthSudan_CountyPopulation.sbx' '/local-scratch/home/pegtrainXX/population/scratch/pegtrainXX/pegasus/population/run0004/./SouthSudan_CountyPopulation.sbx'
-2018-07-06 13:52:18,349    INFO:  /bin/cp -f -R -L '/scitech/home/pegtrainXX/population/input/SouthSudan_CountyPopulation.shp' '/local-scratch/home/pegtrainXX/population/scratch/pegtrainXX/pegasus/population/run0004/./SouthSudan_CountyPopulation.shp'
-2018-07-06 13:52:18,365    INFO:  /bin/cp -f -R -L '/scitech/home/pegtrainXX/population/input/SouthSudan_CountyPopulation.shx' '/local-scratch/home/pegtrainXX/population/scratch/pegtrainXX/pegasus/population/run0004/./SouthSudan_CountyPopulation.shx'
-2018-07-06 13:52:18,373    INFO:  /bin/cp -f -R -L '/scitech/home/pegtrainXX/population/input/SouthSudan_CountyPopulation.prj' '/local-scratch/home/pegtrainXX/population/scratch/pegtrainXX/pegasus/population/run0004/./SouthSudan_CountyPopulation.prj'
+2018-07-06 13:52:18,270    INFO:  /bin/cp -f -R -L '/local-scratch/home/trainXX/population/scripts/config/county_cohort_pop_config.ini' '/local-scratch/home/trainXX/population/scratch/trainXX/pegasus/population/run0004/./county_cohort_pop_config.ini'
+2018-07-06 13:52:18,280    INFO:  /bin/cp -f -R -L '/local-scratch/home/trainXX/population/scripts/county_population_raster.py' '/local-scratch/home/trainXX/population/scratch/trainXX/pegasus/population/run0004/./county_population_raster'
+2018-07-06 13:52:18,289   ERROR:  Expected local file does not exist: /local-scratch/home/trainXX/population/scripts/geospatial.py
+2018-07-06 13:52:18,289    INFO:  /bin/cp -f -R -L '/scitech/home/trainXX/population/input/SouthSudan_CountyPopulation.cpg' '/local-scratch/home/trainXX/population/scratch/trainXX/pegasus/population/run0004/./SouthSudan_CountyPopulation.cpg'
+2018-07-06 13:52:18,298    INFO:  /bin/cp -f -R -L '/scitech/home/trainXX/population/input/SouthSudan_CountyPopulation.dbf' '/local-scratch/home/trainXX/population/scratch/trainXX/pegasus/population/run0004/./SouthSudan_CountyPopulation.dbf'
+2018-07-06 13:52:18,331    INFO:  /bin/cp -f -R -L '/scitech/home/trainXX/population/input/SouthSudan_CountyPopulation.sbn' '/local-scratch/home/trainXX/population/scratch/trainXX/pegasus/population/run0004/./SouthSudan_CountyPopulation.sbn'
+2018-07-06 13:52:18,340    INFO:  /bin/cp -f -R -L '/scitech/home/trainXX/population/input/SouthSudan_CountyPopulation.sbx' '/local-scratch/home/trainXX/population/scratch/trainXX/pegasus/population/run0004/./SouthSudan_CountyPopulation.sbx'
+2018-07-06 13:52:18,349    INFO:  /bin/cp -f -R -L '/scitech/home/trainXX/population/input/SouthSudan_CountyPopulation.shp' '/local-scratch/home/trainXX/population/scratch/trainXX/pegasus/population/run0004/./SouthSudan_CountyPopulation.shp'
+2018-07-06 13:52:18,365    INFO:  /bin/cp -f -R -L '/scitech/home/trainXX/population/input/SouthSudan_CountyPopulation.shx' '/local-scratch/home/trainXX/population/scratch/trainXX/pegasus/population/run0004/./SouthSudan_CountyPopulation.shx'
+2018-07-06 13:52:18,373    INFO:  /bin/cp -f -R -L '/scitech/home/trainXX/population/input/SouthSudan_CountyPopulation.prj' '/local-scratch/home/trainXX/population/scratch/trainXX/pegasus/population/run0004/./SouthSudan_CountyPopulation.prj'
 2018-07-06 13:53:00,296    INFO:  --------------------------------------------------------------------------------
 2018-07-06 13:53:00,296    INFO:  Starting transfers - attempt 2
-2018-07-06 13:53:02,306   ERROR: <emphasis role="bold"> Expected local file does not exist: /local-scratch/home/pegtrainXX/population/scripts/geospatial.py</emphasis>
+2018-07-06 13:53:02,306   ERROR: <emphasis role="bold"> Expected local file does not exist: /local-scratch/home/trainXX/population/scripts/geospatial.py</emphasis>
 2018-07-06 13:55:24,342    INFO:  --------------------------------------------------------------------------------
 2018-07-06 13:55:24,342    INFO:  Starting transfers - attempt 3
-2018-07-06 13:55:26,353   ERROR:  E<emphasis role="bold">xpected local file does not exist: /local-scratch/home/pegtrainXX/population/scripts/geospatial.py</emphasis>
+2018-07-06 13:55:26,353   ERROR:  E<emphasis role="bold">xpected local file does not exist: /local-scratch/home/trainXX/population/scripts/geospatial.py</emphasis>
 2018-07-06 13:55:26,353    INFO:  --------------------------------------------------------------------------------
 2018-07-06 13:55:26,353    INFO:  Stats: Total 12 transfers, 309.2 KB transferred in 190 seconds. Rate: 1.6 KB/s (13.0 Kb/s)
 2018-07-06 13:55:26,353    INFO:         Between sites local-&gt;local : 12 transfers, 309.2 KB transferred in 190 seconds. Rate: 1.6 KB/s (13.0 Kb/s)
@@ -2026,31 +2027,31 @@ working dir : /local-scratch/home/pegtrainXX/population/submit/pegtrainXX/pegasu
       of executing pegasus-plan we will use the command pegasus-run on the
       directory from our previous failed workflow run:</para>
 
-      <programlisting>$  <emphasis role="bold">pegasus-run submit/pegtrainXX/pegasus/population/run00024</emphasis>
-Rescued /scitech/home/pegtrainXX/population/submit/pegtrainXX/pegasus/population/run0004/population-0.log as /scitech/home/pegtrainXX/population/submit/pegtrainXX/pegasus/population/run0004/population-0.log.000
+      <programlisting>$  <emphasis role="bold">pegasus-run submit/trainXX/pegasus/population/run00024</emphasis>
+Rescued /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0004/population-0.log as /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0004/population-0.log.000
 Submitting to condor population-0.dag.condor.sub
 Submitting job(s).
 1 job(s) submitted to cluster 992625.
 
 Your workflow has been started and is running in the base directory:
 
-  submit/pegtrainXX/pegasus/population/run0004
+  submit/trainXX/pegasus/population/run0004
 
 *** To monitor the workflow you can run ***
 
-  pegasus-status -l submit/pegtrainXX/pegasus/population/run0004
+  pegasus-status -l submit/trainXX/pegasus/population/run0004
 
 *** To remove your workflow run ***
 
-  pegasus-remove submit/pegtrainXX/pegasus/population/run0004</programlisting>
+  pegasus-remove submit/trainXX/pegasus/population/run0004</programlisting>
 
       <para>The workflow will now run to completion and succeed.</para>
 
       <programlisting><emphasis role="bold">$ pegasus-status -l </emphasis><emphasis
-          role="bold">submit/pegtrainXX/pegasus/population/run00024</emphasis>
+          role="bold">submit/trainXX/pegasus/population/run00024</emphasis>
 UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME                                 
     0     0     0     0     0    28     0 100.0 Success *population-0.dag   
-[pegtrainXX@workflow population]$ 
+[trainXX@workflow population]$ 
 
                      
 </programlisting>
