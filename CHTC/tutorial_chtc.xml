@@ -475,7 +475,7 @@ Generated dax pop.dax
     <programlisting>$ <emphasis role="bold">chmod +r ~/.pegasus/workflow.db</emphasis></programlisting>
 
     <para>Access the dashboard by navigating your browser to <emphasis
-    role="bold">https://learn.chtc.wisc.edu/pegasus/u/trainXX</emphasis>/.</para>
+    role="bold">https://learn.chtc.wisc.edu/pegasus/u/trainXX/</emphasis></para>
 
     <para>When the webpage loads up, it will ask you for a username and a
     password. It is your UNIX username and password corresponding to the user
@@ -689,7 +689,7 @@ UNREADY   READY     PRE  QUEUED    POST SUCCESS FAILURE %DONE
       <literal>pegasus-status</literal> command above will have a non-zero
       value in the <literal>FAILURE</literal> column.</para>
 
-      <programlisting><emphasis role="bold">$  pegasus-status -l /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0001 </emphasis>
+      <programlisting><emphasis role="bold">$  pegasus-status -l /home/trainXX/tutorial/population/submit/trainXX/pegasus/population/run0001 </emphasis>
 (no matching jobs found in Condor Q)
 UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME                                 
    16     0     0     0     0     5     3  20.8 Failure *population-0.dag                       
@@ -700,38 +700,66 @@ Summary: 1 DAG total (Failure:1)
       <literal>pegasus-analyzer</literal> command. This command will identify
       the jobs that failed and show their output.</para>
 
-      <programlisting><emphasis role="bold">$ pegasus-analyzer /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0001</emphasis>
+      <programlisting><emphasis role="bold">$ pegasus-analyzer ./submit/trainXX/pegasus/population/run0001</emphasis>
 
 ************************************Summary*************************************
 
- Submit Directory   : /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0001
- Total jobs         :     24 (100.00%)
- # jobs succeeded   :      5 (20.83%)
- # jobs failed      :      3 (12.50%)
- # jobs held        :      3 (12.50%)
- # jobs unsubmitted :     16 (66.67%)
+ Submit Directory   : submit/train00/pegasus/population/run0001
+ Total jobs         :     27 (100.00%)
+ # jobs succeeded   :      5 (18.52%)
+ # jobs failed      :      4 (14.81%)
+ # jobs held        :      4 (14.81%)
+ # jobs unsubmitted :     18 (66.67%)
 
 *******************************Held jobs' details*******************************
+
+=======================county_population_raster_ID0000011=======================
+
+submit file            : county_population_raster_ID0000011.sub
+last_job_instance_id   : 12
+reason                 :  Error from slot1_38@e359.chtc.wisc.edu: STARTER at 128.105.245.159 failed to send file(s) to &lt;128.104.100.148:9618&gt;: error reading from /var/lib/condor/execute/slot1/dir_10218/county_level_pop_2020.tif: (errno 2) No such file or directory; SHADOW failed to receive file(s) from &lt;128.105.245.159:35103&gt;
 
 =======================county_population_raster_ID0000008=======================
 
 submit file            : county_population_raster_ID0000008.sub
-last_job_instance_id   : 9
-reason                 :  Error from slot1@compute-6.isi.edu: STARTER at 128.9.35.234 failed to send file(s) to &lt;128.9.44.53:9618&gt;: error reading from /var/lib/condor/execute/dir_4209/county_level_pop_2019.tif: (errno 2) No such file or directory; SHADOW failed to receive file(s) from &lt;128.9.35.234:42630&gt;
+last_job_instance_id   : 10
+reason                 :  Error from slot1_5@e112.chtc.wisc.edu: STARTER at 128.105.244.58 failed to send file(s) to &lt;128.104.100.148:9618&gt;: error reading from /var/lib/condor/execute/slot1/dir_22559/county_level_pop_2019.tif: (errno 2) No such file or directory; SHADOW failed to receive file(s) from &lt;128.105.244.58:42407&gt;
 
 =======================county_population_raster_ID0000005=======================
 
 submit file            : county_population_raster_ID0000005.sub
-last_job_instance_id   : 10
-reason                 :  Error from slot1@compute-6.isi.edu: STARTER at 128.9.35.234 failed to send file(s) to &lt;128.9.44.53:9618&gt;: error reading from /var/lib/condor/execute/dir_4383/county_level_pop_2018.tif: (errno 2) No such file or directory; SHADOW failed to receive file(s) from &lt;128.9.35.234:40000&gt;
+last_job_instance_id   : 13
+reason                 :  Error from slot1_42@e1041.chtc.wisc.edu: STARTER at 128.104.58.186 failed to send file(s) to &lt;128.104.100.148:9618&gt;: error reading from /var/lib/condor/execute/slot1/dir_7164/county_level_pop_2018.tif: (errno 2) No such file or directory; SHADOW failed to receive file(s) from &lt;128.104.58.186:42657&gt;
 
 =======================county_population_raster_ID0000002=======================
 
 submit file            : county_population_raster_ID0000002.sub
 last_job_instance_id   : 11
-reason                 :  Error from slot1@compute-6.isi.edu: STARTER at 128.9.35.234 failed to send file(s) to &lt;128.9.44.53:9618&gt;: error reading from /var/lib/condor/execute/dir_4598/county_level_pop_2017.tif: (errno 2) No such file or directory; SHADOW failed to receive file(s) from &lt;128.9.35.234:47008&gt;
+reason                 :  Error from slot1_16@e2364.chtc.wisc.edu: STARTER at 128.105.245.164 failed to send file(s) to &lt;128.104.100.148:9618&gt;: error reading from /var/lib/condor/execute/slot1/dir_22662/county_level_pop_2017.tif: (errno 2) No such file or directory; SHADOW failed to receive file(s) from &lt;128.105.245.164:37695&gt;
 
 ******************************Failed jobs' details******************************
+
+=======================county_population_raster_ID0000011=======================
+
+ last state: POST_SCRIPT_FAILED
+       site: condorpool
+submit file: 00/00/county_population_raster_ID0000011.sub
+output file: 00/00/county_population_raster_ID0000011.out.001
+ error file: 00/00/county_population_raster_ID0000011.err.001
+
+-------------------------------Task #1 - Summary--------------------------------
+
+site        : condorpool
+hostname    : e359.chtc.wisc.edu
+executable  : /var/lib/condor/execute/slot1/dir_10218/county_population_raster
+arguments   :   --config   county_cohort_pop_config.ini   --shapefile   SouthSudan_CountyPopulation.shp   --year   2020   --outfile   county_level_pop_2020.tif  
+exitcode    : 127
+working dir : /var/lib/condor/execute/slot1/dir_10218
+
+-------Task #1 - county_population_raster - ID0000011 - Kickstart stderr--------
+
+ execv: No such file or directory
+
 
 =======================county_population_raster_ID0000008=======================
 
@@ -744,19 +772,27 @@ output file: 00/00/county_population_raster_ID0000008.out.001
 -------------------------------Task #1 - Summary--------------------------------
 
 site        : condorpool
-hostname    : compute-6.isi.edu
-executable  : /var/lib/condor/execute/dir_4209/county_population_raster
-arguments   :   --config   county_cohort_pop_config.ini   --shapefile   SouthSudan_CountyPopulation.shp   --year   2019   --outfile   county_level_pop_2019.tif  
-exitcode    : 1
-working dir : /var/lib/condor/execute/dir_4209
+hostname    : -
+executable  : /home/train00/tutorial/population/submit/train00/pegasus/population/run0001/00/00/county_population_raster_ID0000008.sh
+arguments   : -
+exitcode    : -1
+working dir : /home/train00/tutorial/population/submit/train00/pegasus/population/run0001
 
--------Task #1 - county_population_raster - ID0000008 - Kickstart stderr--------
+-------Job stderr file - 00/00/county_population_raster_ID0000008.err.001-------
 
- Traceback (most recent call last):
-  File "./county_population_raster", line 5, in &lt;module&gt;
-    import pandas as pd
-ImportError: No module named 'pandas'
+2019-05-18 12:18:14: PegasusLite: version 4.9.2dev
+2019-05-18 12:18:14: Executing on host e112.chtc.wisc.edu
 
+########################[Pegasus Lite] Setting up workdir ########################
+2019-05-18 12:18:14: Not creating a new work directory as it is already set to /var/lib/condor/execute/slot1/dir_22559
+
+##############[Pegasus Lite] Figuring out the worker package to use ##############
+2019-05-18 12:18:14: The job contained a Pegasus worker package
+
+##################### Setting the xbit for executables staged #####################
+
+##################### Checking file integrity for input files #####################
+Tr
 
 =======================county_population_raster_ID0000005=======================
 
@@ -765,6 +801,40 @@ ImportError: No module named 'pandas'
 submit file: 00/00/county_population_raster_ID0000005.sub
 output file: 00/00/county_population_raster_ID0000005.out.001
  error file: 00/00/county_population_raster_ID0000005.err.001
+
+-------------------------------Task #1 - Summary--------------------------------
+
+site        : condorpool
+hostname    : -
+executable  : /home/train00/tutorial/population/submit/train00/pegasus/population/run0001/00/00/county_population_raster_ID0000005.sh
+arguments   : -
+exitcode    : -1
+working dir : /home/train00/tutorial/population/submit/train00/pegasus/population/run0001
+
+
+=======================county_population_raster_ID0000002=======================
+
+ last state: POST_SCRIPT_FAILED
+       site: condorpool
+submit file: 00/00/county_population_raster_ID0000002.sub
+output file: 00/00/county_population_raster_ID0000002.out.001
+ error file: 00/00/county_population_raster_ID0000002.err.001
+
+-------------------------------Task #1 - Summary--------------------------------
+
+site        : condorpool
+hostname    : e2364.chtc.wisc.edu
+executable  : /var/lib/condor/execute/slot1/dir_22662/county_population_raster
+arguments   :   --config   county_cohort_pop_config.ini   --shapefile   SouthSudan_CountyPopulation.shp   --year   2017   --outfile   county_level_pop_2017.tif  
+exitcode    : 1
+working dir : /var/lib/condor/execute/slot1/dir_22662
+
+-------Task #1 - county_population_raster - ID0000002 - Kickstart stderr--------
+
+ Traceback (most recent call last):
+  File "./county_population_raster", line 5, in &lt;module&gt;
+    import pandas as pd
+ModuleNotFoundError: No module named 'pandas'
 
 -------------------------------Task #1 - Summary--------------------------------
 
@@ -997,46 +1067,40 @@ Generated dax pop.dax</programlisting>
 
       <programlisting>$ <emphasis role="bold">more sites.xml</emphasis>
 ...
-    <emphasis role="bold">&lt;!-- The local site contains information about the submit host --&gt;</emphasis> 
+    &lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;sitecatalog xmlns="http://pegasus.isi.edu/schema/sitecatalog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://pegasus.isi.edu/schema/sitecatalog http://pegasus.isi.edu/schema/sc-4.1.xsd" version="4.1"&gt;
+
+    <emphasis role="bold">&lt;!-- The local site contains information about the submit host --&gt;</emphasis>
     &lt;site handle="local" arch="x86_64" os="LINUX"&gt;
-        <emphasis role="bold">&lt;!-- This is where intermediate data will be stored --&gt;</emphasis>
-        &lt;directory type="shared-scratch" path="/local-scratch/home/trainXX/population/scratch"&gt;
-            &lt;file-server operation="all" url="file:///local-scratch/home/trainXX/population/scratch"/&gt;
+        &lt;!-- This is where intermediate data will be stored --&gt;
+        &lt;directory type="shared-scratch" path="/home/train00/tutorial/population/scratch"&gt;
+            &lt;file-server operation="all" url="file:///home/train00/tutorial/population/scratch"/&gt;
         &lt;/directory&gt;
-        <emphasis role="bold">&lt;!-- This is where output data will be stored --&gt;</emphasis>
-        &lt;directory type="shared-storage" path="/local-scratch/home/trainXX/population/output"&gt;
-            &lt;file-server operation="all" url="file:///local-scratch/home/trainXX/population/output"/&gt;
+        &lt;!-- This is where output data will be stored --&gt;
+        &lt;directory type="shared-storage" path="/home/train00/tutorial/population/output"&gt;
+            &lt;file-server operation="all" url="file:///home/train00/tutorial/population/output"/&gt;
         &lt;/directory&gt;
     &lt;/site&gt;
-
-
-   <emphasis role="bold"> &lt;!-- The condorpool is a local Condor based computational site setup at ISI --&gt;</emphasis>
+<emphasis role="bold">
+    &lt;!-- Refers to the CHTC HTCondor Pool --&gt;</emphasis>
     &lt;site handle="condorpool" arch="x86_64" os="LINUX"&gt;
-        <emphasis role="bold">&lt;!-- These profiles tell Pegasus that the site is a plain Condor pool --&gt;</emphasis>
+        &lt;!-- These profiles tell Pegasus that the site is a plain Condor pool --&gt;
         &lt;profile namespace="pegasus" key="style"&gt;condor&lt;/profile&gt;
-        &lt;profile namespace="condor" key="universe"&gt;vanilla&lt;/profile&gt;
-
-        <emphasis role="bold">&lt;!-- This ensures that when a job runs enough memory and 
-              diskspace available to stage and run the container --&gt;</emphasis>
-        &lt;profile namespace="condor" key="request_memory" &gt;2  GB&lt;/profile&gt;
-        &lt;profile namespace="condor" key="request_disk" &gt;5 GB&lt;/profile&gt;
-
-      <emphasis role="bold"> &lt;!-- This profile tells Pegasus to create two clustered jobs
+        &lt;profile namespace="condor" key="universe"&gt;vanilla&lt;/profile&gt;<emphasis
+          role="bold">
+        &lt;!-- This ensures that when a job runs enough memory and 
+             diskspace available to stage and run the container --&gt;</emphasis>
+        &lt;profile namespace="condor" key="request_memory" &gt;250 MB&lt;/profile&gt;
+        &lt;profile namespace="condor" key="request_disk" &gt;1 GB&lt;/profile&gt;
+        &lt;!-- This profile tells Pegasus to create two clustered jobs
             per level of the workflow, when horizontal clustering is
-            enabled --&gt;</emphasis>
-	       &lt;profile namespace="pegasus" key="clusters.num" &gt;2&lt;/profile&gt;
-
-    &lt;/site&gt;
-    
-    &lt;site  handle="isi_workflow" arch="x86_64" os="LINUX"&gt;
-        <emphasis role="bold">&lt;!-- if we want to use non sharedfs mode for running this workflow --&gt; </emphasis> 
-        &lt;directory type="shared-scratch" path="/local-scratch/http/${USER}/staging"&gt;
-            &lt;file-server operation="get"  url="http://learn.chtc.wisc.edu/scratch/${USER}/staging"/&gt;
-            &lt;file-server operation="put"   url="scp://${USER}@learn.chtc.wisc.edu/local-scratch/http/${USER}/staging"/&gt;
-        &lt;/directory&gt;
-        &lt;profile namespace="pegasus"  key="SSH_PRIVATE_KEY"&gt;${HOME}/.ssh/workflow&lt;/profile&gt;
+            enabled --&gt;
+       &lt;profile namespace="pegasus" key="clusters.num" &gt;2&lt;/profile&gt;
     &lt;/site&gt;
 
+
+&lt;/sitecatalog&gt;
 ...
       </programlisting>
 
@@ -1063,14 +1127,6 @@ Generated dax pop.dax</programlisting>
           Condor pool configured on your submit machine. On
           learn.chtc.wisc.edu it is hooked up to the local Condor pool at
           ISI.</para>
-        </listitem>
-
-        <listitem>
-          <para>The <emphasis role="bold">isi_workflow</emphasis> site is also
-          configured with a "scratch" file system. This file system is where
-          the working directory will be created. When we plan the workflow in
-          nonsharedfs mode we tell Pegasus that the staging-site is
-          "isi_workflow".</para>
         </listitem>
       </orderedlist>
 
@@ -1165,9 +1221,10 @@ tr county_population_raster {
         type "STAGEABLE"
         arch "x86_64"
         os "LINUX"
-        pfn "file:///local-scratch/home/trainXX/population/scripts/county_population_raster.py"
+        pfn "file:///home/trainXX/tutorial/population/scripts/county_population_raster.py"
     }
 }
+
 ...</programlisting>
 
       <note>
@@ -1226,10 +1283,10 @@ tr county_population_raster {
       <filename>rc.txt</filename> file:</para>
 
       <programlisting>$ <emphasis role="bold">more rc.txt</emphasis>
-# file-based replica catalog: 2018-07-06T14:20:38.300-07:00
+## file-based replica catalog: 2019-05-18T13:13:47.898-05:00
 
-county_cohort_pop_config.ini file:///local-scratch/home/trainXX/population/scripts/config/county_cohort_pop_config.ini site="local"
-geospatial.py file:///local-scratch/home/trainXX/population/scripts/geospatial.py site="local"
+county_cohort_pop_config.ini file:///home/train00/tutorial/population/scripts/config/county_cohort_pop_config.ini site="local"
+geospatial.py file:///home/train00/tutorial/population/scripts/geospatial.py site="local"
 </programlisting>
 
       <note>
@@ -1289,7 +1346,7 @@ pegasus.metrics.app=pegasus-tutorial
     workflow failed because there was no pandas python package
     installed.</para>
 
-    <programlisting><emphasis role="bold">$ pegasus-analyzer /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0001</emphasis>
+    <programlisting><emphasis role="bold">$ pegasus-analyzer /home/trainXX/tutorial/population/submit/trainXX/pegasus/population/run0001</emphasis>
 
 ....
 =======================county_population_raster_ID0000005=======================
@@ -1458,23 +1515,20 @@ pip3 install rasterio
       <programlisting><emphasis role="bold">$ more tc.txt.containers</emphasis>
 # image comes from Singularity Hub
 cont gis {
-    # can be either docker or singularity
     type "singularity"
-
-    # URL to image in a docker|singularity hub OR
-    # URL to an existing docker image exported as a tar file or singularity image
     image "shub://singularity-hub.org/pegasus-isi/darpa_population_modeling"
 }
 
 tr county_population_raster {
     site local {
         type "STAGEABLE"
-        container "gis"
+        container "gis"	
         arch "x86_64"
         os "LINUX"
-        pfn "file:///local-scratch/home/trainXX/population/scripts/county_population_raster.py"
+        pfn "file:///home/trainXX/tutorial/population/scripts/county_population_raster.py"
     }
 }
+
 </programlisting>
 
       <para>The container itself is defined using the cont entry. Multiple
@@ -1524,22 +1578,22 @@ tr county_population_raster {
 2018.07.06 11:10:33.261 PDT:    
 2018.07.06 11:10:33.266 PDT:   -no_submit given, not submitting DAG to HTCondor.  You can do this with: 
 2018.07.06 11:10:33.276 PDT:   ----------------------------------------------------------------------- 
-2018.07.06 11:10:35.892 PDT:   Your database is compatible with Pegasus version: 4.8.3dev 
+2018.07.06 11:10:35.892 PDT:   Your database is compatible with Pegasus version: 4.9.2dev 
 2018.07.06 11:10:36.078 PDT:   Submitting to condor population-0.dag.condor.sub 
 2018.07.06 11:10:36.171 PDT:   Submitting job(s). 
 2018.07.06 11:10:36.177 PDT:   1 job(s) submitted to cluster 992416. 
 2018.07.06 11:10:36.182 PDT:    
 2018.07.06 11:10:36.187 PDT:   Your workflow has been started and is running in the base directory: 
 2018.07.06 11:10:36.192 PDT:    
-2018.07.06 11:10:36.198 PDT:     /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0002 
+2018.07.06 11:10:36.198 PDT:     /home/trainXX/tutorial/population/submit/trainXX/pegasus/population/run0002 
 2018.07.06 11:10:36.203 PDT:    
 2018.07.06 11:10:36.208 PDT:   *** To monitor the workflow you can run *** 
 2018.07.06 11:10:36.213 PDT:    
-2018.07.06 11:10:36.218 PDT:     pegasus-status -l /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0002 
+2018.07.06 11:10:36.218 PDT:     pegasus-status -l /home/trainXX/tutorial/population/submit/trainXX/pegasus/population/run0002 
 2018.07.06 11:10:36.224 PDT:    
 2018.07.06 11:10:36.229 PDT:   *** To remove your workflow run *** 
 2018.07.06 11:10:36.234 PDT:    
-2018.07.06 11:10:36.239 PDT:     pegasus-remove /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0002 
+2018.07.06 11:10:36.239 PDT:     pegasus-remove /home/trainXX/tutorial/population/submit/trainXX/pegasus/population/run0002 
 2018.07.06 11:10:36.245 PDT:    
 2018.07.06 11:10:36.345 PDT:   Time taken to execute is 5.797 seconds </programlisting>
 
@@ -1587,8 +1641,8 @@ $  cat `find . -name county_population_raster_ID0000002.sub`</emphasis></program
 
     <programlisting>transfer_input_files = SouthSudan_CountyPopulation.shx,county_cohort_pop_config.ini,county_population_raster,geospatial.py,SouthSudan_CountyPopulation.dbf,
                        SouthSudan_CountyPopulation.sbx,SouthSudan_CountyPopulation.prj,SouthSudan_CountyPopulation.cpg,SouthSudan_CountyPopulation.shp,
-                       SouthSudan_CountyPopulation.sbn,<emphasis role="bold">gis.simg</emphasis>,/opt/training/pegasus-4.8.3dev/share/pegasus/sh/pegasus-lite-common.sh,
-                       /scitech/home/pegtrain01/population/submit/pegtrain01/pegasus/population/run0002/pegasus-worker-4.8.3dev-x86_64_rhel_7.tar.gz
+                       SouthSudan_CountyPopulation.sbn,<emphasis role="bold">gis.simg</emphasis>,/opt/training/pegasus-4.9.2dev/share/pegasus/sh/pegasus-lite-common.sh,
+                       /scitech/home/pegtrain01/population/submit/pegtrain01/pegasus/population/run0002/pegasus-worker-4.9.2dev-x86_64_rhel_7.tar.gz
 </programlisting>
 
     <para>Looking at the corresponding .sh file we can see how Pegasus
@@ -1615,8 +1669,7 @@ singularity exec --pwd /srv --home $PWD:/srv gis.simg ./county_population_raster
 
     <programlisting><emphasis role="bold">$  cd ~/population
 $  pegasus-statistics -s all submit/trainXX/pegasus/population/run0002</emphasis>
-
-#
+ 
 # Pegasus Workflow Management System - http://pegasus.isi.edu
 #
 # Workflow summary:
@@ -1667,24 +1720,36 @@ $  pegasus-statistics -s all submit/trainXX/pegasus/population/run0002</emphasis
 #   from the sub workflows as well.
 ------------------------------------------------------------------------------
 Type           Succeeded Failed  Incomplete  Total     Retries   Total+Retries
-Tasks          13        0       0           13        0         13           
-Jobs           28        0       0           28        0         28           
+Tasks          13        0       0           13        1         14           
+Jobs           28        0       0           28        1         29           
 Sub-Workflows  0         0       0           0         0         0            
 ------------------------------------------------------------------------------
 
-Workflow wall time                                       : 3 mins, 20 secs
-Cumulative job wall time                                 : 1 min, 26 secs
-Cumulative job wall time as seen from submit side        : 3 mins, 0 secs
-Cumulative job badput wall time                          : 
-Cumulative job badput wall time as seen from submit side : 
+Workflow wall time                                       : 6 mins, 23 secs
+Cumulative job wall time                                 : 2 mins, 40 secs
+Cumulative job wall time as seen from submit side        : 4 mins, 28 secs
+Cumulative job badput wall time                          : 1 min, 5 secs
+Cumulative job badput wall time as seen from submit side : 1 min, 5 secs
 
+# Integrity Metrics
+# Number of files for which checksums were compared/computed along with total time spent doing it. 
+69 files checksums compared with total duration of 5.237 secs
+29 files checksums generated with total duration of 5.563 secs
 
+# Integrity Errors
+# Total:    
+#       Total number of integrity errors encountered across all job executions(including retries) of a workflow. 
+# Failures: 
+#       Number of failed jobs where the last job instance had integrity errors.
+Failures: 0 job failures had integrity errors
 
-Summary                       : submit/trainXX/pegasus/population/run0002/statistics/summary.txt
-Workflow execution statistics : submit/trainXX/pegasus/population/run0002/statistics/workflow.txt
-Job instance statistics       : submit/trainXX/pegasus/population/run0002/statistics/jobs.txt
-Transformation statistics     : submit/trainXX/pegasus/population/run0002/statistics/breakdown.txt
-Time statistics               : submit/trainXX/pegasus/population/run0002/statistics/time.txt</programlisting>
+Summary                       : submit/train00/pegasus/population/run0002/statistics/summary.txt
+Workflow execution statistics : submit/train00/pegasus/population/run0002/statistics/workflow.txt
+Job instance statistics       : submit/train00/pegasus/population/run0002/statistics/jobs.txt
+Transformation statistics     : submit/train00/pegasus/population/run0002/statistics/breakdown.txt
+Integrity statistics          : submit/train00/pegasus/population/run0002/statistics/integrity.txt
+Time statistics               : submit/train00/pegasus/population/run0002/statistics/time.txt
+</programlisting>
 
     <para>The output of <literal>pegasus-statistics</literal> contains many
     definitions to help users understand what all of the values reported mean.
@@ -1722,30 +1787,31 @@ jobs.txt          summary.txt         time.txt          breakdown.txt          w
 # Total(sec)     - the cumulative of invocation runtime corresponding
 #                  to the transformation.
 
-# 579b97fd-c51f-4170-9213-903a27f74759 (population)
+# a7e6cfc6-0427-4b0b-8d12-4114b68a8acf (population)
 Transformation           Count     Succeeded Failed  Min       Max       Mean           Total     
-animate                  1         1         0       2.268     2.268     2.268          2.268     
-county_population_raster 4         4         0       5.098     5.716     5.434          21.738    
-dagman::post             27        27        0       0.0       1.0       0.296          8.0       
-full_res_pop_raster      4         4         0       2.041     3.297     2.815          11.258    
+animate                  1         1         0       3.623     3.623     3.623          3.623     
+county_population_raster 5         4         1       3.477     65.0      16.806         84.03     
+dagman::post             28        27        1       0.0       1.0       0.179          5.0       
+full_res_pop_raster      4         4         0       1.814     2.671     2.254          9.017     
 pegasus::cleanup         1         1         0       2.0       2.0       2.0            2.0       
 pegasus::dirmanager      1         1         0       2.0       2.0       2.0            2.0       
-pegasus::rc-client       4         4         0       0.344     0.369     0.352          1.41      
-pegasus::transfer        9         9         0       2.152     7.229     4.063          36.571    
-raster_to_png            4         4         0       2.261     2.363     2.325          9.298     
+pegasus::rc-client       4         4         0       0.372     0.392     0.38           1.52      
+pegasus::transfer        9         9         0       2.308     16.049    5.089          45.801    
+raster_to_png            4         4         0       2.678     3.333     3.019          12.074    
 
 
 # All (All)
 Transformation           Count     Succeeded Failed  Min       Max       Mean           Total     
-animate                  1         1         0       2.268     2.268     2.268          2.268     
-county_population_raster 4         4         0       5.098     5.716     5.434          21.738    
-dagman::post             27        27        0       0.0       1.0       0.296          8.0       
-full_res_pop_raster      4         4         0       2.041     3.297     2.815          11.258    
+animate                  1         1         0       3.623     3.623     3.623          3.623     
+county_population_raster 5         4         1       3.477     65.0      16.806         84.03     
+dagman::post             28        27        1       0.0       1.0       0.179          5.0       
+full_res_pop_raster      4         4         0       1.814     2.671     2.254          9.017     
 pegasus::cleanup         1         1         0       2.0       2.0       2.0            2.0       
 pegasus::dirmanager      1         1         0       2.0       2.0       2.0            2.0       
-pegasus::rc-client       4         4         0       0.344     0.369     0.352          1.41      
-pegasus::transfer        9         9         0       2.152     7.229     4.063          36.571    
-raster_to_png            4         4         0       2.261     2.363     2.325          9.298     </programlisting>
+pegasus::rc-client       4         4         0       0.372     0.392     0.38           1.52      
+pegasus::transfer        9         9         0       2.308     16.049    5.089          45.801    
+raster_to_png            4         4         0       2.678     3.333     3.019          12.074    
+</programlisting>
   </section>
 
   <section id="tutorial_clustering">
@@ -1823,12 +1889,10 @@ pegasus-plan --conf pegasus.properties \
     --input-dir $DIR/input \
     --output-dir $DIR/output \
     --cleanup leaf \
-    <emphasis role="bold">--cluster horizontal \</emphasis>
+   <emphasis role="bold"> --cluster horizontal \</emphasis>
     --force \
-    --sites osg \
-    --staging-site isi_workflow \
-    --submit
-</programlisting>
+    --sites condorpool \
+    --submit</programlisting>
       </listitem>
     </orderedlist>
 
@@ -1836,32 +1900,36 @@ pegasus-plan --conf pegasus.properties \
     workflow.</emphasis></para>
 
     <programlisting><emphasis role="bold">$  ./plan_cluster_dax.sh pop.dax </emphasis>
-2018.07.06 12:16:42.464 PDT:    
-2018.07.06 12:16:42.470 PDT:   ----------------------------------------------------------------------- 
-2018.07.06 12:16:42.475 PDT:   File for submitting this DAG to HTCondor           : population-0.dag.condor.sub 
-2018.07.06 12:16:42.480 PDT:   Log of DAGMan debugging messages                 : population-0.dag.dagman.out 
-2018.07.06 12:16:42.486 PDT:   Log of HTCondor library output                     : population-0.dag.lib.out 
-2018.07.06 12:16:42.491 PDT:   Log of HTCondor library error messages             : population-0.dag.lib.err 
-2018.07.06 12:16:42.496 PDT:   Log of the life of condor_dagman itself          : population-0.dag.dagman.log 
-2018.07.06 12:16:42.501 PDT:    
-2018.07.06 12:16:42.507 PDT:   -no_submit given, not submitting DAG to HTCondor.  You can do this with: 
-2018.07.06 12:16:42.517 PDT:   ----------------------------------------------------------------------- 
-2018.07.06 12:16:43.230 PDT:   Your database is compatible with Pegasus version: 4.8.3dev 
-2018.07.06 12:16:43.328 PDT:   Submitting to condor population-0.dag.condor.sub 
-2018.07.06 12:16:43.357 PDT:   Submitting job(s). 
-2018.07.06 12:16:43.362 PDT:   1 job(s) submitted to cluster 992488. 
-2018.07.06 12:16:43.367 PDT:    
-2018.07.06 12:16:43.373 PDT:   Your workflow has been started and is running in the base directory: 
-2018.07.06 12:16:43.378 PDT:    
-2018.07.06 12:16:43.383 PDT:     /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0003 
-2018.07.06 12:16:43.388 PDT:    
-2018.07.06 12:16:43.393 PDT:   *** To monitor the workflow you can run *** 
-2018.07.06 12:16:43.399 PDT:    
-2018.07.06 12:16:43.404 PDT:     pegasus-status -l /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0003 
-2018.07.06 12:16:43.409 PDT:    
-2018.07.06 12:16:43.414 PDT:   *** To remove your workflow run *** 
-2018.07.06 12:16:43.419 PDT:    
-2018.07.06 12:16:43.425 PDT:     pegasus-remove /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0003 </programlisting>
+
+2019.05.18 17:03:39.196 CDT:    
+2019.05.18 17:03:39.202 CDT:   ----------------------------------------------------------------------- 
+2019.05.18 17:03:39.207 CDT:   File for submitting this DAG to HTCondor           : population-0.dag.condor.sub 
+2019.05.18 17:03:39.213 CDT:   Log of DAGMan debugging messages                 : population-0.dag.dagman.out 
+2019.05.18 17:03:39.218 CDT:   Log of HTCondor library output                     : population-0.dag.lib.out 
+2019.05.18 17:03:39.223 CDT:   Log of HTCondor library error messages             : population-0.dag.lib.err 
+2019.05.18 17:03:39.228 CDT:   Log of the life of condor_dagman itself          : population-0.dag.dagman.log 
+2019.05.18 17:03:39.234 CDT:    
+2019.05.18 17:03:39.239 CDT:   -no_submit given, not submitting DAG to HTCondor.  You can do this with: 
+2019.05.18 17:03:39.249 CDT:   ----------------------------------------------------------------------- 
+2019.05.18 17:03:40.043 CDT:   Your database is compatible with Pegasus version: 4.9.2dev 
+2019.05.18 17:03:40.139 CDT:   Submitting to condor population-0.dag.condor.sub 
+2019.05.18 17:03:40.184 CDT:   Submitting job(s). 
+2019.05.18 17:03:40.190 CDT:   1 job(s) submitted to cluster 89523. 
+2019.05.18 17:03:40.195 CDT:    
+2019.05.18 17:03:40.200 CDT:   Your workflow has been started and is running in the base directory: 
+2019.05.18 17:03:40.206 CDT:    
+2019.05.18 17:03:40.211 CDT:     /home/train00/tutorial/population/submit/train00/pegasus/population/run0003 
+2019.05.18 17:03:40.216 CDT:    
+2019.05.18 17:03:40.221 CDT:   *** To monitor the workflow you can run *** 
+2019.05.18 17:03:40.227 CDT:    
+2019.05.18 17:03:40.232 CDT:     pegasus-status -l /home/train00/tutorial/population/submit/train00/pegasus/population/run0003 
+2019.05.18 17:03:40.237 CDT:    
+2019.05.18 17:03:40.243 CDT:   *** To remove your workflow run *** 
+2019.05.18 17:03:40.248 CDT:    
+2019.05.18 17:03:40.253 CDT:     pegasus-remove /home/train00/tutorial/population/submit/train00/pegasus/population/run0003 
+2019.05.18 17:03:40.259 CDT:    
+2019.05.18 17:03:40.986 CDT:   Time taken to execute is 2.272 seconds 
+</programlisting>
 
     <para>This is what the population workflow looks like after Pegasus has
     finished planning the DAX:</para>
@@ -1931,22 +1999,22 @@ pegasus-plan --conf pegasus.properties \
 2018.07.06 13:48:20.843 PDT:    
 2018.07.06 13:48:20.848 PDT:   -no_submit given, not submitting DAG to HTCondor.  You can do this with: 
 2018.07.06 13:48:20.858 PDT:   ----------------------------------------------------------------------- 
-2018.07.06 13:48:21.593 PDT:   Your database is compatible with Pegasus version: 4.8.3dev 
+2018.07.06 13:48:21.593 PDT:   Your database is compatible with Pegasus version: 4.9.2dev 
 2018.07.06 13:48:21.690 PDT:   Submitting to condor population-0.dag.condor.sub 
 2018.07.06 13:48:21.724 PDT:   Submitting job(s). 
 2018.07.06 13:48:21.729 PDT:   1 job(s) submitted to cluster 992607. 
 2018.07.06 13:48:21.734 PDT:    
 2018.07.06 13:48:21.740 PDT:   Your workflow has been started and is running in the base directory: 
 2018.07.06 13:48:21.745 PDT:    
-2018.07.06 13:48:21.750 PDT:     /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0004 
+2018.07.06 13:48:21.750 PDT:     /home/trainXX/tutorial/population/submit/trainXX/pegasus/population/run0004 
 2018.07.06 13:48:21.756 PDT:    
 2018.07.06 13:48:21.761 PDT:   *** To monitor the workflow you can run *** 
 2018.07.06 13:48:21.766 PDT:    
-2018.07.06 13:48:21.771 PDT:     pegasus-status -l /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0004 
+2018.07.06 13:48:21.771 PDT:     pegasus-status -l /home/trainXX/tutorial/population/submit/trainXX/pegasus/population/run0004 
 2018.07.06 13:48:21.776 PDT:    
 2018.07.06 13:48:21.782 PDT:   *** To remove your workflow run *** 
 2018.07.06 13:48:21.787 PDT:    
-2018.07.06 13:48:21.792 PDT:     pegasus-remove /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0004 
+2018.07.06 13:48:21.792 PDT:     pegasus-remove /home/trainXX/tutorial/population/submit/trainXX/pegasus/population/run0004 
 2018.07.06 13:48:21.797 PDT:    
 2018.07.06 13:48:21.857 PDT:   Time taken to execute is 2.054 seconds </programlisting>
 
@@ -1992,7 +2060,7 @@ output file: 00/00/stage_in_remote_local_0_0.out.001
 
 site        : local
 hostname    : learn.chtc.wisc.edu
-executable  : /local-scratch/vahi/software/install/pegasus/pegasus-4.8.3dev/bin/pegasus-transfer
+executable  : /local-scratch/vahi/software/install/pegasus/pegasus-4.9.2dev/bin/pegasus-transfer
 arguments   :   --threads   2  
 exitcode    : 1
 working dir : /local-scratch/home/trainXX/population/submit/trainXX/pegasus/population/run0004
@@ -2008,13 +2076,13 @@ working dir : /local-scratch/home/trainXX/population/submit/trainXX/pegasus/popu
 2018-07-06 13:52:18,270    INFO:  /bin/cp -f -R -L '/local-scratch/home/trainXX/population/scripts/config/county_cohort_pop_config.ini' '/local-scratch/home/trainXX/population/scratch/trainXX/pegasus/population/run0004/./county_cohort_pop_config.ini'
 2018-07-06 13:52:18,280    INFO:  /bin/cp -f -R -L '/local-scratch/home/trainXX/population/scripts/county_population_raster.py' '/local-scratch/home/trainXX/population/scratch/trainXX/pegasus/population/run0004/./county_population_raster'
 2018-07-06 13:52:18,289   ERROR:  Expected local file does not exist: /local-scratch/home/trainXX/population/scripts/geospatial.py
-2018-07-06 13:52:18,289    INFO:  /bin/cp -f -R -L '/scitech/home/trainXX/population/input/SouthSudan_CountyPopulation.cpg' '/local-scratch/home/trainXX/population/scratch/trainXX/pegasus/population/run0004/./SouthSudan_CountyPopulation.cpg'
-2018-07-06 13:52:18,298    INFO:  /bin/cp -f -R -L '/scitech/home/trainXX/population/input/SouthSudan_CountyPopulation.dbf' '/local-scratch/home/trainXX/population/scratch/trainXX/pegasus/population/run0004/./SouthSudan_CountyPopulation.dbf'
-2018-07-06 13:52:18,331    INFO:  /bin/cp -f -R -L '/scitech/home/trainXX/population/input/SouthSudan_CountyPopulation.sbn' '/local-scratch/home/trainXX/population/scratch/trainXX/pegasus/population/run0004/./SouthSudan_CountyPopulation.sbn'
-2018-07-06 13:52:18,340    INFO:  /bin/cp -f -R -L '/scitech/home/trainXX/population/input/SouthSudan_CountyPopulation.sbx' '/local-scratch/home/trainXX/population/scratch/trainXX/pegasus/population/run0004/./SouthSudan_CountyPopulation.sbx'
-2018-07-06 13:52:18,349    INFO:  /bin/cp -f -R -L '/scitech/home/trainXX/population/input/SouthSudan_CountyPopulation.shp' '/local-scratch/home/trainXX/population/scratch/trainXX/pegasus/population/run0004/./SouthSudan_CountyPopulation.shp'
-2018-07-06 13:52:18,365    INFO:  /bin/cp -f -R -L '/scitech/home/trainXX/population/input/SouthSudan_CountyPopulation.shx' '/local-scratch/home/trainXX/population/scratch/trainXX/pegasus/population/run0004/./SouthSudan_CountyPopulation.shx'
-2018-07-06 13:52:18,373    INFO:  /bin/cp -f -R -L '/scitech/home/trainXX/population/input/SouthSudan_CountyPopulation.prj' '/local-scratch/home/trainXX/population/scratch/trainXX/pegasus/population/run0004/./SouthSudan_CountyPopulation.prj'
+2018-07-06 13:52:18,289    INFO:  /bin/cp -f -R -L '/home/trainXX/tutorial/population/input/SouthSudan_CountyPopulation.cpg' '/local-scratch/home/trainXX/population/scratch/trainXX/pegasus/population/run0004/./SouthSudan_CountyPopulation.cpg'
+2018-07-06 13:52:18,298    INFO:  /bin/cp -f -R -L '/home/trainXX/tutorial/population/input/SouthSudan_CountyPopulation.dbf' '/local-scratch/home/trainXX/population/scratch/trainXX/pegasus/population/run0004/./SouthSudan_CountyPopulation.dbf'
+2018-07-06 13:52:18,331    INFO:  /bin/cp -f -R -L '/home/trainXX/tutorial/population/input/SouthSudan_CountyPopulation.sbn' '/local-scratch/home/trainXX/population/scratch/trainXX/pegasus/population/run0004/./SouthSudan_CountyPopulation.sbn'
+2018-07-06 13:52:18,340    INFO:  /bin/cp -f -R -L '/home/trainXX/tutorial/population/input/SouthSudan_CountyPopulation.sbx' '/local-scratch/home/trainXX/population/scratch/trainXX/pegasus/population/run0004/./SouthSudan_CountyPopulation.sbx'
+2018-07-06 13:52:18,349    INFO:  /bin/cp -f -R -L '/home/trainXX/tutorial/population/input/SouthSudan_CountyPopulation.shp' '/local-scratch/home/trainXX/population/scratch/trainXX/pegasus/population/run0004/./SouthSudan_CountyPopulation.shp'
+2018-07-06 13:52:18,365    INFO:  /bin/cp -f -R -L '/home/trainXX/tutorial/population/input/SouthSudan_CountyPopulation.shx' '/local-scratch/home/trainXX/population/scratch/trainXX/pegasus/population/run0004/./SouthSudan_CountyPopulation.shx'
+2018-07-06 13:52:18,373    INFO:  /bin/cp -f -R -L '/home/trainXX/tutorial/population/input/SouthSudan_CountyPopulation.prj' '/local-scratch/home/trainXX/population/scratch/trainXX/pegasus/population/run0004/./SouthSudan_CountyPopulation.prj'
 2018-07-06 13:53:00,296    INFO:  --------------------------------------------------------------------------------
 2018-07-06 13:53:00,296    INFO:  Starting transfers - attempt 2
 2018-07-06 13:53:02,306   ERROR: <emphasis role="bold"> Expected local file does not exist: /local-scratch/home/trainXX/population/scripts/geospatial.py</emphasis>
@@ -2039,7 +2107,7 @@ working dir : /local-scratch/home/trainXX/population/submit/trainXX/pegasus/popu
       directory from our previous failed workflow run:</para>
 
       <programlisting>$  <emphasis role="bold">pegasus-run submit/trainXX/pegasus/population/run00024</emphasis>
-Rescued /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0004/population-0.log as /scitech/home/trainXX/population/submit/trainXX/pegasus/population/run0004/population-0.log.000
+Rescued /home/trainXX/tutorial/population/submit/trainXX/pegasus/population/run0004/population-0.log as /home/trainXX/tutorial/population/submit/trainXX/pegasus/population/run0004/population-0.log.000
 Submitting to condor population-0.dag.condor.sub
 Submitting job(s).
 1 job(s) submitted to cluster 992625.
