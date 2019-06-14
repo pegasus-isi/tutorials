@@ -130,31 +130,44 @@ you get this</programlisting>
     truncated we will add an ellipsis '...' to indicate the omitted
     output.</para>
 
-    <para>Login to the learn.chtc.wisc.edu submit node</para>
+    <para>Login to the <literal>cctbcondor09.in2p3.fr</literal> submit node</para>
 
-    <programlisting><emphasis role="bold">$ ssh trainXX@learn.chtc.wisc.edu</emphasis>
-Enter trainXX@learn.chtc.wisc.edu password
-Last login: Fri May 17 22:57:00 2019 from cpe-104-175-203-123.socal.res.rr.com
-_____________________________________________________________________
- #####  #     # #######  #####  Issues?  Email chtc@cs.wisc.edu
-#     # #     #    #    #     # Unauthorized use prohibited by:
-#       #     #    #    #       WI Statutes: s. 947.0125
-#       #######    #    #       U.S. Code: 18 USC 1030
-#       #     #    #    #       U.S. Code: 18 USC 2510-2522
-#     # #     #    #    #     # U.S. Code: 18 USC 2701-2712
- #####  #     #    #     #####  U.S. Code: 18 USC § 1831
-For off campus ssh access use https://www.doit.wisc.edu/network/vpn/
-____________________________________________________________________
+    <programlisting><emphasis role="bold">$ ssh trainXX@cctbcondor09.in2p3.fr</emphasis>
+  ___  ___     __  __ _  ____  ____  ____ 
+ / __)/ __)___(  )(  ( \(___ \(  _ \( __ \
+( (__( (__(___))( /    / / __/ ) __/ (__ (
+ \___)\___)   (__)\_)__)(____)(__)  (____/
 
-              Guest on hypervisor0017.chtc.wisc.edu
+Platform: CentOS 7.6.1810 
+Architecture: x86_64
 
-[trainXX@learn ~]$ 
 
+ ##############################################################################
+
+                   Bienvenue au Centre de Calcul de l'IN2P3 / CNRS
+
+
+ Merci de consulter les bonnes pratiques d'utilisation des machines
+ interactives :
+ https://doc.cc.in2p3.fr/bonnes_pratiques_d_utilisation_des_machines_interactives
+
+
+ ---------------------------------------------------------------------------
+                                                                                                    
+                    Welcome to the IN2P3 Computing Center / CNRS                                    
+                                                                                                     
+                                                                                                     
+ Please have a look at the best practices for using the interactive nodes:                            
+ https://doc.cc.in2p3.fr/en:bonnes_pratiques_d_utilisation_des_machines_interactives                   
+                                                                                                       
+                                                                                                       
+ ##############################################################################                         
+/pbs/home/p/pegasu01(0)>
 </programlisting>
 
     <note>
       <para>For the purpose of this tutorial replace any instance of trainXX
-      with your learn.chtc.wisc.edu username.</para>
+      with your cctbcondor09.in2p3.fr username.</para>
     </note>
 
     <para><emphasis role="bold">If you are having trouble with this tutorial,
@@ -165,16 +178,11 @@ ____________________________________________________________________
     <para>The tutorial should be done in the bash shell. Lets make sure that
     you are in the right shell.</para>
 
-    <programlisting>[trainXX@learn]$  bash
+    <programlisting>[trainXX@cctbcondor09]$  bash
 [trainXX@learn ~]$ echo $SHELL
 /bin/bash
 </programlisting>
 
-    <note>
-      <para>For the purpose of this tutorial replace any instance of trainXX
-      with the user name assigned to you. To request access to a training
-      account send email to &lt;pegasus-support@isi.edu&gt;</para>
-    </note>
   </section>
 
   <section id="tutorial_scientific_workflows">
@@ -292,11 +300,11 @@ ____________________________________________________________________
     tutorial we will be using a complex workflow that does population
     modelling, which can be created like this:</para>
 
-    <programlisting>$ <emphasis role="bold">cd ~/
-</emphasis>$ <emphasis role="bold">pwd
-$ </emphasis>/home/trainXX/
-$  <emphasis role="bold">mkdir tutorial
-</emphasis>$  cd tutorial
+    <programlisting>$ <emphasis role="bold">cd ~</emphasis>
+$ <emphasis role="bold">pwd</emphasis>
+/home/trainXX/
+$  <emphasis role="bold">mkdir tutorial</emphasis>
+$  <emphasis role="bold">cd tutorial</emphasis>
 $  <emphasis role="bold">pegasus-init population</emphasis>
 pegasus-init population
 Do you want to generate a tutorial workflow? (y/n) [n]: y
@@ -316,14 +324,15 @@ What environment is tutorial to be setup for? (1-7) [1]: 1
 6: Population Modeling using Containers
 7: Diamond
 What tutorial workflow do you want? (1-7) [1]: 6
-Pegasus Tutorial setup for example workflow - population for execution on submit-host in directory /home/trainXX/tutorial/population
+Pegasus Tutorial setup for example workflow - population for execution
+on submit-host in directory /home/trainXX/tutorial/population
 
 
 $ <emphasis role="bold">cd population</emphasis>
 $ <emphasis role="bold">ls</emphasis>
-daxgen.py  Dockerfile  generate_dax.sh  input  output  pegasus.properties 
- plan_dax.sh  rc.txt  README.md  scripts  Singularity  sites.xml 
- tc.txt  tc.txt.containers
+daxgen.py           Dockerfile   generate_dax.sh  input      output
+pegasus.properties  plan_dax.sh  rc.txt           README.md  scripts
+Singularity         sites.xml    tc.txt           tc.txt.containers
 </programlisting>
 
     <tip>
@@ -462,24 +471,36 @@ Generated dax pop.dax
   <section id="tutorial_wf_dashboard">
     <title>Workflow Dashboard for Monitoring and Debugging</title>
 
-    <para>The Pegasus Dashboard is a web interface for monitoring and
+    <para>The Pegasus Dashboard is an optional web interface for monitoring and
     debugging workflows. We will use the web dashboard to monitor the status
-    of the population modelling workflow.</para>
+    of the population modeling workflow.</para>
 
-    <para>By default, the dashboard server can only monitor workflows run by
-    the current user i.e. the user who is running the pegasus-service. On
-    learn.chtc.wisc.edu, it is running in a multiuser mode. Before accessing
-    the dashboard, you need to give world read permissions to the workflow
-    database in your home directory.</para>
+    <para>To get started, we first need to create an SSH tunnel to
+        cctbcondor09.in2p3.fr, and then start the pegasus-service application.
+        Please pick a port at random in the range 20000 to 30000 and use that
+        in the commands below. If you get a "port in use" error, start over
+        with another port.</para>
 
-    <programlisting>$ <emphasis role="bold">chmod +r ~/.pegasus/workflow.db</emphasis></programlisting>
+    <para>Log in again using the port forwarding. This will map a port on
+        your own machine to a port on cctbcondor09.in2p3.fr, routing the
+        traffic over the established SSH connection</para>
+
+    <para>Please replace the port in this example (29090) with your own
+        random port.</para>
+
+    <programlisting>$ <emphasis role="bold">ssh -L *:29090:localhost:29090 pegasuXX@cctbcondor09.in2p3.fr</emphasis></programlisting>
+
+    <para>Once logged in, start the pegasus-service application using
+        the same port:</para>
+    
+    <programlisting>$ <emphasis role="bold">pegasus-service -H localhost -p 29090 -v</emphasis></programlisting>
 
     <para>Access the dashboard by navigating your browser to <emphasis
-    role="bold">https://learn.chtc.wisc.edu/pegasus/u/trainXX/</emphasis></para>
+    role="bold">https://localhost:29090</emphasis></para>
 
     <para>When the webpage loads up, it will ask you for a username and a
     password. It is your UNIX username and password corresponding to the user
-    you used to log in to learn.chtc.wisc.edu .</para>
+    you used to log in to cctbcondor09.in2p3.fr .</para>
 
     <para>The Dashboard's home page lists all workflows, which have been run
     by the current-user. The home page shows the status of each workflow i.e.
@@ -508,12 +529,6 @@ Generated dax pop.dax
         was archived.</para>
       </listitem>
     </itemizedlist>
-
-    <note>
-      <para>On tutorial machine pegasus-service is running through apache.
-      Users can also start the dashboard as their own user using
-      pegasus-service command on the command line e.g. <programlisting>$ pegasus-service -H learn.chtc.wisc.edu -p 5001 -v</programlisting></para>
-    </note>
 
     <figure>
       <title>Dashboard Home Page</title>
@@ -1124,8 +1139,8 @@ Generated dax pop.dax</programlisting>
         working directory from where pegasus-plan is invoked.</para>
       </note>
 
-      <para>There are three sites defined in the site catalog: "local",
-      "condorpool" and "isi_workflow".</para>
+      <para>There are two sites defined in the site catalog: "local",
+      "condorpool".</para>
 
       <orderedlist>
         <listitem>
@@ -2256,9 +2271,10 @@ UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME
     application to a Pegasus workflow. If you need help in porting your
     application to Pegasus contact us on the following support channels</para>
 
-    <para>public mailman list : pegasus-users@isi.edu</para>
+<para>Public mailman list (subscribe at <ulink
+            url="https://pegasus.isi.edu/contact/">https://pegasus.isi.edu/contact/</ulink>): pegasus-users@isi.edu</para>
 
-    <para>private support list: pegasus-support@isi.edu</para>
+    <para>Private support list (only Pegasus developers receives these emails): pegasus-support@isi.edu</para>
 
     <para>Detailed Pegasus Documentation can be found <ulink
     url="http://pegasus.isi.edu/wms/docs/latest/">here</ulink>.</para>
