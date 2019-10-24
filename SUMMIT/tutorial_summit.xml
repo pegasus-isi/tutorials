@@ -1,0 +1,1489 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<chapter id="tutorial">
+  <title>Tutorial</title>
+
+  <section id="tutorial_introduction">
+    <title>Getting Started</title>
+
+    <para>This tutorial will take you through the steps of running simple
+    workflows using Pegasus Workflow Management System. Pegasus allows
+    scientists to</para>
+
+    <orderedlist>
+      <listitem>
+        <para><emphasis role="bold">Automate</emphasis> their scientific
+        computational work, as portable workflows. Pegasus enables scientists
+        to construct workflows in abstract terms without worrying about the
+        details of the underlying execution environment or the particulars of
+        the low-level specifications required by the middleware (Condor,
+        Globus, or Amazon EC2). It automatically locates the necessary input
+        data and computational resources necessary for workflow execution. It
+        cleans up storage as the workflow is executed so that data-intensive
+        workflows have enough space to execute on storage-constrained
+        resources.</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis role="bold">Recover</emphasis> from failures at
+        runtime. When errors occur, Pegasus tries to recover when possible by
+        retrying tasks, and when all else fails, provides a rescue workflow
+        containing a description of only the work that remains to be done. It
+        also enables users to move computations from one resource to another.
+        Pegasus keeps track of what has been done (provenance) including the
+        locations of data used and produced, and which software was used with
+        which parameters.</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis role="bold">Debug</emphasis> failures in their
+        computations using a set of system provided debugging tools and an
+        online workflow monitoring dashboard.</para>
+      </listitem>
+    </orderedlist>
+
+    <para>This tutorial is intended for new users who want to get a quick
+    overview of Pegasus concepts and usage. The accompanying tutorial VM comes
+    pre-configured to run the example workflows. The instructions listed here
+    refer mainly to the population modelling workflow example. The tutorial
+    covers</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>submission of an already generated example workflow with
+        Pegasus.</para>
+      </listitem>
+
+      <listitem>
+        <para>the command line tools for monitoring, debugging and generating
+        statistics.</para>
+      </listitem>
+
+      <listitem>
+        <para>creation of workflow using system provided API</para>
+      </listitem>
+
+      <listitem>
+        <para>information catalogs configuration.</para>
+      </listitem>
+
+      <listitem>
+        <para>cluster short running tasks</para>
+      </listitem>
+
+      <listitem>
+        <para>recovery from failures</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>More information about the topics covered in this tutorial can be
+    found in later chapters of this user's guide.</para>
+
+    <para>All of the steps in this tutorial are performed on the command-line.
+    The convention we will use for command-line input and output is to put
+    things that you should type in bold, monospace font, and to put the output
+    you should get in a normal weight, monospace font, like this:</para>
+
+    <programlisting>[user@host dir]$ <emphasis role="bold">you type this</emphasis>
+you get this</programlisting>
+
+    <para>Where <literal>[user@host dir]$</literal> is the terminal prompt,
+    the text you should type is “<literal>you type this</literal>”, and the
+    output you should get is "<literal>you get this</literal>". The terminal
+    prompt will be abbreviated as <literal>$</literal>. Because some of the
+    outputs are long, we don’t always include everything. Where the output is
+    truncated we will add an ellipsis '...' to indicate the omitted
+    output.</para>
+
+    <para><emphasis role="bold">If you are having trouble with this tutorial,
+    or anything else related to Pegasus, you can contact the Pegasus Users
+    mailing list at <email>pegasus-users@isi.edu</email> to get help.
+    </emphasis></para>
+
+    <para>Login to the wrangler.tacc.utexas.edu submit node</para>
+
+    <programlisting><emphasis role="bold">$ </emphasis><emphasis role="bold">ssh trainXX@wrangler.tacc.utexas.edu</emphasis>
+
+To access the system:
+
+1) If not using ssh-keys, please enter your TACC password at the password prompt
+2) At the TACC Token prompt, enter your 6-digit code followed by &lt;return&gt;.
+
+Password: 
+SMS Submitted
+TACC Token Code:
+Last login: Thu Dec 13 17:58:18 2018 from 128.9.64.239
+------------------------------------------------------------------------------
+                   Welcome to the Wrangler Supercomputer
+      Texas Advanced Computing Center, The University of Texas at Austin
+------------------------------------------------------------------------------
+...
+
+______________________________________________________________________________
+
+Tip 161   (See "module help tacc_tips" for features or how to disable)
+
+   To clear the text from the current position to the end of line do: Ctrl+K
+
+
+</programlisting>
+
+    <para>The tutorial should be done in the bash shell. Lets make sure that
+    you are in the right shell.</para>
+
+    <programlisting>[trainXX@login1.wrangler]$  bash
+[trainXX@login1.wrangler]$ echo $SHELL
+/bin/bash
+</programlisting>
+
+    <para>Let us now setup the tutorial and Pegasus in your environment</para>
+
+    <programlisting><emphasis role="bold">[trainXX@login1.wrangler]$ source ~vahik/SOFTWARE/setup.sh</emphasis>
+<emphasis role="bold">[trainXX@login1.wrangler]$ pegasus-version</emphasis>
+4.9.1dev
+</programlisting>
+
+    <note>
+      <para>Make sure that your pegasus-version is 4.9.1 or higher.</para>
+    </note>
+  </section>
+
+  <section id="tutorial_scientific_workflows">
+    <title>What are Scientific Workflows?</title>
+
+    <para>Scientific workflows allow users to easily express multi-step
+    computational tasks, for example retrieve data from an instrument or a
+    database, reformat the data, and run an analysis. A scientific workflow
+    describes the dependencies between the tasks and in most cases the
+    workflow is described as a directed acyclic graph (DAG), where the nodes
+    are tasks and the edges denote the task dependencies. A defining property
+    for a scientific workflow is that it manages data flow. The tasks in a
+    scientific workflow can be everything from short serial tasks to very
+    large parallel tasks (MPI for example) surrounded by a large number of
+    small, serial tasks used for pre- and post-processing.</para>
+
+    <para>Workflows can vary from simple to complex. Below are some examples.
+    In the figures below, the task are designated by circles/ellipses while
+    the files created by the tasks are indicated by rectangles. Arrows
+    indicate task dependencies.</para>
+
+    <para><emphasis role="bold">Process Workflow</emphasis></para>
+
+    <para>It consists of a single task that runs the <literal>ls</literal>
+    command and generates a listing of the files in the `/` directory.</para>
+
+    <figure>
+      <title>Process Workflow</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata align="center" contentwidth="20%"
+                     fileref="images/tutorial-single-job-wf.jpg"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para><emphasis role="bold">Pipeline of Tasks</emphasis></para>
+
+    <para>The pipeline workflow consists of two tasks linked together in a
+    pipeline. The first job runs the `curl` command to fetch the Pegasus home
+    page and store it as an HTML file. The result is passed to the `wc`
+    command, which counts the number of lines in the HTML file. <figure>
+        <title>Pipeline of Tasks</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata align="center" contentwidth="25%"
+                       fileref="images/tutorial-pipeline-tasks-wf.jpg"/>
+          </imageobject>
+        </mediaobject>
+      </figure></para>
+
+    <para><emphasis role="bold">Split Workflow</emphasis></para>
+
+    <para>The split workflow downloads the Pegasus home page using the `curl`
+    command, then uses the `split` command to divide it into 4 pieces. The
+    result is passed to the `wc` command to count the number of lines in each
+    piece.<figure>
+        <title>Split Workflow</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata align="center" contentwidth="70%"
+                       fileref="images/tutorial-split-wf.jpg"/>
+          </imageobject>
+        </mediaobject>
+      </figure></para>
+
+    <para><emphasis role="bold">Merge Workflow</emphasis></para>
+
+    <para>The merge workflow runs the `ls` command on several */bin
+    directories and passes the results to the `cat` command, which merges the
+    files into a single listing. The merge workflow is an example of a
+    parameter sweep over arguments.<figure>
+        <title>Merge Workflow</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata align="center" contentwidth="70%"
+                       fileref="images/tutorial-merge-wf.jpg"/>
+          </imageobject>
+        </mediaobject>
+      </figure></para>
+
+    <para><emphasis role="bold">Diamond Workflow</emphasis></para>
+
+    <para>The diamond workflow runs combines the split and merge workflow
+    patterns to create a more complex workflow.</para>
+
+    <figure>
+      <title>Diamond Workflow</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata align="center" contentwidth="70%"
+                     fileref="images/tutorial-diamond-wf.jpg"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para><emphasis role="bold">Complex Workflows</emphasis></para>
+
+    <para>The above examples can be used as building blocks for much complex
+    workflows. Some of these are showcased on the <ulink
+    url="https://pegasus.isi.edu/applications">Pegasus Applications
+    page</ulink>.</para>
+  </section>
+
+  <section id="tutorial_submitting_wf">
+    <title>Submitting Our First Workflow</title>
+
+    <para>All of the example workflows described in the previous section can
+    be generated with the <literal>pegasus-init</literal> command. For this
+    tutorial we will be using the split workflow, which can be created like
+    this:</para>
+
+    <programlisting>$ <emphasis role="bold">mkdir $WORK/tutorial</emphasis>
+$ <emphasis role="bold">cd $WORK/tutorial</emphasis>
+$ <emphasis role="bold">pegasus-init diamond</emphasis> 
+Do you want to generate a tutorial workflow? (y/n) [n]: <emphasis role="bold">y</emphasis>
+1: Local Machine Condor Pool
+2: USC HPCC Cluster
+3: OSG from ISI submit node
+4: XSEDE, with Bosco
+5: Bluewaters, with Glite
+6: TACC Wrangler with Glite
+What environment is tutorial to be setup for? (1-6) [1]: <emphasis role="bold">6</emphasis>
+What project your jobs should run under. For example on TACC there are like : TG-XXXXXX ?: <emphasis
+        role="bold">TRAINING-OPEN</emphasis>
+1: Process
+2: Pipeline
+3: Split
+4: Merge
+5: EPA (requires R)
+6: Population Modeling using Containers
+7: Diamond
+8: MPI Hello World
+What tutorial workflow do you want? (1-8) [1]: <emphasis role="bold">7</emphasis>
+Pegasus Tutorial setup for example workflow - diamond for execution on wrangler-glite in directory <emphasis
+        role="bold">$WORK/tutorial/diamond </emphasis>
+$ <emphasis role="bold">cd diamond</emphasis>
+$ <emphasis role="bold">ls</emphasis>
+bin  daxgen.py  generate_dax.sh  input  output  pegasus.properties  plan_cluster_dax.sh 
+ plan_dax.sh  rc.txt  README.md  sites.xml  tc.txt
+</programlisting>
+
+    <tip>
+      <para>The <literal>pegasus-init</literal> tool can be used to generate
+      workflow skeletons from templates by asking the user questions. It is
+      easier to use pegasus-init than to start a new workflow from
+      scratch.</para>
+    </tip>
+
+    <para>The diamond workflow looks like this:</para>
+
+    <figure>
+      <title>Diamond Workflow</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata align="center" contentwidth="70%"
+                     fileref="images/tutorial-diamond-wf.jpg"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>The input workflow description for Pegasus is called the DAX. It can
+    be generated by running the <filename>generate_dax.sh</filename> script
+    from the split directory, like this:</para>
+
+    <programlisting>$ <emphasis role="bold">./generate_dax.sh diamond.dax</emphasis>
+Generated dax diamond.dax
+    </programlisting>
+
+    <para>This script will run a small Python program
+    (<filename>daxgen.py</filename>) that generates a file with a .dax
+    extension using the Pegasus Python API. We will cover the details of
+    creating a DAX programmatically <link
+    linkend="tutorial_wf_generation">later in the tutorial</link>. Pegasus
+    reads the DAX and generates an executable HTCondor workflow that is run on
+    an execution site.</para>
+
+    <para>The <literal>pegasus-plan</literal> command is used to submit the
+    workflow through Pegasus. The pegasus-plan command reads the input
+    workflow (DAX file specified by --dax option), maps the abstract DAX to
+    one or more execution sites, and submits the generated executable workflow
+    to HTCondor. Among other things, the options to pegasus-plan tell
+    Pegasus</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>the workflow to run</para>
+      </listitem>
+
+      <listitem>
+        <para>where (what site) to run the workflow</para>
+      </listitem>
+
+      <listitem>
+        <para>the input directory where the inputs are placed</para>
+      </listitem>
+
+      <listitem>
+        <para>the output directory where the outputs are placed</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>By default, the workflow is setup to run on the compute sites (i.e
+    sites with handle other than "local") defined in the sites.xml file. In
+    our example, the workflow will run on a site named "wrangler" in the
+    sites.xml file.</para>
+
+    <para>To plan the split workflow invoke the pegasus-plan command using the
+    <filename>plan_dax.sh</filename> wrapper script as follows:</para>
+
+    <programlisting>$ <emphasis role="bold">./plan_dax.sh diamond.dax</emphasis>
+2018.12.13 18:22:16.269 CST:    
+2018.12.13 18:22:16.275 CST:   ----------------------------------------------------------------------- 
+2018.12.13 18:22:16.280 CST:   File for submitting this DAG to HTCondor           : diamond-0.dag.condor.sub 
+2018.12.13 18:22:16.285 CST:   Log of DAGMan debugging messages                 : diamond-0.dag.dagman.out 
+2018.12.13 18:22:16.290 CST:   Log of HTCondor library output                     : diamond-0.dag.lib.out 
+2018.12.13 18:22:16.295 CST:   Log of HTCondor library error messages             : diamond-0.dag.lib.err 
+2018.12.13 18:22:16.301 CST:   Log of the life of condor_dagman itself          : diamond-0.dag.dagman.log 
+2018.12.13 18:22:16.306 CST:    
+2018.12.13 18:22:16.312 CST:   -no_submit given, not submitting DAG to HTCondor.  You can do this with: 
+2018.12.13 18:22:16.322 CST:   ----------------------------------------------------------------------- 
+2018.12.13 18:22:17.008 CST:   Your database is compatible with Pegasus version: 4.9.1dev 
+2018.12.13 18:22:17.082 CST:   Submitting to condor diamond-0.dag.condor.sub 
+2018.12.13 18:22:17.219 CST:   Submitting job(s). 
+2018.12.13 18:22:17.224 CST:   1 job(s) submitted to cluster 1166. 
+2018.12.13 18:22:17.229 CST:    
+2018.12.13 18:22:17.235 CST:   Your workflow has been started and is running in the base directory: 
+2018.12.13 18:22:17.240 CST:    
+2018.12.13 18:22:17.245 CST:     $WORK/tutorial/diamond/submit/trainXX/pegasus/diamond/run0001 
+2018.12.13 18:22:17.250 CST:    
+2018.12.13 18:22:17.256 CST:   *** To monitor the workflow you can run *** 
+2018.12.13 18:22:17.261 CST:    
+2018.12.13 18:22:17.266 CST:     pegasus-status -l $WORK/tutorial/diamond/submit/trainXX/pegasus/diamond/run0001 
+2018.12.13 18:22:17.271 CST:    
+2018.12.13 18:22:17.277 CST:   *** To remove your workflow run *** 
+2018.12.13 18:22:17.282 CST:    
+2018.12.13 18:22:17.287 CST:     pegasus-remove $WORK/tutorial/diamond/submit/trainXX/pegasus/diamond/run0001 
+2018.12.13 18:22:17.292 CST:    
+2018.12.13 18:22:18.717 CST:   Time taken to execute is 1.789 seconds 
+</programlisting>
+
+    <note>
+      <para>The line in the output that starts with
+      <literal>pegasus-status</literal>, contains the command you can use to
+      monitor the status of the workflow. The path it contains is the path to
+      the submit directory where all of the files required to submit and
+      monitor the workflow are stored.</para>
+    </note>
+
+    <para>This is what the diamond workflow looks like after Pegasus has
+    finished planning the DAX:</para>
+
+    <figure>
+      <title>DIAMOND DAG</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/tutorial-blackdiamond-dag.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>For this workflow the only jobs Pegasus needs to add are a directory
+    creation job, a stage-in job , and stage-out jobs (for the analyze job).
+    The cleanup job removes data from the scratch directory.</para>
+  </section>
+
+  <section id="tutorial_monitoring_cmd_tools">
+    <title>Command line tools for Monitoring and Debugging</title>
+
+    <para>Pegasus also comes with a series of command line tools that users
+    can use to monitor and debug their workflows.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>pegasus-status : monitor the status of the workflow</para>
+      </listitem>
+
+      <listitem>
+        <para>pegasus-analyzer : debug a failed workflow</para>
+      </listitem>
+
+      <listitem>
+        <para>pegasus-statistics : generate statistics from a workflow
+        run.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>We will run pegasus-statistics in a later section.</para>
+
+    <section>
+      <title>pegasus-status - monitoring the workflow</title>
+
+      <para>After the workflow has been submitted you can monitor it using the
+      <literal>pegasus-status</literal> command:</para>
+
+      <programlisting><emphasis role="bold">$  </emphasis><emphasis
+          role="bold">pegasus-status -l $WORK/tutorial/diamond/submit/trainXX/pegasus/diamond/run0001 </emphasis>
+(STAT  IN_STATE  JOB                                                                                  
+Run      01:06  diamond-0 ( $WORK/tutorial/diamond/submit/trainXX/pegasus/diamond/run0001 )
+Idle     00:32   ┗━preprocess_ID0000001                                                              
+Summary: 2 Condor jobs total (I:1 R:1)
+
+UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME                                 
+    5     0     0     1     0     2     0  25.0 Running *diamond-0.dag  
+
+</programlisting>
+
+      <para>This command shows the workflow (population-0) and the running
+      jobs . It also gives statistics on the number of jobs in each state and
+      the percentage of the jobs in the workflow that have finished
+      successfully.</para>
+
+      <para>Use the <literal>watch</literal> option to continuously monitor
+      the workflow:</para>
+
+      <programlisting>$ <emphasis role="bold">pegasus-status -w $WORK/tutorial/diamond/submit/trainXX/pegasus/diamond/run0001 </emphasis>
+...</programlisting>
+
+      <programlisting>(no matching jobs found in Condor Q)
+UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME                                 
+    0     0     0     0     0     8     0 100.0 Success *diamond-0.dag                          
+Summary: 1 DAG total (Success:1)
+      </programlisting>
+
+      <para>That means the workflow is finished successfully.</para>
+    </section>
+
+    <section>
+      <title>pegasus-analyzer - debug a failed workflow</title>
+
+      <para>In our case one or more jobs will fail, and the output of the
+      <literal>pegasus-status</literal> command above will have a non-zero
+      value in the <literal>FAILURE</literal> column.</para>
+
+      <programlisting>$<emphasis role="bold"> pegasus-status -l $WORK/tutorial/diamond/submit/trainXX/pegasus/diamond/run0002
+</emphasis>(no matching jobs found in Condor Q)
+UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME                                 
+    6     0     0     0     0     1     1  12.5 Failure *diamond-0.dag                          
+Summary: 1 DAG total (Failure:1)
+</programlisting>
+
+      <para>You can debug the failure using the
+      <literal>pegasus-analyzer</literal> command. This command will identify
+      the jobs that failed and show their output.</para>
+
+      <programlisting><emphasis role="bold">$ </emphasis><emphasis role="bold">pegasus-analyzer submit/trainXX/pegasus/diamond/run0002
+</emphasis>
+************************************Summary*************************************
+
+ Submit Directory   : submit/train301/pegasus/diamond/run0002
+ Total jobs         :      8 (100.00%)
+ # jobs succeeded   :      1 (12.50%)
+ # jobs failed      :      1 (12.50%)
+ # jobs held        :      0 (0.00%)
+ # jobs unsubmitted :      6 (75.00%)
+
+******************************Failed jobs' details******************************
+
+==========================stage_in_local_wrangler_0_0===========================
+
+ last state: POST_SCRIPT_FAILED
+       site: local
+submit file: 00/00/stage_in_local_wrangler_0_0.sub
+output file: 00/00/stage_in_local_wrangler_0_0.out.001
+ error file: 00/00/stage_in_local_wrangler_0_0.err.001
+
+-------------------------------Task #1 - Summary--------------------------------
+
+site        : local
+hostname    : login1.wrangler.tacc.utexas.edu
+executable  : /home/00340/vahik/SOFTWARE/install/pegasus/pegasus-4.9.1dev/bin/pegasus-transfer
+arguments   :   --threads   2   -m   1  
+exitcode    : 1
+working dir : /work/0003/train301/wrangler/tutorial/diamond/submit/train301/pegasus/diamond/run0002
+
+------------------Task #1 - pegasus::transfer - None - stdout-------------------
+
+2019-02-03 22:31:12,508    INFO:  Reading URL pairs from stdin
+2019-02-03 22:31:12,510    INFO:  1 transfers loaded
+2019-02-03 22:31:12,510    INFO:  PATH=/usr/bin:/bin
+2019-02-03 22:31:12,510    INFO:  LD_LIBRARY_PATH=
+2019-02-03 22:31:12,559    INFO:  --------------------------------------------------------------------------------
+2019-02-03 22:31:12,560    INFO:  Starting transfers - attempt 1
+2019-02-03 22:31:14,564   ERROR:  Expected local file does not exist: /work/0003/train301/wrangler/tutorial/diamond/input/f.a
+2019-02-03 22:31:14,565    INFO:  --------------------------------------------------------------------------------
+2019-02-03 22:31:14,565    INFO:  Stats: Total 1 transfers, 0.0 B transferred in 2 seconds. Rate: 0.0 B/s (0.0 b/s)
+2019-02-03 22:31:14,565    INFO:         Between sites local-&gt;wrangler : 1 transfers, 0.0 B transferred in 2 seconds. Rate: 0.0 B/s (0.0 b/s)
+2019-02-03 22:31:14,565 CRITICAL:  Some transfers failed! See above, and possibly stderr.
+
+</programlisting>
+
+      <para>In this example, we removed one of the input files. We will cover
+      this in more detail in the recovery section. The output of
+      pegasus-analyzer indicates that f.a could not be found.</para>
+    </section>
+  </section>
+
+  <section id="tutorial_wf_generation">
+    <title>Generating the Workflow</title>
+
+    <para>The example that you ran earlier already had the workflow
+    description (diamond.dax) generated. Pegasus reads workflow descriptions
+    from DAX files. The term "DAX" is short for "Directed Acyclic Graph in
+    XML". DAX is an XML file format that has syntax for expressing jobs,
+    arguments, files, and dependencies. We now will be creating the split
+    workflow that we just ran using the Pegasus provided DAX API:</para>
+
+    <figure>
+      <title>Diamond Workflow</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata align="center" contentwidth="70%"
+                     fileref="images/tutorial-diamond-wf.jpg"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>In this diagram, the ovals represent computational jobs, the
+    dog-eared squares are files, and the arrows are dependencies.</para>
+
+    <para>In order to create a DAX it is necessary to write code for a DAX
+    generator. Pegasus comes with Perl, Java, and Python libraries for writing
+    DAX generators. In this tutorial we will show how to use the Python
+    library.</para>
+
+    <para>The DAX generator for the diamond workflow is in the file
+    <filename>daxgen.py</filename>. Look at the file by typing:</para>
+
+    <programlisting>$ <emphasis role="bold">more daxgen.py</emphasis>
+...</programlisting>
+
+    <tip>
+      <para>We will be using the <literal>more</literal> command to inspect
+      several files in this tutorial. <literal>more</literal> is a pager
+      application, meaning that it splits text files into pages and displays
+      the pages one at a time. You can view the next page of a file by
+      pressing the spacebar. Type 'h' to get help on using
+      <literal>more</literal>. When you are done, you can type 'q' to close
+      the file.</para>
+    </tip>
+
+    <para>The code has 3 main sections:</para>
+
+    <orderedlist>
+      <listitem>
+        <para>A new ADAG object is created. This is the main object to which
+        jobs and dependencies are added.</para>
+
+        <programlisting><emphasis role="bold"># Create a abstract dag</emphasis>
+print "Creating ADAG..."
+diamond = ADAG("diamond")
+
+...
+</programlisting>
+      </listitem>
+
+      <listitem>
+        <para>Jobs and files are added. The 4 jobs in the diagram above are
+        added and 6 files are referenced. Arguments are defined using strings
+        and File objects. The input and output files are defined for each job.
+        This is an important step, as it allows Pegasus to track the files,
+        and stage the data if necessary. Workflow outputs are tagged with
+        "transfer=true".</para>
+
+        <programlisting><emphasis role="bold"># Add a preprocess job</emphasis>
+print "Adding preprocess job..."
+preprocess = Job(name="preprocess")
+a = File("f.a")
+b1 = File("f.b1")
+b2 = File("f.b2")
+preprocess.addArguments("-i",a,"-o",b1,"-o",b2)
+preprocess.uses(a, link=Link.INPUT)
+preprocess.uses(b1, link=Link.OUTPUT, transfer=False, register=False)
+preprocess.uses(b2, link=Link.OUTPUT, transfer=False, register=False)
+preprocess.addProfile(Profile("pegasus", "label", "cluster-1"))
+diamond.addJob(preprocess)
+
+
+...
+</programlisting>
+      </listitem>
+
+      <listitem>
+        <para>Dependencies are added. These are shown as arrows in the diagram
+        above. They define the parent/child relationships between the jobs.
+        When the workflow is executing, the order in which the jobs will be
+        run is determined by the dependencies between them.</para>
+
+        <programlisting><emphasis role="bold"># Add control-flow dependencies</emphasis>
+print "Adding control flow dependencies..."
+diamond.addDependency(Dependency(parent=preprocess, child=frl))
+diamond.addDependency(Dependency(parent=preprocess, child=frr))
+diamond.addDependency(Dependency(parent=frl, child=analyze))
+diamond.addDependency(Dependency(parent=frr, child=analyze))</programlisting>
+      </listitem>
+    </orderedlist>
+
+    <para>Generate a DAX file named <filename>diamond.dax</filename> by
+    typing:</para>
+
+    <programlisting>$ <emphasis role="bold">./generate_dax.sh </emphasis><emphasis
+        role="bold">diamond.dax</emphasis>
+Generated dax diamond.dax</programlisting>
+
+    <para>The <filename>diamond.dax</filename> file should contain an XML
+    representation of the split workflow. You can inspect it by typing:</para>
+
+    <programlisting>$ <emphasis role="bold">more diamond.dax</emphasis>
+...</programlisting>
+  </section>
+
+  <section id="tutorial_catalogs">
+    <title>Information Catalogs</title>
+
+    <para>The workflow description (DAX) that you specify to Pegasus is
+    portable, and usually does not contain any locations to physical input
+    files, executables or cluster end points where jobs are executed. Pegasus
+    uses three information catalogs during the planning process.</para>
+
+    <figure>
+      <title>Information Catalogs used by Pegasus</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/tutorial-pegasus-catalogs.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <section id="tut_site_catalog">
+      <title>The Site Catalog</title>
+
+      <para>The site catalog describes the sites where the workflow jobs are
+      to be executed. In this tutorial we assume that you have a Personal
+      Condor pool running on localhost. If you are using one of the tutorial
+      VMs this has already been setup for you. The site catalog for the
+      tutorial examples is in <filename>sites.xml</filename>:</para>
+
+      <programlisting>$ <emphasis role="bold">more sites.xml</emphasis>
+...
+
+
+    &lt;!-- The local site contains information about the submit host --&gt;
+    &lt;site handle="local" arch="x86_64" os="LINUX"&gt;
+        &lt;!-- This is where intermediate data will be stored in nonsharedfs modes--&gt;
+        &lt;directory type="shared-scratch" path="/home/00340/trainXX/tutorial/diamond/scratch"&gt;
+            &lt;file-server operation="all" url="file:///work/0003/trainXX/tutorial/diamond/scratch"/&gt;
+        &lt;/directory&gt;
+        <emphasis role="bold">&lt;!-- This is where output data will be stored --&gt;</emphasis>
+        &lt;directory type="shared-storage" path="/work/0003/trainXX/tutorial/diamond/output"&gt;
+            &lt;file-server operation="all" url="file:///work/0003/trainXX/tutorial/diamond/output"/&gt;
+        &lt;/directory&gt;
+    &lt;/site&gt;
+
+    &lt;site handle="wrangler" arch="x86_64" os="LINUX"&gt;
+         <emphasis role="bold">&lt;!-- Scratch directory on the cluster --&gt;</emphasis>
+        &lt;directory type="shared-scratch" path="/work/00340/trainXX/tutorial/diamond/wrangler/scratch"&gt;
+            &lt;file-server operation="all" url="file:///work/00340/trainXX/tutorial/diamond/wrangler/scratch"/&gt;
+        &lt;/directory&gt;
+
+        &lt;profile namespace="pegasus" key="style"&gt;glite&lt;/profile&gt;
+
+        <emphasis role="bold">&lt;!-- This tells glite what batch queue to submit jobs to --&gt;</emphasis>
+        &lt;profile namespace="pegasus" key="queue"&gt;normal&lt;/profile&gt;
+
+       <emphasis role="bold"> &lt;!--- This tells pegasus to have the auxillary jobs run on submit host 
+         and not go through the local cluster batch queue --&gt;</emphasis>
+        &lt;profile namespace="pegasus" key="auxillary.local"&gt;true&lt;/profile&gt;
+        <emphasis role="bold">&lt;!-- This tells glite what scheduler to use. It can be 'pbs', 'slurm' or 'sge'  --&gt;
+        </emphasis>&lt;profile namespace="condor" key="grid_resource"&gt;batch slurm&lt;/profile&gt;
+
+        <emphasis role="bold">	&lt;!-- This profile tells Pegasus where the worker package is installed on the site --&gt;
+        &lt;!-- Without this, Pegasus will automatically stage a worker package to the site --&gt;</emphasis>
+        &lt;profile namespace="env"  key="PEGASUS_HOME"&gt;/home/00340/vahik/SOFTWARE/install/pegasus/default&lt;/profile&gt;
+        &lt;profile namespace="pegasus" key="runtime"&gt;14400&lt;/profile&gt;
+        <emphasis role="bold">&lt;profile namespace="pegasus" key="project"&gt;TG-DDM160003&lt;/profile&gt;
+        </emphasis>&lt;profile namespace="pegasus" key="job.aggregator"&gt;mpiexec&lt;/profile&gt;
+        
+        <emphasis role="bold">&lt;!-- This profile tells Pegasus to create two clustered jobs
+            per level of the workflow, when horizontal clustering is
+            enabled --&gt;
+        </emphasis>&lt;profile namespace="pegasus" key="clusters.num" &gt;2&lt;/profile&gt;
+    &lt;/site&gt;
+
+</programlisting>
+
+      <note>
+        <para>By default (unless specified in properties), Pegasus picks ups
+        the site catalog from a XML file named sites.xml in the current
+        working directory from where pegasus-plan is invoked.</para>
+      </note>
+
+      <para>There are two sites defined in the site catalog: "local" and
+      "wrangler". The "local" site is used by Pegasus to learn about the
+      submit host where the workflow management system runs. The "wrangler"
+      site is the wrangler cluster at TACC.</para>
+
+      <orderedlist>
+        <listitem>
+          <para>The <emphasis role="bold">local</emphasis> site is configured
+          with a "storage" file system that is mounted on the submit host
+          (indicated by the file:// URL). This file system is where the output
+          data from the workflow will be stored. When the workflow is planned
+          we will tell Pegasus that the output site is "local".</para>
+        </listitem>
+
+        <listitem>
+          <para>The <emphasis role="bold">wrangler</emphasis> site is also
+          configured with a "scratch" file system. This file system is where
+          the working directory will be created and is automatically picked up
+          from the $WORK environment variable. When we plan the workflow we
+          will tell Pegasus that the execution site is "wrangler".</para>
+        </listitem>
+      </orderedlist>
+    </section>
+
+    <section>
+      <title id="tut_xform_catalog">The Transformation Catalog</title>
+
+      <para>The transformation catalog describes all of the executables
+      (called "transformations") used by the workflow. This description
+      includes the site(s) where they are located, the architecture and
+      operating system they are compiled for, and any other information
+      required to properly transfer them to the execution site and run
+      them.</para>
+
+      <para>For this tutorial, the transformation catalog is in the file
+      <filename>tc.txt</filename>:</para>
+
+      <programlisting>$ <emphasis role="bold">more tc.txt</emphasis>
+# This is the transformation catalog. It lists information about each of the
+# executables that are used by the workflow.
+
+tr preprocess {
+    site wrangler {
+        pfn "/work/0003/trainXX/tutorial/diamond/bin/preprocess"
+        arch "x86_64"
+        os "LINUX"
+        type "INSTALLED"
+
+        profile pegasus "cores" "1"
+        profile pegasus "nodes" "1"
+    }
+}
+
+
+...</programlisting>
+
+      <note>
+        <para>By default (unless specified in properties), Pegasus picks up
+        the transformation catalog from a text file named tc.txt in the
+        current working directory from where pegasus-plan is invoked.</para>
+      </note>
+
+      <para>The <filename>tc.txt</filename> file contains information about
+      two transformations: wc, and split. These three transformations are
+      referenced in the split DAX. The transformation catalog indicates that
+      both transformations are installed on the condorpool site, and are
+      compiled for x86_64 Linux.</para>
+    </section>
+
+    <section>
+      <title id="tut_replica_catalog">The Replica Catalog</title>
+
+      <para><emphasis role="bold">Note:</emphasis> Replica Catalog
+      configuration is not required for the tutorial setup. It is only
+      required if you want to refer to input files on external servers.</para>
+
+      <para>The example that you ran, was configured with the inputs already
+      present on the submit host (where Pegasus is installed) in a directory.
+      If you have inputs at external servers, then you can specify the URLs to
+      the input files in the Replica Catalog. This catalog tells Pegasus where
+      to find each of the input files for the workflow.</para>
+
+      <para>All files in a Pegasus workflow are referred to in the DAX using
+      their Logical File Name (LFN). These LFNs are mapped to Physical File
+      Names (PFNs) when Pegasus plans the workflow. This level of indirection
+      enables Pegasus to map abstract DAXes to different execution sites and
+      plan out the required file transfers automatically.</para>
+
+      <para>The Replica Catalog for the diamond workflow is in the
+      <filename>rc.txt</filename> file:</para>
+
+      <programlisting>$ <emphasis role="bold">more rc.txt</emphasis>
+# This is the replica catalog. It lists information about each of the
+# input files used by the workflow. You can use this to specify locations to input files present on external servers.
+
+# The format is:
+# LFN     PFN    pool="SITE"
+#
+# For example:
+#data.txt  file:///tmp/data.txt         site="local"
+#data.txt  http://example.org/data.txt  site="example"
+
+f.a file:///work/0003/trainXX/tutorial/diamond/input/f.a   site="local"</programlisting>
+
+      <note>
+        <para>By default (unless specified in properties), Pegasus picks ups
+        the transformation catalog from a text file named tc.txt in the
+        current working directory from where pegasus-plan is invoked. In our
+        tutorial, input files are on the submit host and we used the --input
+        dir option to pegasus-plan to specify where they are located.</para>
+      </note>
+
+      <para>This replica catalog contains only one entry for the diamond
+      workflow’s only input file.</para>
+    </section>
+  </section>
+
+  <section id="tutorial_configuration">
+    <title>Configuring Pegasus</title>
+
+    <para>In addition to the information catalogs, Pegasus takes a
+    configuration file that specifies settings that control how it plans the
+    workflow.</para>
+
+    <para>For the diamond workflow, the Pegasus configuration file is
+    relatively simple. It only contains settings to help Pegasus find the
+    information catalogs. These settings are in the
+    <filename>pegasus.properties</filename> file:</para>
+
+    <programlisting>$ <emphasis role="bold">more pegasus.properties</emphasis>
+# This tells Pegasus where to find the Site Catalog
+pegasus.catalog.site.file=sites.xml
+
+# This tells Pegasus where to find the Replica Catalog
+pegasus.catalog.replica=File
+pegasus.catalog.replica.file=rc.txt
+
+# This tells Pegasus where to find the Transformation Catalog
+pegasus.catalog.transformation=Text
+pegasus.catalog.transformation.file=tc.txt
+
+# Use condor to transfer workflow data
+pegasus.data.configuration=sharedfs
+
+# This is the name of the application for analytics
+pegasus.metrics.app=pegasus-tutorial
+</programlisting>
+  </section>
+
+  <section id="tutorial_failure_recovery">
+    <title>Recovery from Failures</title>
+
+    <para>Executing workflows in a distributed environment can lead to
+    failures. Often, they are a result of the underlying infrastructure being
+    temporarily unavailable, or errors in workflow setup such as incorrect
+    executables specified, or input files being unavailable.</para>
+
+    <para>In case of transient infrastructure failures such as a node being
+    temporarily down in a cluster, Pegasus will automatically retry jobs in
+    case of failure. After a set number of retries (usually once), a hard
+    failure occurs, because of which workflow will eventually fail.</para>
+
+    <para>In most of the cases, these errors are correctable (either the
+    resource comes back online or application errors are fixed). Once the
+    errors are fixed, you may not want to start a new workflow but instead
+    start from the point of failure. In order to do this, you can submit the
+    rescue workflows automatically created in case of failures. A rescue
+    workflow contains only a description of only the work that remains to be
+    done.</para>
+
+    <section>
+      <title>Submitting Rescue Workflows</title>
+
+      <para>In this example, we will take our previously run workflow and
+      introduce errors such that workflow we just executed fails at
+      runtime.</para>
+
+      <para>First we will "hide" the input file to cause a failure by renaming
+      it:</para>
+
+      <programlisting>$ <emphasis role="bold">mv input/f.a input/f.a.bak</emphasis>
+      </programlisting>
+
+      <para>Now submit the workflow again:</para>
+
+      <programlisting>$ <emphasis role="bold">./plan_dax.sh diamond.dax </emphasis>
+2018.12.13 18:55:18.985 CST:    
+2018.12.13 18:55:18.991 CST:   ----------------------------------------------------------------------- 
+2018.12.13 18:55:18.996 CST:   File for submitting this DAG to HTCondor           : diamond-0.dag.condor.sub 
+2018.12.13 18:55:19.001 CST:   Log of DAGMan debugging messages                 : diamond-0.dag.dagman.out 
+2018.12.13 18:55:19.007 CST:   Log of HTCondor library output                     : diamond-0.dag.lib.out 
+2018.12.13 18:55:19.012 CST:   Log of HTCondor library error messages             : diamond-0.dag.lib.err 
+2018.12.13 18:55:19.017 CST:   Log of the life of condor_dagman itself          : diamond-0.dag.dagman.log 
+2018.12.13 18:55:19.023 CST:    
+2018.12.13 18:55:19.028 CST:   -no_submit given, not submitting DAG to HTCondor.  You can do this with: 
+2018.12.13 18:55:19.039 CST:   ----------------------------------------------------------------------- 
+2018.12.13 18:55:19.740 CST:   Your database is compatible with Pegasus version: 4.9.1dev 
+2018.12.13 18:55:19.844 CST:   Submitting to condor diamond-0.dag.condor.sub 
+2018.12.13 18:55:19.952 CST:   Submitting job(s). 
+2018.12.13 18:55:19.958 CST:   1 job(s) submitted to cluster 1184. 
+2018.12.13 18:55:19.963 CST:    
+2018.12.13 18:55:19.968 CST:   Your workflow has been started and is running in the base directory: 
+2018.12.13 18:55:19.974 CST:    
+2018.12.13 18:55:19.979 CST:     $WORK/tutorial/diamond/submit/trainXX/pegasus/diamond/run0002 
+2018.12.13 18:55:19.984 CST:    
+2018.12.13 18:55:19.990 CST:   *** To monitor the workflow you can run *** 
+2018.12.13 18:55:19.995 CST:    
+2018.12.13 18:55:20.001 CST:     pegasus-status -l $WORK/tutorial/diamond/submit/trainXX/pegasus/diamond/run0002 
+2018.12.13 18:55:20.006 CST:    
+2018.12.13 18:55:20.011 CST:   *** To remove your workflow run *** 
+2018.12.13 18:55:20.017 CST:    
+2018.12.13 18:55:20.022 CST:     pegasus-remove $WORK/tutorial/diamond/submit/trainXX/pegasus/diamond/run0002 
+2018.12.13 18:55:20.027 CST:    
+2018.12.13 18:55:25.047 CST:   Time taken to execute is 1.714 seconds 
+
+
+</programlisting>
+
+      <para>We will now monitor the workflow using the pegasus-status command
+      till it fails. We will add -w option to pegasus-status to watch
+      automatically till the workflow finishes:</para>
+
+      <programlisting>$ <emphasis role="bold">pegasus-status -w submit/trainXX/pegasus/diamond/run0002 </emphasis>
+(no matching jobs found in Condor Q)
+UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME                                 
+    6     0     0     0     0     1     1  12.5 Failure *diamond-0.dag                          
+Summary: 1 DAG total (Failure:1)</programlisting>
+
+      <para>Now we can use the pegasus-analyzer command to determine what went
+      wrong:</para>
+
+      <programlisting>$ <emphasis role="bold"> pegasus-analyzer submit/trainXX/pegasus/diamond/run0002</emphasis>
+
+************************************Summary*************************************
+
+ Submit Directory   : submit/trainXX/pegasus/diamond/run0002
+ Total jobs         :      8 (100.00%)
+ # jobs succeeded   :      1 (12.50%)
+ # jobs failed      :      1 (12.50%)
+ # jobs held        :      0 (0.00%)
+ # jobs unsubmitted :      6 (75.00%)
+
+******************************Failed jobs' details******************************
+
+==========================stage_in_local_wrangler_0_0===========================
+
+ last state: POST_SCRIPT_FAILED
+       site: local
+submit file: 00/00/stage_in_local_wrangler_0_0.sub
+output file: 00/00/stage_in_local_wrangler_0_0.out.001
+ error file: 00/00/stage_in_local_wrangler_0_0.err.001
+
+-------------------------------Task #1 - Summary--------------------------------
+
+site        : local
+hostname    : login1.wrangler.tacc.utexas.edu
+executable  : /work/0003/trainXX/SOFTWARE/install/pegasus/pegasus-4.9.1dev/bin/pegasus-transfer
+arguments   :   --threads   2  
+exitcode    : 1
+working dir : $WORK/tutorial/diamond/submit/trainXX/pegasus/diamond/run0002
+
+------------------Task #1 - pegasus::transfer - None - stdout-------------------
+
+2018-12-13 19:03:05,594    INFO:  Reading URL pairs from stdin
+2018-12-13 19:03:05,595    INFO:  1 transfers loaded
+2018-12-13 19:03:05,595    INFO:  PATH=/usr/bin:/bin
+2018-12-13 19:03:05,595    INFO:  LD_LIBRARY_PATH=
+2018-12-13 19:03:05,644    INFO:  --------------------------------------------------------------------------------
+2018-12-13 19:03:05,644    INFO:  Starting transfers - attempt 1
+2018-12-13 19:03:07,647   ERROR:  Expected local file does not exist: $WORK/tutorial/diamond/input/f.a
+2018-12-13 19:05:22,649    INFO:  --------------------------------------------------------------------------------
+2018-12-13 19:05:22,650    INFO:  Starting transfers - attempt 2
+2018-12-13 19:05:24,653   ERROR:  Expected local file does not exist: $WORK/tutorial/diamond/input/f.a
+2018-12-13 19:10:24,721    INFO:  --------------------------------------------------------------------------------
+2018-12-13 19:10:24,721    INFO:  Starting transfers - attempt 3
+2018-12-13 19:10:26,724   ERROR:  Expected local file does not exist: $WORK/tutorial/diamond/input/f.a
+2018-12-13 19:10:26,724    INFO:  --------------------------------------------------------------------------------
+2018-12-13 19:10:26,725    INFO:  Stats: Total 3 transfers, 0.0 B transferred in 441 seconds. Rate: 0.0 B/s (0.0 b/s)
+2018-12-13 19:10:26,725    INFO:         Between sites local-&gt;wrangler : 3 transfers, 0.0 B transferred in 441 seconds. Rate: 0.0 B/s (0.0 b/s)
+2018-12-13 19:10:26,725 CRITICAL:  Some transfers failed! See above, and possibly stderr.
+
+
+
+
+</programlisting>
+
+      <para>The above listing indicates that it could not transfer
+      pegasus.html. Let's correct that error by restoring the pegasus.html
+      file:</para>
+
+      <programlisting><emphasis role="bold">$  mv input/f.a.bak input/f.a</emphasis>
+      </programlisting>
+
+      <para>Now in order to start the workflow from where we left off, instead
+      of executing pegasus-plan we will use the command pegasus-run on the
+      directory from our previous failed workflow run:</para>
+
+      <programlisting><emphasis role="bold">$  pegasus-run submit/trainXX/pegasus/diamond/run0002</emphasis>
+Rescued $WORK/tutorial/diamond/submit/trainXX/pegasus/diamond/run0002/diamond-0.log as\
+$WORK/tutorial/diamond/submit/trainXX/pegasus/diamond/run0002/diamond-0.log.000
+Submitting to condor diamond-0.dag.condor.sub
+Submitting job(s).
+1 job(s) submitted to cluster 1190.
+
+Your workflow has been started and is running in the base directory:
+
+  submit/trainXX/pegasus/diamond/run0002
+
+*** To monitor the workflow you can run ***
+
+  pegasus-status -l submit/trainXX/pegasus/diamond/run0002
+
+*** To remove your workflow run ***
+
+  pegasus-remove submit/trainXX/pegasus/diamond/run0002
+
+</programlisting>
+
+      <para>The workflow will now run to completion and succeed.</para>
+
+      <programlisting><emphasis role="bold">$ pegasus-status -l </emphasis><emphasis
+          role="bold"/><emphasis role="bold">submit/trainXX/pegasus/diamond/run0002</emphasis>
+
+(no matching jobs found in Condor Q)
+UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME                                 
+    0     0     0     0     0     8     0 100.0 Success *diamond-0.dag         
+                     
+</programlisting>
+    </section>
+  </section>
+
+  <section id="tutorial_pmc">
+    <title>High Throughput Tasks as MPI Master/Worker Cluster Jobs</title>
+
+    <para>Often, users have lots of short running single processor jobs in
+    their workflow, that if submitted individually to the underlying SLURM
+    cluster take a long time to execute, as each job sits in the SLURM queue.
+    For example in our previous example, each job in the blackdiamond workflow
+    actually runs for a minute each, and using only one core on a whole node.
+    Additionally, since each job is submitted as a separate job to SLURM, each
+    job sits in the cluster SLURM queue before it is executed. In order to
+    alleviate this, it makes sense to cluster the short running jobs together.
+    Pegasus allows users to cluster tasks in their workflow into larger
+    chunks, and then execute them using a MPI based master worker tool called
+    <emphasis><emphasis role="bold">pegasus-mpi-cluster</emphasis></emphasis>
+    .</para>
+
+    <para>In this example, we take the same blackdiamond workflow that we ran
+    previously and now run it using PMC where the whole workflow is clustered
+    into a single MPI job. In order to tell Pegasus to cluster the jobs we
+    have to do the following</para>
+
+    <orderedlist>
+      <listitem>
+        <para>Tell Pegasus what jobs are clustered. In this example, we do it
+        by annotating the DAX with a special pegasus profile called label. In
+        the DAX generator daxgen.py you will see the following</para>
+
+        <programlisting>preprocess = Job(name="preprocess")
+a = File("f.a")
+b1 = File("f.b1")
+b2 = File("f.b2")
+preprocess.addArguments("-i",a,"-o",b1,"-o",b2)
+preprocess.uses(a, link=Link.INPUT)
+preprocess.uses(b1, link=Link.OUTPUT, transfer=False, register=False)
+preprocess.uses(b2, link=Link.OUTPUT, transfer=False, register=False)
+
+<emphasis role="bold">preprocess.addProfile(Profile("pegasus", "label", "cluster-1"))
+</emphasis>
+diamond.addJob(preprocess)
+
+        </programlisting>
+      </listitem>
+
+      <listitem>
+        <para>Tell pegasus that it has to do job clustering and what
+        executable to use for job clustering.</para>
+
+        <para>To do this, you do the following</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>In pegasus.properties file specify the property <emphasis
+            role="bold">pegasus.job.aggregator=mpiexec</emphasis></para>
+          </listitem>
+
+          <listitem>
+            <para>In the transformation catalog, specify the path to the
+            clustering executable. In this case, it is a wrapper around PMC
+            that does mpiexec on pegasus-mpi-cluster. In tc.txt you can see
+            the last entry as</para>
+
+            <programlisting>$ <emphasis role="bold">cat tc.txt</emphasis>
+
+tr pegasus::mpiexec {
+  site wrangler {
+    profile pegasus "cores" "48"
+    profile pegasus "nodes" "1"
+    profile pegasus "runtime" "43200"
+    profile pegasus "change.dir" "true"
+    pfn "/work/0003/trainXX/tutorial/diamond/bin/pmc-wrapper"
+    type "INSTALLED"
+  }
+}
+</programlisting>
+
+            <para>The profiles tell Pegasus that the PMC executable needs to
+            be run on 48 processors on a single node.</para>
+
+            <para>The pmc-wrapper is a simple bash script that sets up the
+            TACC MPI environment.</para>
+
+            <programlisting>$<emphasis role="bold"> cat bin/pmc-wrapper </emphasis>
+#!/bin/bash
+
+set -e
+
+export TACC_MPI_GETMODE=mvapich2_ssh
+export MPICH_HOME=/opt/apps/intel15/mvapich2/2.1
+export LD_LIBRARY_PATH=/opt/apps/intel15/mvapich2/2.1/lib:/opt/apps/intel15/mvapich2/2.1/lib/shared:\
+/opt/apps/intel/15/composer_xe_2015.3.187/mpirt/lib/intel64:/opt/apps/intel/15/composer_xe_2015.3.187/ipp/lib/intel64:\
+/opt/apps/intel/15/composer_xe_2015.3.187/mkl/lib/intel64:/opt/apps/intel/15/composer_xe_2015.3.187/tbb/lib/intel64:\
+/opt/apps/intel/15/composer_xe_2015.3.187/tbb/lib/intel64/gcc4.4:\
+/opt/apps/intel/15/composer_xe_2015.3.187/compiler/lib/intel64:/opt/apps/gcc/4.9.1/lib:/opt/apps/gcc/4.9.1/lib64
+
+ibrun /work/0003/vahik/SOFTWARE/install/pegasus/default/pegasus-mpi-cluster "$@
+
+</programlisting>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para>Lastly, while planning the workflow we add <emphasis
+        role="bold">--cluster </emphasis>option to pegasus-plan. That is what
+        we have in plan_cluster_dax.sh file.</para>
+
+        <programlisting>$ <emphasis role="bold">cat plan_cluster_dax.sh</emphasis>
+
+#!/bin/bash
+
+DIR=$(cd $(dirname $0) &amp;&amp; pwd)
+
+if [ $# -ne 1 ]; then
+    echo "Usage: $0 DAXFILE"
+    exit 1
+fi
+
+DAXFILE=$1
+
+# This command tells Pegasus to plan the workflow contained in 
+# dax file passed as an argument. The planned workflow will be stored
+# in the "submit" directory. The execution # site is "".
+# --input-dir tells Pegasus where to find workflow input files.
+# --output-dir tells Pegasus where to place workflow output files.
+pegasus-plan --conf pegasus.properties \
+    --dax $DAXFILE \
+    --dir $DIR/submit \
+    --input-dir $DIR/input \
+    --output-dir $DIR/output \
+    --cleanup leaf \
+    --cluster label \
+    --force \
+    --sites wrangler \
+    --submit
+</programlisting>
+      </listitem>
+    </orderedlist>
+
+    <para><emphasis role="bold">Let us now plan and run the
+    workflow.</emphasis></para>
+
+    <programlisting>$ <emphasis role="bold">./plan_cluster_dax.sh diamond.dax 
+</emphasis>2018.12.14 09:37:44.353 CST:    
+2018.12.14 09:37:44.359 CST:   ----------------------------------------------------------------------- 
+2018.12.14 09:37:44.364 CST:   File for submitting this DAG to HTCondor           : diamond-0.dag.condor.sub 
+2018.12.14 09:37:44.370 CST:   Log of DAGMan debugging messages                 : diamond-0.dag.dagman.out 
+2018.12.14 09:37:44.375 CST:   Log of HTCondor library output                     : diamond-0.dag.lib.out 
+2018.12.14 09:37:44.381 CST:   Log of HTCondor library error messages             : diamond-0.dag.lib.err 
+2018.12.14 09:37:44.386 CST:   Log of the life of condor_dagman itself          : diamond-0.dag.dagman.log 
+2018.12.14 09:37:44.391 CST:    
+2018.12.14 09:37:44.397 CST:   -no_submit given, not submitting DAG to HTCondor.  You can do this with: 
+2018.12.14 09:37:44.407 CST:   ----------------------------------------------------------------------- 
+2018.12.14 09:37:45.126 CST:   Your database is compatible with Pegasus version: 4.9.1dev 
+2018.12.14 09:37:45.213 CST:   Submitting to condor diamond-0.dag.condor.sub 
+2018.12.14 09:37:45.252 CST:   Submitting job(s). 
+2018.12.14 09:37:45.257 CST:   1 job(s) submitted to cluster 1198. 
+2018.12.14 09:37:45.263 CST:    
+2018.12.14 09:37:45.268 CST:   Your workflow has been started and is running in the base directory: 
+2018.12.14 09:37:45.273 CST:    
+2018.12.14 09:37:45.279 CST:     $WORK/tutorial/diamond/submit/trainXX/pegasus/diamond/run0003 
+2018.12.14 09:37:45.284 CST:    
+2018.12.14 09:37:45.289 CST:   *** To monitor the workflow you can run *** 
+2018.12.14 09:37:45.294 CST:    
+2018.12.14 09:37:45.300 CST:     pegasus-status -l $WORK/tutorial/diamond/submit/trainXX/pegasus/diamond/run0003 
+2018.12.14 09:37:45.305 CST:    
+2018.12.14 09:37:45.310 CST:   *** To remove your workflow run *** 
+2018.12.14 09:37:45.316 CST:    
+2018.12.14 09:37:45.321 CST:     pegasus-remove $WORK/tutorial/diamond/submit/trainXX/pegasus/diamond/run0003 
+2018.12.14 09:37:45.326 CST:    
+2018.12.14 09:37:45.980 CST:   Time taken to execute is 1.699 seconds <emphasis
+        role="bold">
+</emphasis></programlisting>
+
+    <para>This is what the diamond workflow looks like after Pegasus has
+    finished planning the DAX</para>
+
+    <figure>
+      <title>Clustered Diamond Workflow</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata align="center" contentwidth="50%"
+                     fileref="images/diamond-pmc-dag.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>You can see that instead of 4 jobs making up the diamond have been
+    replaced by a single merge_cluster-1 job, that is executed as a MPI
+    job.</para>
+
+    <para>stdout/stderr of the jobs now appears as a set of outputs in the
+    merged job output. This can be found in the 00/00/merge_cluster-1.out.000
+    file in the submit directory.</para>
+  </section>
+
+  <section id="tutorial_mpi_workflows">
+    <title>MPI Jobs</title>
+
+    <para>This exercise walks through running a simple workflow with an MPI
+    job. This example executes a workflow consisting of a single MPI job that
+    executes on Wrangler. The MPI executable is a simple hello world MPI
+    executable that is shipped with the example and needs to be compiled by
+    each user. This example is a canonical example, that highlights the data
+    management capabilities of Pegasus, whereby as part of the workflow
+    execution you can retrieve input from a local/remote location , execute
+    the jobs defined in the DAX ( in this case a single MPI job), ship the
+    data out to local directory/remote location, and cleanup the scratch space
+    automatically as the workflow progresses.</para>
+
+    <programlisting><emphasis role="bold">$ cd $WORK/tutorial</emphasis>
+</programlisting>
+
+    <para>We now use pegasus-init to setup up this workflow. This time around
+    we select choice 8 as the workflow to setup</para>
+
+    <programlisting><emphasis role="bold">$</emphasis> <emphasis role="bold">pegasus-init mpi</emphasis>
+Do you want to generate a tutorial workflow? (y/n) [n]: <emphasis role="bold">y</emphasis>
+1: Local Machine Condor Pool
+2: USC HPCC Cluster
+3: OSG from ISI submit node
+4: XSEDE, with Bosco
+5: Bluewaters, with Glite
+<emphasis role="bold">6: TACC Wrangler with Glite</emphasis>
+What environment is tutorial to be setup for? (1-6) [1]: <emphasis role="bold">6</emphasis>
+What project your jobs should run under. For example on TACC there are like : TG-DDM160003 ?: <emphasis
+        role="bold">TG-XXXXXX</emphasis>
+1: Process
+2: Pipeline
+3: Split
+4: Merge
+5: EPA (requires R)
+6: Population Modeling using Containers
+7: Diamond
+<emphasis role="bold">8: MPI Hello World</emphasis>
+What tutorial workflow do you want? (1-8) [1]: <emphasis role="bold">8</emphasis>
+Pegasus Tutorial setup for example workflow - mpi-hw for execution on wrangler-glite in directory $WORK/tutorial/mpi</programlisting>
+
+    <para>Now lets first compile the hello world program and set it up</para>
+
+    <programlisting><emphasis role="bold">$ cd $WORK/tutorial/mpi
+</emphasis>
+<emphasis role="bold">$  make clean install</emphasis>
+rm -f pegasus-mpi-hw.o core core.* 
+mpicxx  -O pegasus-mpi-hw.c -c -o pegasus-mpi-hw.o
+mpicxx  pegasus-mpi-hw.o -o pegasus-mpi-hw 
+install -D pegasus-mpi-hw ./bin
+</programlisting>
+
+    <para>You will find the c executable in it and a simple wrapper that
+    launches the executable using ibrun.</para>
+
+    <programlisting><emphasis role="bold">$ cat bin/mpi-hello-world-wrapper 
+</emphasis>#!/bin/bash
+set -e
+
+# before launching the job switch to the directory that
+# pegasus created for the workflow
+cd $PEGASUS_SCRATCH_DIR
+
+
+export TACC_MPI_GETMODE=mvapich2_ssh
+export MPICH_HOME=/opt/apps/intel15/mvapich2/2.1
+export LD_LIBRARY_PATH=/opt/apps/intel15/mvapich2/2.1/lib:/opt/apps/intel15/mvapich2/2.1/lib/shared:\
+/opt/apps/intel/15/composer_xe_2015.3.187/mpirt/lib/intel64:\
+/opt/apps/intel/15/composer_xe_2015.3.187/ipp/lib/intel64:\
+/opt/apps/intel/15/composer_xe_2015.3.187/mkl/lib/intel64:/opt/apps/intel/15/composer_xe_2015.3.187/tbb/lib/intel64:\
+/opt/apps/intel/15/composer_xe_2015.3.187/tbb/lib/intel64/gcc4.4:/opt/apps/intel/15/composer_xe_2015.3.187/compiler/lib/intel64:\
+/opt/apps/gcc/4.9.1/lib:/opt/apps/gcc/4.9.1/lib64
+
+ibrun  /work/0003/trainXX/tutorial/mpi/bin/pegasus-mpi-hw  "$@"</programlisting>
+
+    <para>We now generate the DAX</para>
+
+    <programlisting>$ ./generate_dax.sh mpi.dax
+</programlisting>
+
+    <figure>
+      <title>MPI Workflow</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/tutorial-mpi-wf.jpg"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <programlisting><emphasis role="bold">$  more mpi.dax </emphasis>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!-- generated: 2018-12-14 09:58:37.756729 --&gt;
+&lt;!-- generated by: trainXX --&gt;
+&lt;!-- generator: python --&gt;
+&lt;adag xmlns="http://pegasus.isi.edu/schema/DAX" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" \
+xsi:schemaLocation="http://pegasus.isi.edu/schema/DAX http://pegasus.isi.edu/schema/dax-3.6.xsd" version="3.6" name="mpi-hello-
+world"&gt;
+  &lt;metadata key="created"&gt;Fri Dec 14 09:58:37 2018&lt;/metadata&gt;
+  &lt;metadata key="dax.api"&gt;python&lt;/metadata&gt;
+  &lt;metadata key="creator"&gt;trainXX@login1.wrangler.tacc.utexas.edu&lt;/metadata&gt;
+  &lt;job id="ID0000001" namespace="pegasus" name="mpihw"&gt;
+      &lt;argument&gt;-i  &lt;file name="f.in"/&gt; -o  &lt;file name="f.out"/&gt;&lt;/argument&gt;
+      &lt;profile namespace="globus" key="jobtype"&gt;mpi&lt;/profile&gt;
+      &lt;profile namespace="pegasus" key="nodes"&gt;2&lt;/profile&gt;
+      &lt;profile namespace="pegasus" key="cores"&gt;32&lt;/profile&gt;
+      &lt;profile namespace="pegasus" key="runtime"&gt;300&lt;/profile&gt;
+      &lt;profile namespace="pegasus" key="ppn"&gt;16&lt;/profile&gt;
+      &lt;uses name="f.in" link="input"/&gt;
+      &lt;uses name="f.out" link="output"/&gt;
+  &lt;/job&gt;
+&lt;/adag&gt;
+</programlisting>
+
+    <para>We will now plan this workflow and submit it for execution</para>
+
+    <programlisting>$ ./plan_dax.sh mpi.dax 
+2018.12.14 10:05:09.343 CST:    
+2018.12.14 10:05:09.348 CST:   ----------------------------------------------------------------------- 
+2018.12.14 10:05:09.354 CST:   File for submitting this DAG to HTCondor           : mpi-hello-world-0.dag.condor.sub 
+2018.12.14 10:05:09.359 CST:   Log of DAGMan debugging messages                 : mpi-hello-world-0.dag.dagman.out 
+2018.12.14 10:05:09.364 CST:   Log of HTCondor library output                     : mpi-hello-world-0.dag.lib.out 
+2018.12.14 10:05:09.370 CST:   Log of HTCondor library error messages             : mpi-hello-world-0.dag.lib.err 
+2018.12.14 10:05:09.375 CST:   Log of the life of condor_dagman itself          : mpi-hello-world-0.dag.dagman.log 
+2018.12.14 10:05:09.380 CST:    
+2018.12.14 10:05:09.386 CST:   -no_submit given, not submitting DAG to HTCondor.  You can do this with: 
+2018.12.14 10:05:09.396 CST:   ----------------------------------------------------------------------- 
+2018.12.14 10:05:10.052 CST:   Your database is compatible with Pegasus version: 4.9.1dev 
+2018.12.14 10:05:10.157 CST:   Submitting to condor mpi-hello-world-0.dag.condor.sub 
+2018.12.14 10:05:10.213 CST:   Submitting job(s). 
+2018.12.14 10:05:10.218 CST:   1 job(s) submitted to cluster 1203. 
+2018.12.14 10:05:10.223 CST:    
+2018.12.14 10:05:10.229 CST:   Your workflow has been started and is running in the base directory: 
+2018.12.14 10:05:10.234 CST:    
+2018.12.14 10:05:10.240 CST:     $WORK/tutorial/mpi/submit/trainXX/pegasus/mpi-hello-world/run0001 
+2018.12.14 10:05:10.245 CST:    
+2018.12.14 10:05:10.250 CST:   *** To monitor the workflow you can run *** 
+2018.12.14 10:05:10.256 CST:    
+2018.12.14 10:05:10.261 CST:     pegasus-status -l $WORK/tutorial/mpi/submit/trainXX/pegasus/mpi-hello-world/run0001 
+2018.12.14 10:05:10.266 CST:    
+2018.12.14 10:05:10.272 CST:   *** To remove your workflow run *** 
+2018.12.14 10:05:10.277 CST:    
+2018.12.14 10:05:10.282 CST:     pegasus-remove $WORK/tutorial/mpi/submit/trainXX/pegasus/mpi-hello-world/run0001 
+2018.12.14 10:05:10.287 CST:    
+2018.12.14 10:05:10.994 CST:   Time taken to execute is 1.651 seconds 
+</programlisting>
+
+    <para>We monitor the workflow and let it complete<programlisting><emphasis
+          role="bold">$ pegasus-status -l -w ./submit/trainXX/pegasus/mpi-hello-world/run0001 </emphasis>
+
+(no matching jobs found in Condor Q)
+UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME                                 
+    0     0     0     0     0     6     0 100.0 Success *mpi-hello-world-0.dag        </programlisting><parameter>The
+    output file will be in the output folder</parameter></para>
+
+    <programlisting><emphasis role="bold">$ cat output/f.out 
+</emphasis>[Master] Total number of MPI processes 32
+[Master] Hello world!  I am process number: 0 on host c251-113.wrangler.tacc.utexas.edu
+[Worker] Hello world!  I am process number: 1 on host c251-113.wrangler.tacc.utexas.edu
+[Worker] Hello world!  I am process number: 2 on host c251-113.wrangler.tacc.utexas.edu
+[Worker] Hello world!  I am process number: 3 on host c251-113.wrangler.tacc.utexas.edu
+[Worker] Hello world!  I am process number: 4 on host c251-113.wrangler.tacc.utexas.edu
+[Worker] Hello world!  I am process number: 5 on host c251-113.wrangler.tacc.utexas.edu
+[Worker] Hello world!  I am process number: 6 on host c251-113.wrangler.tacc.utexas.edu
+[Worker] Hello world!  I am process number: 8 on host c251-113.wrangler.tacc.utexas.edu
+[Worker] Hello world!  I am process number: 7 on host c251-113.wrangler.tacc.utexas.edu
+[Worker] Hello world!  I am process number: 9 on host c251-113.wrangler.tacc.utexas.edu
+[Worker] Hello world!  I am process number: 10 on host c251-113.wrangler.tacc.utexas.edu
+[Worker] Hello world!  I am process number: 11 on host c251-113.wrangler.tacc.utexas.edu
+[Worker] Hello world!  I am process number: 12 on host c251-113.wrangler.tacc.utexas.edu
+[Worker] Hello world!  I am process number: 13 on host c251-113.wrangler.tacc.utexas.edu
+[Worker] Hello world!  I am process number: 14 on host c251-113.wrangler.tacc.utexas.edu
+[Worker] Hello world!  I am process number: 15 on host c251-113.wrangler.tacc.utexas.edu
+[Worker] Hello world!  I am process number: 20 on host c251-114.wrangler.tacc.utexas.edu
+[Worker] Hello world!  I am process number: 21 on host c251-114.wrangler.tacc.utexas.edu
+[Worker] Hello world!  I am process number: 19 on host c251-114.wrangler.tacc.utexas.edu
+[Worker] Hello world!  I am process number: 22 on host c251-114.wrangler.tacc.utexas.edu
+[Worker] Hello world!  I am process number: 16 on host c251-114.wrangler.tacc.utexas.edu
+[Worker] Hello world!  I am process number: 24 on host c251-114.wrangler.tacc.utexas.edu
+[Worker] Hello world!  I am process number: 17 on host c251-114.wrangler.tacc.utexas.edu
+[Worker] Hello world!  I am process number: 18 on host c251-114.wrangler.tacc.utexas.edu
+[Worker] Hello world!  I am process number: 23 on host c251-114.wrangler.tacc.utexas.edu
+[Worker] Hello world!  I am process number: 26 on host c251-114.wrangler.tacc.utexas.edu
+[Worker] Hello world!  I am process number: 27 on host c251-114.wrangler.tacc.utexas.edu
+[Worker] Hello world!  I am process number: 29 on host c251-114.wrangler.tacc.utexas.edu
+[Worker] Hello world!  I am process number: 30 on host c251-114.wrangler.tacc.utexas.edu
+[Worker] Hello world!  I am process number: 25 on host c251-114.wrangler.tacc.utexas.edu
+[Worker] Hello world!  I am process number: 28 on host c251-114.wrangler.tacc.utexas.edu
+[Worker] Hello world!  I am process number: 31 on host c251-114.wrangler.tacc.utexas.edu
+</programlisting>
+  </section>
+
+  <section id="tutorial_conclusion">
+    <title>Conclusion</title>
+
+    <para>This brings you to the end of the Pegasus tutorial on TACC Wrangler
+    cluster. The tutorial should have given you an overview of how to compose
+    a simple workflow using Pegasus and running it on the TACC Wrangler
+    cluster. The tutorial examples, should provide a good starting point for
+    you to port your application to a Pegasus workflow. If you need help in
+    porting your application to Pegasus contact us on the following support
+    channels</para>
+
+    <para>Public mailman list: pegasus-users@isi.edu (subscribe <ulink
+    url="https://mailman.isi.edu/mailman/listinfo/pegasus-users">here</ulink>)</para>
+
+    <para>Private support list: pegasus-support@isi.edu</para>
+
+    <para>Detailed Pegasus Documentation can be found <ulink
+    url="https://pegasus.isi.edu/documentation/">here</ulink>.</para>
+  </section>
+</chapter>
