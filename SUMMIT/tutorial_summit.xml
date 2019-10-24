@@ -8,8 +8,12 @@
     <title>Getting Started</title>
 
     <para>This tutorial will take you through the steps of running simple
-    workflows using Pegasus Workflow Management System. Pegasus allows
-    scientists to</para>
+    workflows using Pegasus Workflow Management System that are executed on
+    the OLCF Summit system. In this tutorial, we will walk through setting up
+    a workflow submit node for Pegasus in the OLCF Kubernetes cluster and then
+    submit workflows from their to SUMMIT.</para>
+
+    <para> Pegasus allows scientists to</para>
 
     <orderedlist>
       <listitem>
@@ -100,53 +104,368 @@ you get this</programlisting>
     or anything else related to Pegasus, you can contact the Pegasus Users
     mailing list at <email>pegasus-users@isi.edu</email> to get help.
     </emphasis></para>
+  </section>
 
-    <para>Login to the wrangler.tacc.utexas.edu submit node</para>
+  <section id="tutorial_prereq">
+    <title>Prerequisites</title>
 
-    <programlisting><emphasis role="bold">$ </emphasis><emphasis role="bold">ssh trainXX@wrangler.tacc.utexas.edu</emphasis>
+    <para>Before you start this tutorial, you need to make sure of the
+    following.</para>
 
-To access the system:
+    <orderedlist>
+      <listitem>
+        <para>You have a user account at OLCF with access to SUMMIT.</para>
+      </listitem>
 
-1) If not using ssh-keys, please enter your TACC password at the password prompt
-2) At the TACC Token prompt, enter your 6-digit code followed by &lt;return&gt;.
+      <listitem>
+        <para>A working RSA Token to access OLCF's systems</para>
+      </listitem>
 
+      <listitem>
+        <para>You have an automation user associated with your user account
+        that can login to Kubernetes Marble Cluster.</para>
+      </listitem>
+
+      <listitem>
+        <para>Openshift's origin client
+        https://github.com/openshift/origin/releases </para>
+      </listitem>
+
+      <listitem>
+        <para>Allocation on OLCF's Kubernetes Cluster</para>
+      </listitem>
+    </orderedlist>
+  </section>
+
+  <section id="tutorial_deployment">
+    <title>Deployment Overview</title>
+
+    <para>As part of this tutorial, you will prepare a container that can run
+    on OLCF's Kubernetes infrastructure. The associated GitHUB repo
+    (https://github.com/pegasus-isi/pegasus-olcf-kubernetes) provides yaml pod
+    specification templates, that can be used to spawn pods that mount OLCF's
+    GPFS filesystem and provide access to the batch schedulers of Summit, RHEA
+    and the DTN. The container spawned is a fully functional Pegasus WMS
+    workflow submit node that has Pegasus and HTCondor + BOSCO
+    installed.</para>
+
+    <figure>
+      <title>Pegasus Deployment in OLCF Kubernetes </title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata align="center" contentwidth="70%"
+                     fileref="images/pegasus-kubernetes-deployment.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+  </section>
+
+  <section id="tutorial_setup">
+    <title>Setup</title>
+
+    <para>Open a command line terminal on your laptop/desktop and clone the
+    GitHUB repo.</para>
+
+    <programlisting><emphasis role="bold">$ git clone https://github.com/pegasus-isi/pegasus-olcf-kubernetes.git</emphasis>
+Cloning into 'pegasus-olcf-kubernetes'...
+remote: Enumerating objects: 3, done.
+remote: Counting objects: 100% (3/3), done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 102 (delta 0), reused 1 (delta 0), pack-reused 99
+Receiving objects: 100% (102/102), 167.86 KiB | 4.66 MiB/s, done.
+Resolving deltas: 100% (30/30), don</programlisting>
+
+    <para>In this repository you will find following bash script and
+    files</para>
+
+    <itemizedlist>
+      <listitem>
+        <para><emphasis role="bold">bootstrap.sh </emphasis>- This script
+        generates the personalized Dockerfile and Kubernetes pod and service
+        specifications for your deployment. It updates the template files with
+        your automation user acount details, and saves them under the Docker
+        and the Specs folders.</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis role="bold">Docker/Dockerfile</emphasis> - Dockerfile.
+        used to prepare a container with Pegasus and Condor, ommiting Pegasus'
+        R support.</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis
+        role="bold">Specs/pegasus-submit-service.yml</emphasis> - Contains
+        Kubernetes service specification that can be used to spawn a Nodeport
+        service that exposes the HTCondor Gridmanager Service running in your
+        submit pod, to outside world.</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis role="bold">Specs/pegasus-submit-pod.yml</emphasis> -
+        Contains Kubernetes pod specification that can be used to spawn a
+        pegasus/condor pod that has access to Summits's GPFS filesystem and
+        its batch scheduler.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>You now need to execute a series of steps. It is important to
+    execute them in order. If you make a mistake at any point, we recommend
+    starting afresh from step.</para>
+
+    <orderedlist>
+      <listitem>
+        <para>Update bootstrap.sh</para>
+
+        <para>In bootstrap.sh update the section "ENV Variables For User and
+        Group" with your automation user's name, id, group name, group id and
+        the Gridmanager Service Port, which must be in the range 30000-32767.
+        More specifically replace: </para>
+
+        <itemizedlist>
+          <listitem>
+            <para>USER, with the username of your automation user (eg.
+            csc001_auser) </para>
+          </listitem>
+
+          <listitem>
+            <para>USER_ID, with the user id of your automation user (eg.
+            20001) </para>
+          </listitem>
+
+          <listitem>
+            <para>USER_GROUP, with the group name your automation user belongs
+            to (eg. csc001) </para>
+          </listitem>
+
+          <listitem>
+            <para>USER_GROUP_ID, with the group id your automation user
+            belongs to (eg. 10001) </para>
+          </listitem>
+
+          <listitem>
+            <para>GRIDMANAGER_SERVICE_PORT, with the Kubernetes Nodeport port
+            number the Gridmanager Service should use (eg. 32752)</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para>Run bootstrap.sh</para>
+
+        <para>This generates the Dockerfile and the Spec files for your
+        deployment.</para>
+
+        <programlisting><emphasis role="bold">$ bash bootstrap.sh</emphasis></programlisting>
+      </listitem>
+
+      <listitem>
+        <para>Login to OLCF Marble Kubernetes Cluster</para>
+
+        <programlisting><emphasis role="bold">$ oc login -u YOUR_USERNAME https://marble.ccs.ornl.gov/
+
+</emphasis>Username: olcf_user
 Password: 
-SMS Submitted
-TACC Token Code:
-Last login: Thu Dec 13 17:58:18 2018 from 128.9.64.239
-------------------------------------------------------------------------------
-                   Welcome to the Wrangler Supercomputer
-      Texas Advanced Computing Center, The University of Texas at Austin
-------------------------------------------------------------------------------
+Login successful.
+
+You have one project on this server: "csc001"
+
+Using project "csc001".
+</programlisting>
+
+        <note>
+          <para>You are logging in as your user . Not as the automation user
+          in this step</para>
+        </note>
+      </listitem>
+
+      <listitem>
+        <para>Create a new build and build the image</para>
+
+        <programlisting>$ oc new-build --name=pegasus-olcf -D - &lt; Docker/Dockerfile
+
+--&gt; Found image 9f38484 (7 months old) in image stream "csc355/centos" under tag "centos7" for "centos:centos7"
+
+    * A Docker build using a predefined Dockerfile will be created
+      * The resulting image will be pushed to image stream tag "pegasus-olcf:latest"
+      * Use 'start-build' to trigger a new build
+
+--&gt; Creating resources with label build=pegasus-olcf ...
+    buildconfig.build.openshift.io "pegasus-olcf" created
+--&gt; Success
+</programlisting>
+
+        <para>You can trace the log of the build by running: </para>
+
+        <programlisting>$ oc logs -f build/pegasus-olcf-1
+
 ...
-
-______________________________________________________________________________
-
-Tip 161   (See "module help tacc_tips" for features or how to disable)
-
-   To clear the text from the current position to the end of line do: Ctrl+K
+Step 27/30 : RUN echo "source /opt/bosco/bosco_setenv" &gt;&gt; ${HOME}/.bashrc
+ ---&gt; Using cache
+ ---&gt; 7f7aa07a8aac
+Step 28/30 : ENTRYPOINT /opt/entrypoint.sh
+ ---&gt; Using cache
+ ---&gt; 891b14ab3533
+Step 29/30 : ENV "OPENSHIFT_BUILD_NAME" "pegasus-olcf-1" "OPENSHIFT_BUILD_NAMESPACE" "csc355"
+ ---&gt; Using cache
+ ---&gt; 95a163ea8f5e
+Step 30/30 : LABEL "io.openshift.build.name" "pegasus-olcf-1" "io.openshift.build.namespace" "csc355"
+ ---&gt; Using cache
+ ---&gt; ed0f4341ff43
+Successfully built ed0f4341ff43
+Pushing image docker-registry.default.svc:5000/csc355/pegasus-olcf:latest ...
+Pushed 2/14 layers, 14% complete
+Pushed 3/14 layers, 21% complete
+Pushed 4/14 layers, 29% complete
+Pushed 5/14 layers, 36% complete
+Pushed 6/14 layers, 43% complete
+Pushed 7/14 layers, 50% complete
+Pushed 8/14 layers, 57% complete
+Pushed 9/14 layers, 64% complete
+Pushed 10/14 layers, 71% complete
+Pushed 11/14 layers, 79% complete
+Pushed 12/14 layers, 86% complete
+Pushed 13/14 layers, 93% complete
+Pushed 14/14 layers, 100% complete
+Push successful
 
 
 </programlisting>
+      </listitem>
 
-    <para>The tutorial should be done in the bash shell. Lets make sure that
-    you are in the right shell.</para>
+      <listitem>
+        <para>In case you have to update the Docker file after creating the
+        image. You can start a new build using the command</para>
 
-    <programlisting>[trainXX@login1.wrangler]$  bash
-[trainXX@login1.wrangler]$ echo $SHELL
-/bin/bash
+        <programlisting>$oc start-build pegasus-olcf --from-file=Docker/Dockerfile</programlisting>
+      </listitem>
+
+      <listitem>
+        <para>Start a Kubernetes Service that will expose your pod
+        services</para>
+
+        <programlisting>$ oc create -f Specs/pegasus-submit-service.yml
+service/pegasus-submit-service created</programlisting>
+      </listitem>
+
+      <listitem>
+        <para>Start a Kubernetes pod with batch job submission
+        capabilities</para>
+
+        <programlisting>$ oc create -f Specs/pegasus-submit-pod.yml
+
+pod/pegasus-submit created</programlisting>
+
+        <para>Wait a couple of minutes for the POD to spin up</para>
+      </listitem>
+
+      <listitem>
+        <para>Logon to the POD and get an interactive shell</para>
+
+        <programlisting>$  oc exec -it pegasus-submit /bin/bash
+[csc001_auser@pegasus-submit /]$ 
+</programlisting>
+      </listitem>
+
+      <listitem>
+        <para>Configuring for batch submissions </para>
+
+        <para>Execute this step in the shell you got in Step 8. All tutorial
+        exercises are also done in this shell, </para>
+
+        <programlisting>$ bash /opt/remote_bosco_setup.sh
+rm: cannot remove '/home/csc355_auser/.bosco/.clusterlist': No such file or directory
+... 
+****************************************************************************
+scp: /tmp/tmp_bosco_probe.5jcAPMLF/bosco_run: No such file or directory
+****************************************************************************
+                          NOTICE TO USERS
+
+This is a Federal computer system and is the property of the United States
+Government.  It is for authorized use only.  Users (authorized or
+unauthorized) have no explicit or implicit expectation of privacy.
+
+Any or all uses of this system and all files on this system may be
+intercepted, monitored, recorded, copied, audited, inspected, and disclosed
+to authorized site, Department of Energy, and law enforcement personnel, as
+well as authorized officials of other agencies, both domestic and foreign.
+By using this system, the user consents to such interception, monitoring,
+recording, copying, auditing, inspection, and disclosure at the discretion
+of authorized site or Department of Energy personnel.
+
+Unauthorized or improper use of this system may result in administrative
+disciplinary action and civil and criminal penalties.  By continuing to use
+this system you indicate your awareness of and consent to these terms and
+conditions of use.  LOG OFF IMMEDIATELY if you do not agree to the
+conditions stated in this warning.
+****************************************************************************
+scp: /tmp/tmp_bosco_probe.iStWyBpW/bosco_run: No such file or directory
+Downloading for csc001_auser@dtn.ccs.ornl.gov..........
+
+
+ls: cannot access /tmp/tmp.ED9ZfqKl/condor*: No such file or directory
+Unable to download and prepare BOSCO for remote installation.
+Download URL: ftp://ftp.cs.wisc.edu/condor/bosco/1.2/bosco-1.2-x86_64_RedHat7.tar.gz
+Aborting installation to csc355_auser@dtn.ccs.ornl.gov.
+Installing lsf_local_submit_attributes.sh
+Installing lsf_status.sh
+Installing moab_cancel.sh
+Installing moab_hold.sh
+Installing moab_local_submit_attributes.sh
+Installing moab_resume.sh
+Installing moab_status.sh
+Installing moab_submit.sh
+Installing pbs_local_submit_attributes.sh
+Installing sge_local_submit_attributes.sh
+Installing slurm_local_submit_attributes.sh
+Installing lsf_status.py
+Adding moab support to batch_gahp.config
+slurm_cancel.sh
+slurm_cluster.patch
+slurm_hold.sh
+slurm_resume.sh
+slurm_status.py
+slurm_status.sh
+slurm_submit.sh
+</programlisting>
+      </listitem>
+    </orderedlist>
+
+    <para>You can now check the status of everything on a terminal on your
+    laptop by </para>
+
+    <programlisting>$oc status
+In project csc355 on server https://marble.ccs.ornl.gov:443
+
+svc/pegasus-submit-service (all nodes):32753 -&gt; 11000
+  pod/pegasus-submit runs docker-registry.default.svc:5000/csc355/pegasus-olcf:latest
+
+bc/pegasus-olcf docker builds Dockerfile on istag/centos:centos7
+  -&gt; istag/pegasus-olcf:latest
+  build #1 succeeded 15 minutes ago
+
+
+1 info identified, use 'oc status --suggest' to see details.
 </programlisting>
 
-    <para>Let us now setup the tutorial and Pegasus in your environment</para>
+    <para>In case there is a mistake in your configuration and you need to
+    restart. Here are some helpful commands to delete.</para>
 
-    <programlisting><emphasis role="bold">[trainXX@login1.wrangler]$ source ~vahik/SOFTWARE/setup.sh</emphasis>
-<emphasis role="bold">[trainXX@login1.wrangler]$ pegasus-version</emphasis>
-4.9.1dev
+    <para>In order to delete the pod, exit the interactive shell by typing
+    "exit" and then use the following command.</para>
+
+    <programlisting>$  oc delete pod pegasus-submit
 </programlisting>
 
-    <note>
-      <para>Make sure that your pegasus-version is 4.9.1 or higher.</para>
-    </note>
+    <para>To delete the service use:</para>
+
+    <programlisting>$ oc delete svc pegasus-submit-service</programlisting>
+
+    <para>To delete the container image</para>
+
+    <programlisting>$  oc delete bc/pegasus-olcf
+</programlisting>
   </section>
 
   <section id="tutorial_scientific_workflows">
