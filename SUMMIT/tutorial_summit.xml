@@ -235,12 +235,12 @@ Resolving deltas: 100% (30/30), don</programlisting>
           </listitem>
 
           <listitem>
-            <para>USER_GROUP, with the group name your automation user belongs
+            <para>USER_GROUP, with the project group name your automation user belongs
             to (eg. csc001) </para>
           </listitem>
 
           <listitem>
-            <para>USER_GROUP_ID, with the group id your automation user
+            <para>USER_GROUP_ID, with the project group id your automation user
             belongs to (eg. 10001) </para>
           </listitem>
 
