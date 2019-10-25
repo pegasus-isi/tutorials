@@ -1894,7 +1894,41 @@ UNRDY READY   PRE  IN_Q  POST  DONE  FAIL %DONE STATE   DAGNAME
     output file will be in the output folder</parameter></para>
 
     <programlisting><emphasis role="bold">$ cat output/f.out 
-</emphasis></programlisting>
+</emphasis>[Master] Total number of MPI processes 32
+[Master] Hello world!  I am process number: 0 on host h25n02
+[Worker] Hello world!  I am process number: 7 on host h25n02
+[Worker] Hello world!  I am process number: 1 on host h25n02
+[Worker] Hello world!  I am process number: 2 on host h25n02
+[Worker] Hello world!  I am process number: 3 on host h25n02
+[Worker] Hello world!  I am process number: 4 on host h25n02
+[Worker] Hello world!  I am process number: 5 on host h25n02
+[Worker] Hello world!  I am process number: 6 on host h25n02
+[Worker] Hello world!  I am process number: 8 on host h25n02
+[Worker] Hello world!  I am process number: 9 on host h25n02
+[Worker] Hello world!  I am process number: 10 on host h25n02
+[Worker] Hello world!  I am process number: 11 on host h25n02
+[Worker] Hello world!  I am process number: 12 on host h25n02
+[Worker] Hello world!  I am process number: 13 on host h25n02
+[Worker] Hello world!  I am process number: 14 on host h25n02
+[Worker] Hello world!  I am process number: 15 on host h25n02
+[Worker] Hello world!  I am process number: 16 on host h25n02
+[Worker] Hello world!  I am process number: 17 on host h25n02
+[Worker] Hello world!  I am process number: 18 on host h25n02
+[Worker] Hello world!  I am process number: 19 on host h25n02
+[Worker] Hello world!  I am process number: 20 on host h25n02
+[Worker] Hello world!  I am process number: 21 on host h25n02
+[Worker] Hello world!  I am process number: 22 on host h25n02
+[Worker] Hello world!  I am process number: 23 on host h25n02
+[Worker] Hello world!  I am process number: 24 on host h25n02
+[Worker] Hello world!  I am process number: 25 on host h25n02
+[Worker] Hello world!  I am process number: 26 on host h25n02
+[Worker] Hello world!  I am process number: 27 on host h25n02
+[Worker] Hello world!  I am process number: 28 on host h25n02
+[Worker] Hello world!  I am process number: 29 on host h25n02
+[Worker] Hello world!  I am process number: 30 on host h25n02
+[Worker] Hello world!  I am process number: 31 on host h25n02
+[csc355_auser@pegasus-submit mpi]$ 
+</programlisting>
   </section>
 
   <section id="tutorial_conclusion">
