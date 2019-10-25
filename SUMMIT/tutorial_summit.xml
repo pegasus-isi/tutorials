@@ -154,7 +154,7 @@ you get this</programlisting>
 
       <mediaobject>
         <imageobject>
-          <imagedata align="center" contentwidth="70%"
+          <imagedata align="center" contentwidth="100%"
                      fileref="images/pegasus-kubernetes-deployment.png"/>
         </imageobject>
       </mediaobject>
