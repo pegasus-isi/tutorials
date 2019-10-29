@@ -195,6 +195,12 @@ Resolving deltas: 100% (30/30), don</programlisting>
       </listitem>
 
       <listitem>
+        <para><emphasis role="bold">Specs/pegasus-submit-build.yml.</emphasis> -
+        Contains Kubernetes build specifications for the pegasus-olcf image.
+        </para>
+      </listitem>
+      
+      <listitem>
         <para><emphasis
         role="bold">Specs/pegasus-submit-service.yml</emphasis> - Contains
         Kubernetes service specification that can be used to spawn a Nodeport
@@ -281,19 +287,21 @@ Using project "csc001".
       </listitem>
 
       <listitem>
-        <para>Create a new build and build the image</para>
+        <para>Create a new build configuration</para>
 
-        <programlisting>$ oc new-build --name=pegasus-olcf -D - &lt; Docker/Dockerfile
+        <programlisting>$ oc create -f Specs/pegasus-submit-build.yml
 
---&gt; Found image 9f38484 (7 months old) in image stream "cscXXX/centos" under tag "centos7" for "centos:centos7"
+buildconfig.build.openshift.io/pegasus-olcf created
+</programlisting>
 
-    * A Docker build using a predefined Dockerfile will be created
-      * The resulting image will be pushed to image stream tag "pegasus-olcf:latest"
-      * Use 'start-build' to trigger a new build
+      <listitem>
+        <para>You can start a new build with your updated Dockerfile using the command:</para>
 
---&gt; Creating resources with label build=pegasus-olcf ...
-    buildconfig.build.openshift.io "pegasus-olcf" created
---&gt; Success
+        <programlisting>$oc start-build pegasus-olcf --from-file=Docker/Dockerfile
+Uploading file "Docker/Dockerfile" as binary input for the build ...
+.
+Uploading finished
+build.build.openshift.io/pegasus-olcf-1 started
 </programlisting>
 
         <para>You can trace the log of the build by running: </para>
@@ -332,13 +340,6 @@ Push successful
 
 
 </programlisting>
-      </listitem>
-
-      <listitem>
-        <para>In case you have to update the Docker file after creating the
-        image. You can start a new build using the command</para>
-
-        <programlisting>$oc start-build pegasus-olcf --from-file=Docker/Dockerfile</programlisting>
       </listitem>
 
       <listitem>
