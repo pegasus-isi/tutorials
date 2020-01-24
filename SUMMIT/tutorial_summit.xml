@@ -431,9 +431,10 @@ slurm_status.sh
 slurm_submit.sh
 </programlisting>
       </listitem>
+      </listitem>
     </orderedlist>
 
-    <para>You can now check the status of everything on a terminal on your
+    <para>You can. now check the status of everything on a terminal on your
     laptop by </para>
 
     <programlisting>$oc status
